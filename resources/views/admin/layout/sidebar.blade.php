@@ -9,6 +9,46 @@
         <span>Dashboard</span>
     </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('products') ? 'active' : ''}}" href="{{ route('products.index') }}">
+        <i class="ph-house"></i>
+        <span>Products</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('brands') ? 'active' : ''}}" href="{{ route('brands.index') }}">
+        <i class="ph-house"></i>
+        <span>Brand</span>
+    </a>
+</li>
+@canany(['categories-list','subCategories-list'])
+<li class="nav-item nav-item-submenu {{ request()->is('admin/catalog*') ? 'nav-item-open' : ''}}">
+    <a href="#" class="nav-link">
+        <i class="ph-article"></i>
+        <span>Catalog</span>
+    </a>
+    <ul class="nav-group-sub collapse {{ request()->is('admin/catalog*') ? 'show' : ''}}">
+        @can('categories-list')
+            <li class="nav-item">
+                <a 
+                    href ="{{ route('categories.index') }}" 
+                    class="nav-link {{ request()->routeIs('categories*') ? 'active' : ''}}">
+                    Categories
+                </a>
+            </li>
+        @endcan
+        @can('subCategories-list')
+            <li class="nav-item">
+                <a 
+                    href="{{ route('sub-categories.index') }}"
+                    class="nav-link {{ request()->routeIs('sub-categories*') ? 'active' : ''}}">
+                    Sub Categories
+                </a>
+            </li>
+        @endcan
+    </ul>
+</li>
+@endcanany
 @canany(['roles-list', 'users-list'])
 <li class="nav-item-header">
     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Access Management</div>
