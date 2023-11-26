@@ -44,8 +44,43 @@ class Product extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['brand_id','category_id','sub_category_id','type','name','formula','description','thumbnail','quantity','rating','in_stock'];
+    protected $fillable = [
+        'brand_id',
+        'category_id',
+        'sub_category_id',
+        'type',
+        'name',
+        'formula',
+        'description',
+        'thumbnail',
+        'quantity',
+        'rating',
+        'in_stock'
+    ];
 
+    /**
+     * The set attributes.
+     *
+     * @var array
+     */
+    public function setThumbnailAttribute($image)
+    {
+        if ($image) {
+            $this->attributes['thumbnail'] = uploadFile($image, 'product', '100', '100');
+        } else {
+            unset($this->attributes['thumbnail']);
+        }
+    }
+
+    /**
+     * The get attributes.
+     *
+     * @var array
+     */
+    public function getThumbnailAttribute($image)
+    {
+        return asset($image);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

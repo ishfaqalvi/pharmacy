@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\MobileApiController;
+use App\Http\Controllers\API\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,26 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(MobileApiController::class)->group(function () {
-	/*
-	|--------------------------------------------------------------------------
-	| Wolfaram Routes
-	|--------------------------------------------------------------------------
-	| All route related to wolfarma api
-	*/
-	Route::group(['prefix' => 'token'], function (){
-    	Route::get('list',		'apiTokenList' );
-    	Route::post('edit',		'apiTokenUpdate' );
-    });
-
-	/*
-	|--------------------------------------------------------------------------
-	| Questionner Routes
-	|--------------------------------------------------------------------------
-	| All route related to Questionner api
-	*/
-	Route::group(['prefix' => 'questionner'], function (){
-    	Route::get('topics',		'topicList');
-    	Route::get('quizez/{id}',	'quizList' );
-    });
+Route::controller(ProductController::class)->prefix('products')->group(function () {
+	Route::get('list',			'index'  );
+	Route::post('create',		'store'  );
+	Route::delete('delete/{id}','destroy');
 });
