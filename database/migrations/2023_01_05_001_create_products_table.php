@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('brand_id')->references('id')->on('brands');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->foreignId('sub_category_id')->references('id')->on('sub_categories');
-            $table->string('type');
             $table->string('name');
             $table->string('formula');
             $table->string('description');

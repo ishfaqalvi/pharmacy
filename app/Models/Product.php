@@ -48,7 +48,6 @@ class Product extends Model implements Auditable
         'brand_id',
         'category_id',
         'sub_category_id',
-        'type',
         'name',
         'formula',
         'description',
@@ -65,8 +64,10 @@ class Product extends Model implements Auditable
      */
     public function setThumbnailAttribute($image)
     {
-        if ($image) {
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
             $this->attributes['thumbnail'] = uploadFile($image, 'product', '100', '100');
+        } elseif (is_string($image)) {
+            $this->attributes['thumbnail'] = $image;
         } else {
             unset($this->attributes['thumbnail']);
         }
@@ -97,23 +98,7 @@ class Product extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function productImages()
-    {
-        return $this->hasMany('App\Models\ProductImage', 'product_id', 'id');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function productPrices()
-    {
-        return $this->hasMany('App\Models\ProductPrice', 'product_id', 'id');
-    }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -122,5 +107,19 @@ class Product extends Model implements Auditable
         return $this->hasOne('App\Models\SubCategory', 'id', 'sub_category_id');
     }
     
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany('App\Models\ProductImage', 'product_id', 'id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function prices()
+    {
+        return $this->hasMany('App\Models\ProductPrice', 'product_id', 'id');
+    }
 }

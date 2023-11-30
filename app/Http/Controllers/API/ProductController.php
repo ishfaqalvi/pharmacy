@@ -29,7 +29,8 @@ class ProductController extends BaseController
     public function store(Request $request)
     {
         try {
-            Product::create($request->all());
+            $product = Product::create($request->all());
+            $product->prices()->createMany($request->prices);
             return $this->sendResponse('', 'Product created successfully.');
         } catch (\Throwable $th) {
             return $this->sendException($th->getMessage());
