@@ -15,7 +15,7 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::with(['brand','category','subCategory','prices'])->get();
 
         return $this->sendResponse($products, 'Products list get successfully.');
     }
