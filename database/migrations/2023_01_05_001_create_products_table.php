@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->foreignId('sub_category_id')->references('id')->on('sub_categories');
             $table->string('name');
-            $table->string('formula');
-            $table->string('description');
-            $table->string('thumbnail');
+            $table->string('formula')->nullable();
+            $table->text('description')->nullable();
+            $table->text('thumbnail');
             $table->integer('quantity');
             $table->decimal('rating', 3, 2);
             $table->enum('in_stock',['true','false']);

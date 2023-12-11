@@ -43,6 +43,8 @@
 @section('script')
 <script>
     $(function(){
+        $(".select").select2();
+        $('.dropify').dropify();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',
             successClass: 'validation-valid-label',
@@ -70,6 +72,18 @@
                 }
             }
         });
+        $('select[name=category_id]').change(function () {
+            let id = $(this).val();
+            $('select[name=sub_category_id]').html('<option>--Select--</option>');
+            $.get('/admin/api/products/get_sub_categories', {id: id}).done(function (result) {
+                let data = JSON.parse(result);
+                $.each(data, function (i, val) {
+                    $('select[name=sub_category_id]').append($('<option></option>').val(val.id).html(val.name));
+                })
+            }).fail(function (error) {
+                console.log(error);
+            });
+        }).trigger("change");
     });
 </script>
 @endsection

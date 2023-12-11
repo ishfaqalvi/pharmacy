@@ -25,7 +25,10 @@ Auth::routes();
 
 /*
 |--------------------------------------------------------------------------
-| Dynamic Pages Routes
+| Public Pages Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', [DynamicPageController::class, 'viewHomePage']);
+Route::group(['namespace' => 'App\Http\Controllers\Website'], function () {
+
+	Route::get('/', 'HomePageController@index');
+});

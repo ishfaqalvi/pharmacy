@@ -25,10 +25,6 @@ class ProductPrice extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    
-
-    protected $perPage = 20;
-
     /**
      * Attributes that should be mass-assignable.
      *
@@ -36,6 +32,15 @@ class ProductPrice extends Model implements Auditable
      */
     protected $fillable = ['product_id','title','price','discount','default'];
 
+    /**
+     * The set attributes.
+     *
+     * @var array
+     */
+    public function setDiscountAttribute($value)
+    {
+        $this->attributes['discount'] = empty($value) ? 0 : $value;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -44,6 +49,4 @@ class ProductPrice extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Product', 'id', 'product_id');
     }
-    
-
 }

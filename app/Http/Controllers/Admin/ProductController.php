@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductPrice;
+use App\Models\ProductCategorized;
 use Illuminate\Http\Request;
 
 /**
@@ -33,7 +36,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
+        $products = Product::paginate();
 
         return view('admin.product.index', compact('products'));
     }
@@ -89,6 +92,23 @@ class ProductController extends Controller
     }
 
     /**
+     * Validate a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $parameter = $request->q;
+        $page      = $request->page;
+        $products  = Product::where(function ($query) use ($parameter) {
+                        $query->where('name', 'LIKE', '%' . $parameter . '%')
+                        ->orWhere('formula', 'LIKE', '%' . $parameter . '%')
+                        ->orWhere('description', 'LIKE', '%' . $parameter . '%');
+                    })->paginate(10, ['*'], 'page', $page)->toArray();
+        return $products;
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -100,7 +120,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+            ->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -113,6 +133,208 @@ class ProductController extends Controller
         $product = Product::find($id)->delete();
 
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', 'Product deleted successfully.');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function prices($id)
+    {
+        $product = Product::find($id);
+
+        return view('admin.product.price.index', compact('product'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function priceStore(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        $check = $product->prices()->where('default','Yes')->first();
+        if ($request->default =='Yes' && $check) {
+            $check->default = 'No';
+            $check->save();
+        }
+        $product->prices()->create($request->all());
+        return redirect()->back()->with('success', 'Product Price created successfully.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  ProductPrice $productPrice
+     * @return \Illuminate\Http\Response
+     */
+    public function priceUpdate(Request $request)
+    {
+        $price = ProductPrice::find($request->id); 
+        if ($request->default =='Yes' && $price->default == 'No') {
+            $check = ProductPrice::
+                where('product_id',$price->product_id)->
+                where('id','!=',$price->id)->
+                where('default','Yes')->first();
+            if ($check) {
+                $check->default = 'No';
+                $check->save();
+            }
+        }
+        $price->update($request->all());
+
+        return redirect()->back()->with('success', 'Product Price updated successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function priceDestroy($id)
+    {
+        ProductPrice::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Product Price deleted successfully.');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function images($id)
+    {
+        $product = Product::find($id);
+
+        return view('admin.product.image.index', compact('product'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function imageStore(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        $product->images()->create($request->all());
+        return redirect()->back()->with('success', 'Product Image created successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function imageDestroy($id)
+    {
+        ProductImage::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Product Image deleted successfully.');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function specialFrequently()
+    {
+        $products = Product::special('Frequently')->paginate();
+
+        return view('admin.product.special.frequently', compact('products'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function specialFeatured()
+    {
+        $products = Product::special('Featured')->paginate();
+
+        return view('admin.product.special.featured', compact('products'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function specialWellness()
+    {
+        $products = Product::special('Wellness')->paginate();
+
+        return view('admin.product.special.wellness', compact('products'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function specialMenAndWoman()
+    {
+        $products = Product::special('Men & Woman')->paginate();
+
+        return view('admin.product.special.men-and-woman', compact('products'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function specialStore(Request $request)
+    {
+        ProductCategorized::create($request->all());
+        return redirect()->back()->with('success', 'Product added successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function specialDestroy(Request $request, $id)
+    {
+        $product = ProductCategorized::where([['type',$request->type],['product_id',$id]])->first();
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Product removed successfully.');
+    }
+
+    /**
+     * Check the record existance from a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkProduct(Request $request)
+    {
+        $product = ProductCategorized::where([
+            ['type',$request->type],
+            ['product_id',$request->product]
+        ])->first();
+        if ($product) { echo "false"; }else{ echo "true"; }
+    }
+
+    /**
+     * get a listing of the resource
+     *
+     * @return void
+     */
+    public function getSubCategories(Request $request)
+    {
+        $category = Category::find($request->id);
+        echo json_encode($category->subCategories);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\SettingFieldController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,7 +39,23 @@ Route::group(['prefix' => 'catalog', 'namespace' => 'Catalog'], function ()
 | Products Routes
 |--------------------------------------------------------------------------
 */
-Route::resource('products', ProductController::class);
+Route::prefix('products')->group(__DIR__.'/product.php');
+
+/*
+|--------------------------------------------------------------------------
+| Products Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(SliderController::class)->prefix('sliders')->as('sliders.')->group(function () {
+	Route::get('list',				'index'			)->name('index'		 );
+	Route::get('create',			'create'		)->name('create'	 );
+	Route::post('store',			'store'			)->name('store'		 );
+	Route::get('edit/{id}',			'edit'			)->name('edit'		 );
+	Route::get('show/{id}',			'show'			)->name('show'		 );
+	Route::patch('update/{slider}',	'update'		)->name('update'	 );
+	Route::delete('delete/{id}',	'destroy'		)->name('destroy'	 );
+    Route::post('check_parent',		'checkParent'	)->name('checkParent');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -92,9 +107,6 @@ Route::controller(SettingController::class)->prefix('settings')->as('settings.')
 	Route::get('index', 		'index'		)->name('index'		  );
 	Route::get('clear-cache', 	'clearCache')->name('clear-cache' );
 	Route::post('save', 		'save'		)->name('save'		  );
-	Route::post('add-group', 	   'createGroup')->name('create-group');
-	Route::post('fields', 	   'createField')->name('create-field');
-	Route::delete('fields/{id}', 	  'destroyField')->name('delete-field');
 });
 
 /*

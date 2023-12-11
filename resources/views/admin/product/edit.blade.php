@@ -34,7 +34,7 @@
             <form method="POST" action="{{ route('products.update', $product->id) }}" class="validate"   role="form" enctype="multipart/form-data">
                 @csrf
                 {{ method_field('PATCH') }}
-                 @include('admin.product.form')
+                @include('admin.product.form')
             </form>
         </div>
     </div>
@@ -44,6 +44,8 @@
 @section('script')
 <script>
     $(function(){
+        $(".select").select2();
+        $('.dropify').dropify();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',
             successClass: 'validation-valid-label',
@@ -71,6 +73,34 @@
                 }
             }
         });
+        var sub_category_id = $('select[name=sub_category_id]').attr('default');
+        let id = $('select[name=category_id]').val();
+        sub_category_list(id, sub_category_id);
+        $('select[name=category_id]').change(function () {
+            let id = $(this).val();
+            sub_category_list(id, 0);
+        });
+        function sub_category_list(id,sub_category_id){
+            $('select[name=sub_category_id]').html('<option>--Select--</option>');
+            $.get('/admin/api/products/get_sub_categories', {id: id}).done(function (result) {
+                let data = JSON.parse(result);
+                var selected_sub_category_id = 0;
+                $.each(data, function (i, val) {
+                    if(val.id == sub_category_id){
+                        selected_sub_category_id = val.id;
+                        $('select[name=sub_category_id]').append($('<option>', 
+                            {selected : 'selected', value : val.id, text : val.name}
+                        ));
+                    }else{
+                        $('select[name=sub_category_id]').append($('<option>', 
+                            {value : val.id,  text : val.name}
+                        ));
+                    }
+                });
+            }).fail(function (error) {
+                console.log(error);
+            }); 
+        }
     });
 </script>
 @endsection

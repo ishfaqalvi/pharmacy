@@ -32,44 +32,69 @@
         <div class="card-header">
             <h5 class="mb-0">Product</h5>
         </div>
-        <table class="table datatable-basic">
-            <thead class="thead">
-                <tr>
-                    <th>No</th>
-					<th>Brand</th>
-					<th>Category</th>
-					<th>Sub Category</th>
-					<th>Type</th>
-					<th>Name</th>
-					<th>Formula</th>
-					<th>Description</th>
-					<th>Thumbnail</th>
-					<th>Quantity</th>
-					<th>Rating</th>
-					<th>In Stock</th>
-                    <th class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach ($products as $key => $product)
-                <tr>
-                    <td>{{ ++$key }}</td>
-					<td>{{ $product->brand_id }}</td>
-					<td>{{ $product->category_id }}</td>
-					<td>{{ $product->sub_category_id }}</td>
-					<td>{{ $product->type }}</td>
-					<td>{{ $product->name }}</td>
-					<td>{{ $product->formula }}</td>
-					<td>{{ $product->description }}</td>
-					<td>{{ $product->thumbnail }}</td>
-					<td>{{ $product->quantity }}</td>
-					<td>{{ $product->rating }}</td>
-					<td>{{ $product->in_stock }}</td>
-                    <td class="text-center">@include('admin.product.actions')</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table text-nowrap">
+                <thead>
+                    <tr>
+                        <th colspan="2">Product name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th class="text-center" style="width: 20px;"><i class="ph-dots-three"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($products as $key => $product)
+                    <tr>
+                        <td class="pe-0" style="width: 45px;">
+                            <a href="#">
+                                <img src="{{ $product->thumbnail }}" height="60" alt="">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" class="d-block fw-semibold">
+                                {{ Str::limit($product->name, 30) }} 
+                            </a>
+                            <div class="d-inline-flex align-items-center text-muted fs-sm">
+                                <span class="bg-secondary rounded-pill p-1 me-1"></span>
+                                {{ $product->formula }}
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" class="d-block fw-semibold">
+                                {{ $product->category->name }}
+                            </a>
+                            <div class="d-inline-flex align-items-center text-muted fs-sm">
+                                <span class="bg-secondary rounded-pill p-1 me-1">
+                                </span>
+                                {{ $product->subCategory->name }}
+                            </div>
+                        </td>
+                        <td>{{ $product->quantity }}</td>
+                        <td>
+                            @foreach($product->prices as $price)
+                            <div>
+                                @if($price->default == 'Yes')
+                                <i class="ph-check-circle fs-base lh-base align-top text-success me-1"></i>
+                                @else
+                                <i class="ph-clock fs-base lh-base align-top text-danger me-1"></i>
+                                @endif
+                                {{ $price->title }}:
+                                <a href="#">&#8360; {{ $price->price }}</a>
+                            </div>
+                            @endforeach
+                        </td>
+                        <td class="text-center">
+                            @include('admin.product.actions')
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="card-body">
+                {{ $products->links('vendor.pagination.bootstrap-5') }}
+            </div>
+        </div>
     </div>
 </div>
 @endsection

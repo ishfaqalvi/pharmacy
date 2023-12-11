@@ -10,17 +10,60 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('products') ? 'active' : ''}}" href="{{ route('products.index') }}">
-        <i class="ph-house"></i>
-        <span>Products</span>
-    </a>
-</li>
-<li class="nav-item">
     <a class="nav-link {{ request()->routeIs('brands') ? 'active' : ''}}" href="{{ route('brands.index') }}">
         <i class="ph-house"></i>
         <span>Brand</span>
     </a>
 </li>
+@canany(['products-list','products-specialList'])
+<li class="nav-item nav-item-submenu {{ request()->is('admin/products*') ? 'nav-item-open' : ''}}">
+    <a href="#" class="nav-link">
+        <i class="ph-article"></i>
+        <span>Products</span>
+    </a>
+    <ul class="nav-group-sub collapse {{ request()->is('admin/products*') ? 'show' : ''}}">
+        @can('products-list')
+            <li class="nav-item">
+                <a 
+                    href ="{{ route('products.index') }}" 
+                    class="nav-link {{ request()->routeIs('products*') ? 'active' : ''}}">
+                    Complete List
+                </a>
+            </li>
+        @endcan
+        @can('products-specialList')
+            <li class="nav-item">
+                <a 
+                    href="{{ route('products.special.frequently') }}"
+                    class="nav-link {{ request()->routeIs('products.special.frequently*') ? 'active' : ''}}">
+                    Frequently Orderd
+                </a>
+            </li>
+            <li class="nav-item">
+                <a 
+                    href="{{ route('products.special.featured') }}"
+                    class="nav-link {{ request()->routeIs('products.special.featured*') ? 'active' : ''}}">
+                    Featured
+                </a>
+            </li>
+            <li class="nav-item">
+                <a 
+                    href="{{ route('products.special.wellness') }}"
+                    class="nav-link {{ request()->routeIs('products.special.wellness*') ? 'active' : ''}}">
+                    Wellness
+                </a>
+            </li>
+            <li class="nav-item">
+                <a 
+                    href="{{ route('products.special.men&woman') }}"
+                    class="nav-link {{ request()->routeIs('products.special.men&woman*') ? 'active' : ''}}">
+                    Men & Woman
+                </a>
+            </li>
+        @endcan
+    </ul>
+</li>
+@endcanany
 @canany(['categories-list','subCategories-list'])
 <li class="nav-item nav-item-submenu {{ request()->is('admin/catalog*') ? 'nav-item-open' : ''}}">
     <a href="#" class="nav-link">
@@ -49,6 +92,12 @@
     </ul>
 </li>
 @endcanany
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('sliders') ? 'active' : ''}}" href="{{ route('sliders.index') }}">
+        <i class="ph-house"></i>
+        <span>Sliders</span>
+    </a>
+</li>
 @canany(['roles-list', 'users-list'])
 <li class="nav-item-header">
     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Access Management</div>

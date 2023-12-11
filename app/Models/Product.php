@@ -35,9 +35,12 @@ class Product extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
 
-    protected $perPage = 20;
+        $this->perPage = settings('per_page_items') ?: 15;
+    }
 
     /**
      * Attributes that should be mass-assignable.
@@ -80,7 +83,21 @@ class Product extends Model implements Auditable
      */
     public function getThumbnailAttribute($image)
     {
-        return asset($image);
+        if($image){ return asset($image); }
+    }
+
+    /**
+     * Scope a query to only include products of a given category.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $category
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSpecial($query, $type)
+    {
+        return $query->whereHas('categorizations', function ($query) use ($type) {
+            $query->where('type', $type);
+        });
     }
 
     /**
@@ -121,5 +138,13 @@ class Product extends Model implements Auditable
     public function prices()
     {
         return $this->hasMany('App\Models\ProductPrice', 'product_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categorizations()
+    {
+        return $this->hasMany('App\Models\ProductCategorized', 'product_id', 'id');
     }
 }

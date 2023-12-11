@@ -29,8 +29,7 @@ class Brand extends Model implements Auditable
 
     use SoftDeletes;
 
-
-    protected $perPage = 20; 
+    protected $perPage = 20;
 
     /**
      * Attributes that should be mass-assignable.

@@ -1,6 +1,17 @@
 <?php
 
+use App\Models\Brand;
 use App\Models\Category;
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function brands()
+{
+    return Brand::pluck('name','id');
+}
 
 /**
  * Get listing of a resource.
