@@ -14,7 +14,7 @@
     @can('categories-create')
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <a href="{{ route('categories.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            <a href="{{ route('categories.all.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
                 </span>
@@ -47,7 +47,7 @@
                     <td>{{ ++$key }}</td>
                     <td><img src="{{ $category->logo }}" height="40px"></td>
                     <td>{{ $category->name }}</td>
-                    <td class="text-center">@include('admin.catalog.category.actions')</td>
+                    <td class="text-center">@include('admin.category.actions')</td>
                 </tr>
             @endforeach
             </tbody>

@@ -32,3 +32,17 @@ function settings($key)
 {
     return Setting::get($key);
 }
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function getFilter($collection, $filterables)
+{
+    foreach($filterables as $filterable) 
+    {
+        $filters[$filterable] = $collection->whereNotNull($filterable)->where($filterable, '!=', 0)->unique($filterable);
+    }
+    return $filters;
+}

@@ -19,12 +19,12 @@
                     </a>
                 @endcan
                 @can('products-view')
-                    <a href="{{ route('products.show',$product->id) }}" class="dropdown-item">
+                    <a href="{{ route('products.all.show',$product->id) }}" class="dropdown-item">
                         <i class="ph-eye me-2"></i>{{ __('Show') }}
                     </a>
                 @endcan
                 @can('products-edit')
-                    <a href="{{ route('products.edit',$product->id) }}" class="dropdown-item">
+                    <a href="{{ route('products.all.edit',$product->id) }}" class="dropdown-item">
                         <i class="ph-note-pencil me-2"></i>{{ __('Edit') }}
                     </a>
                 @endcan

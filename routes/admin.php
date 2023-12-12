@@ -11,27 +11,45 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
-| Role Routes
-|--------------------------------------------------------------------------
-*/
-Route::resource('roles', RoleController::class);
-
-/*
-|--------------------------------------------------------------------------
 | Brands Routes
 |--------------------------------------------------------------------------
 */
-Route::resource('brands', BrandController::class);
+Route::controller(BrandController::class)->prefix('brands')->as('brands.')->group(function () {
+	Route::get('list',					'index'			)->name('all.index'		 	);
+	Route::post('list',					'index'			)->name('all.filter'		);
+	Route::get('create',				'create'		)->name('all.create'	 	);
+	Route::post('store',				'store'			)->name('store'		 	 	);
+	Route::get('edit/{id}',				'edit'			)->name('all.edit'		 	);
+	Route::get('show/{id}',				'show'			)->name('all.show'		 	);
+	Route::patch('update/{brand}',		'update'		)->name('update'	 	 	);
+	Route::get('search',				'search'		)->name('search'		    );
+	Route::delete('delete/{id}',		'destroy'		)->name('destroy'	 	 	);
+	Route::get('popular/list',			'popular'		)->name('popular.index'	 	);
+	Route::post('popular/list',			'popular'		)->name('popular.filter'	);
+	Route::post('popular/store',		'subStore'		)->name('popular.store'  	);
+	Route::delete('popular/delete/{id}','subDestroy'	)->name('popular.destroy'	);
+    Route::post('popular/check_brand',	'checkBrand'	)->name('popular.checkBrand');
+});
 
 /*
 |--------------------------------------------------------------------------
-| Catalog Routes
+| Categories Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'catalog', 'namespace' => 'Catalog'], function ()
-{
-	Route::resource('categories', CategoryController::class);
-	Route::resource('sub-categories', SubCategoryController::class);
+Route::controller(CategoryController::class)->prefix('categories')->as('categories.')->group(function () {
+	Route::get('list',					'index'		)->name('all.index'		);
+	Route::post('list',					'index'		)->name('all.filter'	);
+	Route::get('create',				'create'	)->name('all.create'	);
+	Route::post('store',				'store'		)->name('store'		 	);
+	Route::get('edit/{id}',				'edit'		)->name('all.edit'		);
+	Route::get('show/{id}',				'show'		)->name('all.show'		);
+	Route::patch('update/{brand}',		'update'	)->name('update'	 	);
+	Route::delete('delete/{id}',		'destroy'	)->name('destroy'	 	);
+	Route::get('sub/list',				'sub'		)->name('sub.index'	 	);
+	Route::post('sub/list',				'sub'		)->name('sub.filter'	);
+	Route::post('sub/store',			'subStore'	)->name('sub.store'  	);
+	Route::post('sub/update',			'subUpdate'	)->name('sub.update'  	);
+	Route::delete('sub/delete/{id}',	'subDestroy')->name('sub.destroy'	);
 });
 
 /*
@@ -56,6 +74,13 @@ Route::controller(SliderController::class)->prefix('sliders')->as('sliders.')->g
 	Route::delete('delete/{id}',	'destroy'		)->name('destroy'	 );
     Route::post('check_parent',		'checkParent'	)->name('checkParent');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Role Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('roles', RoleController::class);
 
 /*
 |--------------------------------------------------------------------------

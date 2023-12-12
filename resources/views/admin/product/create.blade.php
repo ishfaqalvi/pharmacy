@@ -13,7 +13,7 @@
     </div>
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <a href="{{ route('products.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            <a href="{{ route('products.all.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-arrow-circle-left"></i>
                 </span>
@@ -75,7 +75,7 @@
         $('select[name=category_id]').change(function () {
             let id = $(this).val();
             $('select[name=sub_category_id]').html('<option>--Select--</option>');
-            $.get('/admin/api/products/get_sub_categories', {id: id}).done(function (result) {
+            $.get('/admin/products/sub_categories', {id: id}).done(function (result) {
                 let data = JSON.parse(result);
                 $.each(data, function (i, val) {
                     $('select[name=sub_category_id]').append($('<option></option>').val(val.id).html(val.name));

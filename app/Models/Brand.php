@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+
+use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\ModelFilters\BrandsFilter;
 
 /**
  * Class Brand
@@ -27,16 +30,28 @@ class Brand extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    use SoftDeletes;
+    use SoftDeletes, BrandsFilter, Filterable;
 
-    protected $perPage = 20;
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->perPage = settings('per_page_items') ? : 15;
+    }
+
+    /**
+     * Columns that should be filterable.
+     *
+     * @var array
+     */
+    private static $whiteListFilter = ['popular'];
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['name','logo','website'];
+    protected $fillable = ['name','logo','website','popular'];
 
     /**
      * The set attributes.
@@ -60,5 +75,17 @@ class Brand extends Model implements Auditable
     public function getLogoAttribute($value)
     {
         return isset($value) ? asset($value) : '';
+    }
+
+    /**
+     * Scope a query to only include products of a given category.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $category
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePopular($query)
+    {
+        return $query->where('popular', 'Yes');
     }
 }

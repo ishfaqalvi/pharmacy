@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('logo');
             $table->string('website')->nullable();
+            $table->enum('popular',['Yes','No'])->default('No');
             $table->timestamps();
             $table->softDeletes();
         });

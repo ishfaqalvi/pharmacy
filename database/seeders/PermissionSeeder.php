@@ -21,6 +21,19 @@ class PermissionSeeder extends Seeder
                   'brands-create', 
                   'brands-edit', 
                   'brands-delete',
+                  'brands-popularList',
+                  'brands-popularCreate',
+                  'brands-popularDelete',
+
+                  'categories-list', 
+                  'categories-view', 
+                  'categories-create', 
+                  'categories-edit', 
+                  'categories-delete',
+                  'categories-subList',  
+                  'categories-subCreate', 
+                  'categories-subEdit', 
+                  'categories-subDelete',
 
                   'products-list', 
                   'products-view', 
@@ -37,18 +50,6 @@ class PermissionSeeder extends Seeder
                   'products-specialList', 
                   'products-specialCreate',
                   'products-specialDelete',
-
-                  'categories-list', 
-                  'categories-view', 
-                  'categories-create', 
-                  'categories-edit', 
-                  'categories-delete',
-
-                  'subCategories-list', 
-                  'subCategories-view', 
-                  'subCategories-create', 
-                  'subCategories-edit', 
-                  'subCategories-delete',
 
                   'sliders-list', 
                   'sliders-view', 

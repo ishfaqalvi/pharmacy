@@ -24,7 +24,7 @@ class HomePageController extends Controller
         $featured   = Product::special('Featured')->get();
         $wellness   = Product::special('Wellness')->get();
         $menWomans  = Product::special('Men & Woman')->get();
-        $brands     = Brand::where('id', '<', 15)->get();
+        $brands     = Brand::popular()->get();
 
         return view('public.index', compact('categories','sliders','frequently','featured','wellness','menWomans','brands'));
     }

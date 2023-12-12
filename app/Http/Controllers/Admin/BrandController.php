@@ -31,11 +31,13 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $brands = Brand::get();
-
-        return view('admin.brand.index', compact('brands'));
+        $brands = Brand::AcceptRequest(['popular','search_like'])->filter($request->all())->paginate();
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
+        
+        return view('admin.brand.index', compact('brands','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $brands->perPage());
     }
 
     /**
@@ -58,7 +60,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
        $brand = Brand::create($request->all());
-        return redirect()->route('brands.index')
+        return redirect()->route('brands.all.index')
             ->with('success', 'Brand created successfully.');
     }
 
@@ -99,8 +101,8 @@ class BrandController extends Controller
     {
         $brand->update($request->all());
 
-        return redirect()->route('brands.index')
-            ->with('success', 'Brand updated successfully');
+        return redirect()->route('brands.all.index')
+            ->with('success', 'Brand updated successfully.');
     }
 
     /**
@@ -112,7 +114,73 @@ class BrandController extends Controller
     {
         $brand = Brand::find($id)->delete();
 
-        return redirect()->route('brands.index')
-            ->with('success', 'Brand deleted successfully');
+        return redirect()->route('brands.all.index')
+            ->with('success', 'Brand deleted successfully.');
+    }
+
+    /**
+     * Validate a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $parameter= $request->q;
+        $page     = $request->page;
+        $brans    = Brand::where('name', 'LIKE', '%' . $parameter . '%')
+                    ->paginate(10, ['*'], 'page', $page)->toArray();
+        return $brans;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popular(Request $request)
+    {
+        $brands = Brand::AcceptRequest(['search_like'])->popular()->filter($request->all())->paginate();
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
+
+        return view('admin.brand.popular.index', compact('brands','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $brands->perPage());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function popularStore(Request $request)
+    {
+        $brand = Brand::find($request->brand_id);
+        $brand->update(['popular' => 'Yes']);
+
+        return redirect()->back()->with('success', 'Brand added successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function popularDestroy($id)
+    {
+        $brand = Brand::find($id);
+        $brand->update(['popular' => 'No']);
+
+        return redirect()->back()->with('success', 'Brand removed successfully.');
+    }
+
+    /**
+     * Check the record existance from a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checkBrand(Request $request)
+    {
+        $brand = Brand::find($request->brand);
+        if ($brand->popular == 'Yes') { echo "false"; }else{ echo "true"; }
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Brand;
+use Illuminate\Support\Arr;
 use DB;
 
 class BrandSeeder extends Seeder
@@ -31,5 +32,9 @@ class BrandSeeder extends Seeder
         //     ['name' => 'Brand 5', 'logo' => 'images/brand/brand-5.png'],
         //     ['name' => 'Brand 6', 'logo' => 'images/brand/brand-6.png']
         // ]);
+
+        $brandIds = Brand::pluck('id')->all();
+        $popularBrandIds = Arr::random($brandIds, rand(10,15));
+        Brand::whereIn('id', $popularBrandIds)->update(['popular' => 'Yes']);
     }
 }

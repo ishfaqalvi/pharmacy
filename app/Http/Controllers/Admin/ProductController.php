@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class ProductController extends Controller
 {
+    protected $column = ['brand_id','category_id','sub_category_id','search_like'];
     /**
      * Display a listing of the resource.
      *
@@ -34,11 +35,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate();
+        $products = Product::AcceptRequest($this->column)->filter($request->all())->paginate();
+        $filters = Product::filterAttribute();
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.index', compact('products'));
+        return view('admin.product.index', compact('products','filters','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     /**
@@ -61,7 +65,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
        $product = Product::create($request->all());
-        return redirect()->route('products.index')
+        return redirect()->route('products.all.index')
             ->with('success', 'Product created successfully.');
     }
 
@@ -119,7 +123,7 @@ class ProductController extends Controller
     {
         $product->update($request->all());
 
-        return redirect()->route('products.index')
+        return redirect()->route('products.all.index')
             ->with('success', 'Product updated successfully.');
     }
 
@@ -132,7 +136,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id)->delete();
 
-        return redirect()->route('products.index')
+        return redirect()->route('products.all.index')
             ->with('success', 'Product deleted successfully.');
     }
 
@@ -245,11 +249,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function specialFrequently()
+    public function specialFrequently(Request $request)
     {
-        $products = Product::special('Frequently')->paginate();
+        $products = Product::special('Frequently')->AcceptRequest($this->column)
+                    ->filter($request->all())->paginate();
+        $filters = Product::filterAttribute('Frequently');
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.frequently', compact('products'));
+        return view('admin.product.special.frequently', compact('products','filters','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     /**
@@ -257,11 +265,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function specialFeatured()
+    public function specialFeatured(Request $request)
     {
-        $products = Product::special('Featured')->paginate();
+        $products = Product::special('Featured')->AcceptRequest($this->column)
+                    ->filter($request->all())->paginate();
+        $filters = Product::filterAttribute('Featured');
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.featured', compact('products'));
+        return view('admin.product.special.featured', compact('products','filters','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     /**
@@ -269,11 +281,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function specialWellness()
+    public function specialWellness(Request $request)
     {
-        $products = Product::special('Wellness')->paginate();
+        $products = Product::special('Wellness')->AcceptRequest($this->column)
+                    ->filter($request->all())->paginate();
+        $filters = Product::filterAttribute('Wellness');
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.wellness', compact('products'));
+        return view('admin.product.special.wellness', compact('products','filters','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     /**
@@ -281,11 +297,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function specialMenAndWoman()
+    public function specialMenAndWoman(Request $request)
     {
-        $products = Product::special('Men & Woman')->paginate();
+        $products = Product::special('Men & Woman')->AcceptRequest($this->column)
+                    ->filter($request->all())->paginate();
+        $filters = Product::filterAttribute('Men & Woman');
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.men-and-woman', compact('products'));
+        return view('admin.product.special.men-and-woman', compact('products','filters','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
     /**

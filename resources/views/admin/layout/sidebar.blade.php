@@ -1,4 +1,3 @@
-
 <li class="nav-item-header pt-0">
     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Main</div>
     <i class="ph-dots-three sidebar-resize-show"></i>
@@ -9,12 +8,62 @@
         <span>Dashboard</span>
     </a>
 </li>
-<li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('brands') ? 'active' : ''}}" href="{{ route('brands.index') }}">
-        <i class="ph-house"></i>
-        <span>Brand</span>
+@canany(['brands-list','brands-popularList'])
+<li class="nav-item nav-item-submenu {{ request()->is('admin/brands*') ? 'nav-item-open' : ''}}">
+    <a href="#" class="nav-link">
+        <i class="ph-article"></i>
+        <span>Brands</span>
     </a>
+    <ul class="nav-group-sub collapse {{ request()->is('admin/brands*') ? 'show' : ''}}">
+        @can('brands-list')
+            <li class="nav-item">
+                <a 
+                    href ="{{ route('brands.all.index') }}" 
+                    class="nav-link {{ request()->routeIs('brands.all*') ? 'active' : ''}}">
+                    Complete List
+                </a>
+            </li>
+        @endcan
+        @can('brands-popularList')
+            <li class="nav-item">
+                <a 
+                    href="{{ route('brands.popular.index') }}"
+                    class="nav-link {{ request()->routeIs('brands.popular.index*') ? 'active' : ''}}">
+                    Popular
+                </a>
+            </li>
+        @endcan
+    </ul>
 </li>
+@endcanany
+@canany(['categories-list','categories-subList'])
+<li class="nav-item nav-item-submenu {{ request()->is('admin/categories*') ? 'nav-item-open' : ''}}">
+    <a href="#" class="nav-link">
+        <i class="ph-article"></i>
+        <span>Categories</span>
+    </a>
+    <ul class="nav-group-sub collapse {{ request()->is('admin/categories*') ? 'show' : ''}}">
+        @can('categories-list')
+            <li class="nav-item">
+                <a 
+                    href ="{{ route('categories.all.index') }}" 
+                    class="nav-link {{ request()->routeIs('categories.all*') ? 'active' : ''}}">
+                    Main
+                </a>
+            </li>
+        @endcan
+        @can('categories-subList')
+            <li class="nav-item">
+                <a 
+                    href="{{ route('categories.sub.index') }}"
+                    class="nav-link {{ request()->routeIs('categories.sub*') ? 'active' : ''}}">
+                    Sub
+                </a>
+            </li>
+        @endcan
+    </ul>
+</li>
+@endcanany
 @canany(['products-list','products-specialList'])
 <li class="nav-item nav-item-submenu {{ request()->is('admin/products*') ? 'nav-item-open' : ''}}">
     <a href="#" class="nav-link">
@@ -25,8 +74,8 @@
         @can('products-list')
             <li class="nav-item">
                 <a 
-                    href ="{{ route('products.index') }}" 
-                    class="nav-link {{ request()->routeIs('products*') ? 'active' : ''}}">
+                    href ="{{ route('products.all.index') }}" 
+                    class="nav-link {{ request()->routeIs('products.all*') ? 'active' : ''}}">
                     Complete List
                 </a>
             </li>
@@ -64,40 +113,14 @@
     </ul>
 </li>
 @endcanany
-@canany(['categories-list','subCategories-list'])
-<li class="nav-item nav-item-submenu {{ request()->is('admin/catalog*') ? 'nav-item-open' : ''}}">
-    <a href="#" class="nav-link">
-        <i class="ph-article"></i>
-        <span>Catalog</span>
-    </a>
-    <ul class="nav-group-sub collapse {{ request()->is('admin/catalog*') ? 'show' : ''}}">
-        @can('categories-list')
-            <li class="nav-item">
-                <a 
-                    href ="{{ route('categories.index') }}" 
-                    class="nav-link {{ request()->routeIs('categories*') ? 'active' : ''}}">
-                    Categories
-                </a>
-            </li>
-        @endcan
-        @can('subCategories-list')
-            <li class="nav-item">
-                <a 
-                    href="{{ route('sub-categories.index') }}"
-                    class="nav-link {{ request()->routeIs('sub-categories*') ? 'active' : ''}}">
-                    Sub Categories
-                </a>
-            </li>
-        @endcan
-    </ul>
-</li>
-@endcanany
+@can('sliders.list')
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('sliders') ? 'active' : ''}}" href="{{ route('sliders.index') }}">
         <i class="ph-house"></i>
         <span>Sliders</span>
     </a>
 </li>
+@endcan
 @canany(['roles-list', 'users-list'])
 <li class="nav-item-header">
     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Access Management</div>

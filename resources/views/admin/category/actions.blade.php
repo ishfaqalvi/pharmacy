@@ -9,12 +9,12 @@
                 @csrf
                 @method('DELETE')
                 @can('categories-view')
-                    <a href="{{ route('categories.show',$category->id) }}" class="dropdown-item">
+                    <a href="{{ route('categories.all.show',$category->id) }}" class="dropdown-item">
                         <i class="ph-eye me-2"></i>{{ __('Show') }}
                     </a>
                 @endcan
                 @can('categories-edit')
-                    <a href="{{ route('categories.edit',$category->id) }}" class="dropdown-item">
+                    <a href="{{ route('categories.all.edit',$category->id) }}" class="dropdown-item">
                         <i class="ph-note-pencil me-2"></i>{{ __('Edit') }}
                     </a>
                 @endcan

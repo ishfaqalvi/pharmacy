@@ -38,7 +38,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function clearCache(): RedirectResponse
+    public function clearCache()
     {
         Artisan::call('optimize');
         Artisan::call('cache:clear');
@@ -52,7 +52,7 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function save(Request $request): RedirectResponse
+    public function save(Request $request)
     {
         $data = array();
         if ($request->values) {

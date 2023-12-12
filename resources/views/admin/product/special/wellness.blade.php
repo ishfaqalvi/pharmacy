@@ -11,23 +11,37 @@
             Home - <span class="fw-normal">Product Managment</span>
         </h4>
     </div>
-    @can('products-specialCreate')
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+            <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
+                <span class="btn-labeled-icon bg-primary text-white rounded-pill">
+                    <i class="ph-magnifying-glass"></i>
+                </span>
+                Filter
+            </button>
+            @can('products-specialCreate')
             <a href="#" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill" id="addProduct">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
                 </span>
                 Add New
             </a>
+            @endcan
         </div>
     </div>
-    @endcan
 </div>
 @endsection
 
 @section('content')
 <div class="col-sm-12">
+    <div class="card collapse {{ !is_null($userRequest) ? 'show' : ''}}" id="filters">
+        <div class="card-body">
+            <form action="{{route('products.special.wellnessFilter')}}" method="post">
+                @csrf
+                @include('admin.product.filter')
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Wellness Product</h5>
@@ -110,6 +124,7 @@
 @section('script')
 <script>
     $(function () {
+        $(".select").select2();
         var _token = $("input[name='_token']").val();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',

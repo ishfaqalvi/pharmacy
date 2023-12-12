@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Catalog;
+namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 /**
@@ -35,7 +36,7 @@ class CategoryController extends Controller
     {
         $categories = Category::get();
 
-        return view('admin.catalog.category.index', compact('categories'));
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -46,7 +47,7 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category();
-        return view('admin.catalog.category.create', compact('category'));
+        return view('admin.category.create', compact('category'));
     }
 
     /**
@@ -72,7 +73,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        return view('admin.catalog.category.show', compact('category'));
+        return view('admin.category.show', compact('category'));
     }
 
     /**
@@ -85,7 +86,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        return view('admin.catalog.category.edit', compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -114,5 +115,57 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sub()
+    {
+        $subCategories = SubCategory::get();
+
+        return view('admin.category.sub.index', compact('subCategories'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function subStore(Request $request)
+    {
+       $category = SubCategory::create($request->all());
+        return redirect()->back()->with('success', 'Sub Category created successfully.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  Category $category
+     * @return \Illuminate\Http\Response
+     */
+    public function subUpdate(Request $request)
+    {
+        $category = SubCategory::find($request->id);
+
+        $category->update($request->all());
+
+        return redirect()->back()->with('success', 'Sub Category updated successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function subDestroy($id)
+    {
+        $category = SubCategory::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Sub Category deleted successfully.');
     }
 }

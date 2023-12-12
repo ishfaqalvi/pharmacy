@@ -11,28 +11,42 @@
             Home - <span class="fw-normal">Brand Managment</span>
         </h4>
     </div>
-    @can('brands-create')
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <a href="{{ route('brands.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
+                <span class="btn-labeled-icon bg-primary text-white rounded-pill">
+                    <i class="ph-magnifying-glass"></i>
+                </span>
+                Filter
+            </button>
+            @can('brands-create')
+            <a href="{{ route('brands.all.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
                 </span>
                 Create New
             </a>
+            @endcan
         </div>
     </div>
-    @endcan
 </div>
 @endsection
 
 @section('content')
 <div class="col-sm-12">
+    <div class="card collapse {{ !is_null($userRequest) ? 'show' : ''}}" id="filters">
+        <div class="card-body">
+            <form action="{{route('brands.all.filter')}}" method="post">
+                @csrf
+                @include('admin.brand.filter')
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Brand</h5>
         </div>
-        <table class="table datatable-basic">
+        <table class="table">
             <thead class="thead">
                 <tr>
                     <th>No</th>
@@ -43,9 +57,9 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($brands as $key => $brand)
+            @foreach ($brands as $brand)
                 <tr>
-                    <td>{{ ++$key }}</td>
+                    <td>{{ ++$i }}</td>
 					<td><img src="{{ $brand->logo }}" height="40px"></td>
 					<td>{{ $brand->name }}</td>
 					<td>{{ $brand->website }}</td>
@@ -54,6 +68,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="card-body">
+            {{ $brands->links('vendor.pagination.bootstrap-5') }}
+        </div>
     </div>
 </div>
 @endsection
@@ -61,6 +78,7 @@
 @section('script')
 <script>
     $(function () {
+        $(".select").select2();
         const swalInit = swal.mixin({
             buttonsStyling: false,
             customClass: {

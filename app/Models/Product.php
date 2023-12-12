@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\ModelFilters\ProductsFilter;
 
 /**
  * Class Product
@@ -34,6 +36,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Product extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use ProductsFilter, Filterable;
 
     public function __construct(array $attributes = [])
     {
@@ -59,6 +62,24 @@ class Product extends Model implements Auditable
         'rating',
         'in_stock'
     ];
+
+    /**
+     * Columns that should be filterable.
+     *
+     * @var array
+     */
+    private static $whiteListFilter = ['brand_id','category_id','sub_category_id'];
+
+    /**
+     * Attributes that should be filterable.
+     *
+     * @var array
+     */
+    public static function filterAttribute($type = null)
+    {
+        $collection = $type == null ? self::get() : self::special($type)->get();
+        return getFilter($collection, ['brand_id','category_id','sub_category_id']);
+    }
 
     /**
      * The set attributes.
