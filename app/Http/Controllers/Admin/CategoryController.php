@@ -20,11 +20,15 @@ class CategoryController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:categories-list',  ['only' => ['index']]);
-        $this->middleware('permission:categories-view',  ['only' => ['show']]);
-        $this->middleware('permission:categories-create',['only' => ['create','store']]);
-        $this->middleware('permission:categories-edit',  ['only' => ['edit','update']]);
-        $this->middleware('permission:categories-delete',['only' => ['destroy']]);
+        $this->middleware('permission:categories-list',     ['only' => ['index']]);
+        $this->middleware('permission:categories-view',     ['only' => ['show']]);
+        $this->middleware('permission:categories-create',   ['only' => ['create','store']]);
+        $this->middleware('permission:categories-edit',     ['only' => ['edit','update']]);
+        $this->middleware('permission:categories-delete',   ['only' => ['destroy']]);
+        $this->middleware('permission:categories-subList',  ['only' => ['sub']]);
+        $this->middleware('permission:categories-subCreate',['only' => ['subStore']]);
+        $this->middleware('permission:categories-subEdit',  ['only' => ['subUpdate']]);
+        $this->middleware('permission:categories-subDelete',['only' => ['subDestroy']]);
     }
 
     /**
@@ -32,11 +36,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::get();
-
-        return view('admin.category.index', compact('categories'));
+        $categories = Category::AcceptRequest(['search_like'])->filter($request->all())->paginate();
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
+        
+        return view('admin.category.index', compact('categories','userRequest'))
+        ->with('i', (request()->input('page', 1) - 1) * $categories->perPage());
     }
 
     /**
@@ -122,11 +128,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sub()
+    public function sub(Request $request)
     {
-        $subCategories = SubCategory::get();
-
-        return view('admin.category.sub.index', compact('subCategories'));
+        $subCategories = SubCategory::AcceptRequest(['category_id','search_like'])
+                    ->filter($request->all())->paginate();
+        $filters = SubCategory::filterAttribute();
+        $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
+        
+        return view('admin.category.sub.index', compact('subCategories','userRequest','filters'))
+        ->with('i', (request()->input('page', 1) - 1) * $subCategories->perPage());
     }
 
     /**

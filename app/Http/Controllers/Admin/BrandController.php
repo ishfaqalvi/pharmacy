@@ -19,11 +19,14 @@ class BrandController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:brands-list',  ['only' => ['index']]);
-        $this->middleware('permission:brands-view',  ['only' => ['show']]);
-        $this->middleware('permission:brands-create',['only' => ['create','store']]);
-        $this->middleware('permission:brands-edit',  ['only' => ['edit','update']]);
-        $this->middleware('permission:brands-delete',['only' => ['destroy']]);
+        $this->middleware('permission:brands-list',         ['only' => ['index']]);
+        $this->middleware('permission:brands-view',         ['only' => ['show']]);
+        $this->middleware('permission:brands-create',       ['only' => ['create','store']]);
+        $this->middleware('permission:brands-edit',         ['only' => ['edit','update']]);
+        $this->middleware('permission:brands-delete',       ['only' => ['destroy']]);
+        $this->middleware('permission:brands-popularList',  ['only' => ['popular']]);
+        $this->middleware('permission:brands-popularCreate',['only' => ['popularStore']]);
+        $this->middleware('permission:brands-popularDelete',['only' => ['popularDestroy']]);
     }
 
     /**

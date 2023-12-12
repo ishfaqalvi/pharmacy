@@ -25,12 +25,13 @@
 <script src="{{ asset('assets/js/vendor/forms/selects/bootstrap_multiselect.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/uploaders/dropzone.min.js') }}"></script>
 <script src="{{ asset('assets/demo/dropify/js/dropify.js') }}"></script>
+<script src="{{ asset('assets/js/vendor/media/glightbox.min.js') }}"></script>
 <!-- <script src="{{ asset('assets/js/vendor/visualization/d3/d3.min.js') }}"></script> -->
 <!-- <script src="{{ asset('assets/js/vendor/visualization/d3/d3_tooltip.js') }}"></script> -->
 
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="{{ asset('assets/demo/pages/datatables_basic.js') }}"></script>
-{{-- <script src="{{ asset('assets/demo/pages/form_select2.js') }}"></script> --}}
+<script src="{{ asset('assets/demo/pages/ecommerce_product_list.js') }}"></script>
 <script src="{{ asset('assets/demo/pages/dashboard.js') }}"></script>
 <!-- <script src="{{ asset('assets/demo/charts/pages/dashboard/streamgraph.js') }}"></script> -->
 <!-- <script src="{{ asset('assets/demo/charts/pages/dashboard/sparklines.js') }}"></script> -->

@@ -15,7 +15,7 @@
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
             <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
-                    <i class="ph-magnifying-glass"></i>
+                    <i class="ph-funnel"></i>
                 </span>
                 Filter
             </button>

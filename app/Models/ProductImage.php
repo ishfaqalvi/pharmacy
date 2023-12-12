@@ -41,7 +41,7 @@ class ProductImage extends Model implements Auditable
     public function setImageAttribute($image)
     {
         if ($image instanceof \Illuminate\Http\UploadedFile) {
-            $this->attributes['image'] = uploadFile($image, 'product/gallery/', '100', '100');
+            $this->attributes['image'] = uploadFile($image, 'product/gallery/', '400', '400');
         } else {
             unset($this->attributes['image']);
         }

@@ -23,11 +23,21 @@ class ProductController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:products-list',  ['only' => ['index']]);
-        $this->middleware('permission:products-view',  ['only' => ['show']]);
-        $this->middleware('permission:products-create',['only' => ['create','store']]);
-        $this->middleware('permission:products-edit',  ['only' => ['edit','update']]);
-        $this->middleware('permission:products-delete',['only' => ['destroy']]);
+        $this->middleware('permission:products-list',         ['only' => ['index']]);
+        $this->middleware('permission:products-view',         ['only' => ['show']]);
+        $this->middleware('permission:products-create',       ['only' => ['create','store']]);
+        $this->middleware('permission:products-edit',         ['only' => ['edit','update']]);
+        $this->middleware('permission:products-delete',       ['only' => ['destroy']]);
+        $this->middleware('permission:products-priceList',    ['only' => ['prices']]);
+        $this->middleware('permission:products-priceCreate',  ['only' => ['priceStore']]);
+        $this->middleware('permission:products-priceEdit',    ['only' => ['priceUpdate']]);
+        $this->middleware('permission:products-priceDelete',  ['only' => ['priceDestroy']]);
+        $this->middleware('permission:products-imageList',    ['only' => ['images']]);
+        $this->middleware('permission:products-imageCreate',  ['only' => ['imageStore']]);
+        $this->middleware('permission:products-imageDelete',  ['only' => ['imageDestroy']]);
+        $this->middleware('permission:products-specialList',  ['only' => ['specialFrequently','specialFeatured','specialWellness','specialMenAndWoman']]);
+        $this->middleware('permission:products-specialCreate',['only' => ['specialStore']]);
+        $this->middleware('permission:products-specialDelete',['only' => ['specialDestroy']]);
     }
 
     /**

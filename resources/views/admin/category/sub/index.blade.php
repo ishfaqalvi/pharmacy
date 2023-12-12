@@ -13,6 +13,12 @@
     </div>
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+            <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
+                <span class="btn-labeled-icon bg-primary text-white rounded-pill">
+                    <i class="ph-funnel"></i>
+                </span>
+                Filter
+            </button>
             @can('categories-subCreate')
             <a href="#" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill" data-bs-toggle="modal" data-bs-target="#addSubCategory">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
@@ -29,11 +35,19 @@
 
 @section('content')
 <div class="col-sm-12">
+    <div class="card collapse {{ !is_null($userRequest) ? 'show' : ''}}" id="filters">
+        <div class="card-body">
+            <form action="{{route('categories.sub.filter')}}" method="post">
+                @csrf
+                @include('admin.category.sub.filter')
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Sub Category</h5>
         </div>
-        <table class="table datatable-basic">
+        <table class="table">
             <thead class="thead">
                 <tr>
                     <th>No</th>
@@ -53,6 +67,9 @@
             @endforeach
             </tbody>
         </table>
+        <div class="card-body">
+            {{ $subCategories->links('vendor.pagination.bootstrap-5') }}
+        </div>
     </div>
 </div>
 @include('admin.category.sub.edit')
@@ -61,6 +78,7 @@
 @section('script')
 <script>
     $(function () {
+        $(".select").select2();
         const swalInit = swal.mixin({
             buttonsStyling: false,
             customClass: {

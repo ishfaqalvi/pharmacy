@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\ModelFilters\SubCategoriesFilter;
 
 /**
  * Class SubCategory
@@ -26,10 +28,22 @@ class SubCategory extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    use SoftDeletes;
+    use SoftDeletes, SubCategoriesFilter, Filterable;
 
 
-    protected $perPage = 20;
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->perPage = settings('per_page_items') ?: 15;
+    }
+
+    /**
+     * Columns that should be filterable.
+     *
+     * @var array
+     */
+    private static $whiteListFilter = ['category_id'];
 
     /**
      * Attributes that should be mass-assignable.
@@ -38,6 +52,15 @@ class SubCategory extends Model implements Auditable
      */
     protected $fillable = ['category_id','name'];
 
+    /**
+     * Attributes that should be filterable.
+     *
+     * @var array
+     */
+    public static function filterAttribute()
+    {
+        return getFilter(self::get(), ['category_id']);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

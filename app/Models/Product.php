@@ -89,7 +89,7 @@ class Product extends Model implements Auditable
     public function setThumbnailAttribute($image)
     {
         if ($image instanceof \Illuminate\Http\UploadedFile) {
-            $this->attributes['thumbnail'] = uploadFile($image, 'product', '100', '100');
+            $this->attributes['thumbnail'] = uploadFile($image, 'product', '400', '400');
         } elseif (is_string($image)) {
             $this->attributes['thumbnail'] = $image;
         } else {

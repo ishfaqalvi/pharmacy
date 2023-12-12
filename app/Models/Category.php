@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\ModelFilters\CategoriesFilter;
 
 /**
  * Class Category
@@ -24,10 +26,15 @@ class Category extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    use SoftDeletes;
+    use SoftDeletes, CategoriesFilter, Filterable;
 
 
-    protected $perPage = 20;
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->perPage = settings('per_page_items') ?: 15;
+    }
 
     /**
      * Attributes that should be mass-assignable.
