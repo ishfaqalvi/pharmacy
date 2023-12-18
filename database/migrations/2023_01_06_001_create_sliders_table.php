@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('sliders', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('heading')->nullable();
+            $table->string('sub_heading')->nullable();
             $table->string('image');
             $table->enum('type', ['Brand', 'Category', 'Sub Category', 'Product','Simple']);
             $table->unsignedBigInteger('type_id')->nullable();

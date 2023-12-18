@@ -17,8 +17,8 @@
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             {{ Form::label('price') }}
-                            {{ Form::number('price', null, ['class' => 'form-control' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Price','required','min'=>'1']) }}
-                            {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
+                            {{ Form::number('new_price', null, ['class' => 'form-control' . ($errors->has('new_price') ? ' is-invalid' : ''), 'placeholder' => 'Price','required','min'=>'1']) }}
+                            {!! $errors->first('new_price', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             {{ Form::label('discount') }}

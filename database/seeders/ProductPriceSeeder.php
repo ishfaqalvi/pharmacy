@@ -22,7 +22,8 @@ class ProductPriceSeeder extends Seeder
             $price = [
                 'product_id'=> $row['product_id'],
                 'title'     => $row['title'],
-                'price'     => $row['price'],
+                'old_price' => $row['price'],
+                'new_price' => $row['price'],
                 'discount'  => $row['discount'],
                 'default'   => $row['default']
             ];

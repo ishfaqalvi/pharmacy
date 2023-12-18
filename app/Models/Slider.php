@@ -35,7 +35,7 @@ class Slider extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['title','image','type','type_id','order'];
+    protected $fillable = ['title','heading','sub_heading','image','type','type_id','order'];
 
     /**
      * The set attributes.

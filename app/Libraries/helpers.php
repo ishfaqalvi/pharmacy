@@ -2,6 +2,7 @@
 
 
 use App\Models\Setting;
+use App\Models\Category;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -45,4 +46,14 @@ function getFilter($collection, $filterables)
         $filters[$filterable] = $collection->whereNotNull($filterable)->where($filterable, '!=', 0)->unique($filterable);
     }
     return $filters;
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function categoriesList()
+{
+    return Category::all();
 }

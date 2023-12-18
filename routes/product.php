@@ -35,5 +35,9 @@ Route::controller(ProductController::class)->as('products.')->group(function (){
 	Route::post('special/store',	 	 'specialStore'		 )->name('special.store'		   );
 	Route::delete('special/delete/{id}', 'specialDestroy' 	 )->name('special.destroy'	  	   );
 	Route::post('special/check_product', 'checkProduct'		 )->name('special.checkProduct'	   );
+	Route::get('related/list/{id}',		 'related'			 )->name('related.index'		   );
+	Route::post('related/store',		 'relatedStore'		 )->name('related.store'		   );
+	Route::delete('related/delete/{id}', 'relatedDestroy' 	 )->name('related.destroy'		   );
+	Route::post('related/check_product', 'relatedProduct'	 )->name('related.checkProduct'	   );
 	Route::get('sub-categories',    	 'subCategories'	 );
 });

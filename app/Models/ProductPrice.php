@@ -30,7 +30,20 @@ class ProductPrice extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['product_id','title','price','discount','default'];
+    protected $fillable = ['product_id','title','old_price','new_price','discount','default'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($price) {
+            $price->old_price = $price->new_price;
+        });
+
+        static::updating(function ($price) {
+            $price->old_price = $price->getOriginal('new_price');
+        });
+    }
 
     /**
      * The set attributes.

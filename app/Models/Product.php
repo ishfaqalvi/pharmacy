@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
-use App\ModelFilters\ProductsFilter;
 
 /**
  * Class Product
@@ -36,7 +34,6 @@ use App\ModelFilters\ProductsFilter;
 class Product extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    use ProductsFilter, Filterable;
 
     public function __construct(array $attributes = [])
     {
@@ -64,24 +61,6 @@ class Product extends Model implements Auditable
     ];
 
     /**
-     * Columns that should be filterable.
-     *
-     * @var array
-     */
-    private static $whiteListFilter = ['brand_id','category_id','sub_category_id'];
-
-    /**
-     * Attributes that should be filterable.
-     *
-     * @var array
-     */
-    public static function filterAttribute($type = null)
-    {
-        $collection = $type == null ? self::get() : self::special($type)->get();
-        return getFilter($collection, ['brand_id','category_id','sub_category_id']);
-    }
-
-    /**
      * The set attributes.
      *
      * @var array
@@ -105,6 +84,41 @@ class Product extends Model implements Auditable
     public function getThumbnailAttribute($image)
     {
         if($image){ return asset($image); }
+    }
+
+    /**
+     * Scope a query to filter product.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $category
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilter($query, $request)
+    {
+        if (isset($request['brand'])) {
+            $brand = $request['brand'];
+            $query->whereHas('brand', function ($query) use ($brand) {
+                $query->whereName($brand);
+            });
+        }
+        if (isset($request['category'])) {
+            $category = $request['category'];
+            $query->whereHas('category', function ($query) use ($category) {
+                $query->whereName($category);
+            });
+        }
+        if (isset($request['sub_category'])) {
+            $subCategory = $request['sub_category'];
+            $query->whereHas('subCategory', function ($query) use ($subCategory) {
+                $query->whereName($subCategory);
+            });
+        }
+        if (isset($request['search'])) {
+            $query->where('name', 'like', '%'.$request['search'].'%')
+            ->orWhere('formula', 'like', '%'.$request['search'].'%')
+            ->orWhere('formula', 'like', '%'.$request['search'].'%');
+        }
+        return $query;
     }
 
     /**
@@ -167,5 +181,21 @@ class Product extends Model implements Auditable
     public function categorizations()
     {
         return $this->hasMany('App\Models\ProductCategorized', 'product_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function relatedParents()
+    {
+        return $this->hasMany('App\Models\ProductRelated', 'parent_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function relatedChilds()
+    {
+        return $this->hasMany('App\Models\ProductRelated', 'child_id', 'id');
     }
 }

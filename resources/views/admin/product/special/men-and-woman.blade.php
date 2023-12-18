@@ -94,7 +94,7 @@
                                 <i class="ph-clock fs-base lh-base align-top text-danger me-1"></i>
                                 @endif
                                 {{ $price->title }}:
-                                <a href="#">&#8360; {{ $price->price }}</a>
+                                <a href="#">&#8360; {{ $price->new_price }}</a>
                             </div>
                             @endforeach
                         </td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Website;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,45 +9,18 @@ use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Brand;
 
-class HomePageController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        $sliders    = Slider::all();
-        $frequently = Product::special('Frequently')->get();
-        $featured   = Product::special('Featured')->get();
-        $wellness   = Product::special('Wellness')->get();
-        $menWomans  = Product::special('Men & Woman')->get();
-        $brands     = Brand::popular()->get();
+        $products = Product::filter($request->all())->paginate();
 
-        return view('public.index', compact('categories','sliders','frequently','featured','wellness','menWomans','brands'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('web.pages.product_list', compact('products'));
     }
 
     /**
@@ -58,7 +31,9 @@ class HomePageController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+        return view('web.pages.single_product', compact('product'));
     }
 
     /**

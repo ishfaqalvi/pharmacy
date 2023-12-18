@@ -6771,7 +6771,7 @@ h6 {
   background: rgba(86, 167, 0, 0.8);
 }
 .category-widget .nice-select .list {
-  height: 365px;
+/*  height: 365px;*/
   overflow: auto;
 }
 

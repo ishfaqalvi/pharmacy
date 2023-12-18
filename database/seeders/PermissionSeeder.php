@@ -50,6 +50,9 @@ class PermissionSeeder extends Seeder
                   'products-specialList', 
                   'products-specialCreate',
                   'products-specialDelete',
+                  'products-relatedList', 
+                  'products-relatedCreate',
+                  'products-relatedDelete',
 
                   'sliders-list', 
                   'sliders-view', 

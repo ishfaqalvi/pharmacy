@@ -8,16 +8,6 @@
             <form action="{{ route('products.destroy',$product->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                @can('products-priceList')
-                    <a href="{{ route('products.prices.index',$product->id) }}" class="dropdown-item">
-                        <i class="ph-currency-circle-dollar me-2"></i>{{ __('Prices') }}
-                    </a>
-                @endcan
-                @can('products-imageList')
-                    <a href="{{ route('products.images.index',$product->id) }}" class="dropdown-item">
-                        <i class="ph-file-image me-2"></i>{{ __('Images') }}
-                    </a>
-                @endcan
                 @can('products-view')
                     <a href="{{ route('products.all.show',$product->id) }}" class="dropdown-item">
                         <i class="ph-eye me-2"></i>{{ __('Show') }}
@@ -32,6 +22,21 @@
                     <button type="submit" class="dropdown-item sa-confirm">
                         <i class="ph-trash me-2"></i>{{ __('Delete') }}
                     </button>
+                @endcan
+                @can('products-priceList')
+                    <a href="{{ route('products.prices.index',$product->id) }}" class="dropdown-item">
+                        <i class="ph-currency-circle-dollar me-2"></i>{{ __('Prices') }}
+                    </a>
+                @endcan
+                @can('products-imageList')
+                    <a href="{{ route('products.images.index',$product->id) }}" class="dropdown-item">
+                        <i class="ph-file-image me-2"></i>{{ __('Images') }}
+                    </a>
+                @endcan
+                @can('products-relatedList')
+                    <a href="{{ route('products.related.index',$product->id) }}" class="dropdown-item">
+                        <i class="ph-handshake me-2"></i>{{ __('Related') }}
+                    </a>
                 @endcan
             </form>
         </div>

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductPrice;
 use App\Models\ProductCategorized;
+use App\Models\ProductRelated;
 use Illuminate\Http\Request;
 
 /**
@@ -38,6 +39,9 @@ class ProductController extends Controller
         $this->middleware('permission:products-specialList',  ['only' => ['specialFrequently','specialFeatured','specialWellness','specialMenAndWoman']]);
         $this->middleware('permission:products-specialCreate',['only' => ['specialStore']]);
         $this->middleware('permission:products-specialDelete',['only' => ['specialDestroy']]);
+        $this->middleware('permission:products-relatedList',  ['only' => ['related']]);
+        $this->middleware('permission:products-relatedCreate',['only' => ['relatedStore']]);
+        $this->middleware('permission:products-relatedDelete',['only' => ['relatedDestroy']]);
     }
 
     /**
@@ -47,11 +51,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::AcceptRequest($this->column)->filter($request->all())->paginate();
-        $filters = Product::filterAttribute();
+        $products = Product::filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.index', compact('products','filters','userRequest'))
+        return view('admin.product.index', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
@@ -261,12 +264,10 @@ class ProductController extends Controller
      */
     public function specialFrequently(Request $request)
     {
-        $products = Product::special('Frequently')->AcceptRequest($this->column)
-                    ->filter($request->all())->paginate();
-        $filters = Product::filterAttribute('Frequently');
+        $products = Product::special('Frequently')->filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.frequently', compact('products','filters','userRequest'))
+        return view('admin.product.special.frequently', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
@@ -277,12 +278,10 @@ class ProductController extends Controller
      */
     public function specialFeatured(Request $request)
     {
-        $products = Product::special('Featured')->AcceptRequest($this->column)
-                    ->filter($request->all())->paginate();
-        $filters = Product::filterAttribute('Featured');
+        $products = Product::special('Featured')->filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.featured', compact('products','filters','userRequest'))
+        return view('admin.product.special.featured', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
@@ -293,12 +292,10 @@ class ProductController extends Controller
      */
     public function specialWellness(Request $request)
     {
-        $products = Product::special('Wellness')->AcceptRequest($this->column)
-                    ->filter($request->all())->paginate();
-        $filters = Product::filterAttribute('Wellness');
+        $products = Product::special('Wellness')->filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.wellness', compact('products','filters','userRequest'))
+        return view('admin.product.special.wellness', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
@@ -309,12 +306,10 @@ class ProductController extends Controller
      */
     public function specialMenAndWoman(Request $request)
     {
-        $products = Product::special('Men & Woman')->AcceptRequest($this->column)
-                    ->filter($request->all())->paginate();
-        $filters = Product::filterAttribute('Men & Woman');
+        $products = Product::special('Men & Woman')->filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
 
-        return view('admin.product.special.men-and-woman', compact('products','filters','userRequest'))
+        return view('admin.product.special.men-and-woman', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
 
@@ -344,6 +339,43 @@ class ProductController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function related($id)
+    {
+        $product = Product::find($id);
+
+        return view('admin.product.related.index', compact('product'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function relatedStore(Request $request)
+    {
+        $product = Product::find($request->prent_id);
+        $product->relatedParents()->create($request->all());
+        return redirect()->back()->with('success', 'Product Related created successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function relatedDestroy($id)
+    {
+        ProductRelated::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Product Related deleted successfully.');
+    }
+
+    /**
      * Check the record existance from a resource.
      *
      * @return \Illuminate\Http\Response
@@ -354,6 +386,17 @@ class ProductController extends Controller
             ['type',$request->type],
             ['product_id',$request->product]
         ])->first();
+        if ($product) { echo "false"; }else{ echo "true"; }
+    }
+
+    /**
+     * Check the record existance from a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatedProduct(Request $request)
+    {
+        $product = ProductRelated::whereParentId($request->parent)->whereChildId($request->product)->first();
         if ($product) { echo "false"; }else{ echo "true"; }
     }
 

@@ -7,7 +7,7 @@
             <button type="button" class="btn btn-link text-primary editRecord"
                 data-id="{{ $price->id }}"
                 data-title="{{ $price->title }}"
-                data-price="{{ $price->price }}"
+                data-price="{{ $price->new_price }}"
                 data-discount="{{ $price->discount }}"
                 data-default="{{ $price->default }}"
                 >

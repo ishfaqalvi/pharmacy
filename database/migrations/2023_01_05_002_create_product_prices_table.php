@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->string('title');
-            $table->decimal('price', 9, 2);
+            $table->decimal('old_price', 9, 2);
+            $table->decimal('new_price', 9, 2);
             $table->decimal('discount', 9, 2)->default(0);
             $table->enum('default', ['Yes', 'No']);
             $table->timestamps();

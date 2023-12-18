@@ -86,6 +86,12 @@
                             }
                         }
                     }
+                },
+                heading: {
+                    required : function(element) {return $('#selectField').val() !== 'Simple';}
+                },
+                sub_heading: {
+                    required : function(element) {return $('#selectField').val() !== 'Simple';}
                 }
             },
             messages:{
@@ -96,6 +102,15 @@
         });
         $('.dropify').dropify();
         $(".select").select2(); 
+        $('#selectField').change(function(){
+            if($(this).val() == 'Simple' || $(this).val() == ''){
+                $('div.heading').hide('slow');
+                $('div.subheading').hide('slow');
+            }else{
+                $('div.heading').show('slow');
+                $('div.subheading').show('slow');
+            }
+        });
     });
 </script>
 @endsection

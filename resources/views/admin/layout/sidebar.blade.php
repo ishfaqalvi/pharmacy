@@ -113,7 +113,7 @@
     </ul>
 </li>
 @endcanany
-@can('sliders.list')
+@can('sliders-list')
 <li class="nav-item">
     <a class="nav-link {{ request()->routeIs('sliders') ? 'active' : ''}}" href="{{ route('sliders.index') }}">
         <i class="ph-house"></i>

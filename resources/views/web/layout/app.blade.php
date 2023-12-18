@@ -7,17 +7,35 @@
     <link rel="stylesheet" href="{{ asset('assets/web/css/plugins.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/web/css/main.css') }}"/>
     <link rel="shortcut icon" href="{{ asset('assets/web/image/favicon.ico') }}" type="image/x-icon">
-    <title>Sakoon Pharmacy</title>
+    <title>@yield('page_title')</title>
 </head>
 <body class="">
     <div class="site-wrapper">
+        <!-- Site Header Starts -->
         <header class="header petmark-header-1">
-            @include('public.layout.header')
+            <div class="header-wrapper">
+                @include('web.include.header.header-wrapper')
+            </div>
+            <div class="header-nav-wrapper">
+                @include('web.include.header.header-nav-wrapper')
+            </div>
         </header>
+        <!-- Site Header End -->
+
+        <!-- Site Content Starts -->
         @yield('content')
+        <!-- Site Content End -->
+
+        <!-- Site Footer Starts -->
         <footer class="site-footer">
-            @include('public.layout.footer')
+            <div class="container">
+                @include('web.include.footer.container')
+            </div>
+            <div class="footer-copyright">
+                @include('web.include.footer.copyright')
+            </div>
         </footer>
+        <!-- Site Footer End -->
     </div>
     <script src="{{ asset('assets/web/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/web/js/ajax-mail.js') }}"></script>

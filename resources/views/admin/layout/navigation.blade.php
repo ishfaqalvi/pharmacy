@@ -4,10 +4,9 @@
             <i class="ph-list"></i>
         </button>
     </div>
-    <div class="navbar-brand flex-1 flex-lg-0">
-        <a href="index.html" class="d-inline-flex align-items-center">
-            <img src="https://demo.interface.club/limitless/demo/template/assets/images/logo_icon.svg" alt="">
-            <img src="https://demo.interface.club/limitless/demo/template/assets/images/logo_text_light.svg" class="d-none d-sm-inline-block h-16px ms-3" alt="">
+    <div class="navbar-brand flex-1 flex-lg-0" style="padding: 0 !important;">
+        <a href="{{ route('home') }}" class="d-inline-flex align-items-center" target="_blank">
+            <img src="{{ asset('assets/images/logo/sakoon247transwhite.png')}}" alt="" style="height: 60px !important">
         </a>
     </div>
     <ul class="nav flex-row">

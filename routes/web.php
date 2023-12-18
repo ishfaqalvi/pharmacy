@@ -28,7 +28,16 @@ Auth::routes();
 | Public Pages Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['namespace' => 'App\Http\Controllers\Website'], function () {
+Route::group(['namespace' => 'App\Http\Controllers\Web'], function () {
 
-	Route::get('/', 'HomePageController@index');
+	Route::get('/', 'HomeController@index')->name('home');
+
+	Route::controller(ProductController::class)->prefix('products')->group(function () {
+		Route::get('list',		'index')->name('product.index');
+		Route::post('list',		'index')->name('product.filter');
+		Route::get('show/{id}',	'show' )->name('product.show');
+	});
+	Route::controller(UserController::class)->prefix('users')->group(function () {
+		Route::get('profile',		'profile')->name('user.profile');
+	});
 });

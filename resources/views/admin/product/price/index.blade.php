@@ -44,7 +44,8 @@
                 <tr>
                     <th>No</th>
 					<th>Title</th>
-					<th>Price</th>
+					<th>Old Price</th>
+                    <th>New Price</th>
 					<th>Discount</th>
 					<th>Default</th>
                     <th class="text-center">Actions</th>
@@ -55,7 +56,8 @@
                 <tr>
                     <td>{{ ++$key }}</td>
 					<td>{{ $price->title }}</td>
-					<td>{{ $price->price }}</td>
+					<td>{{ $price->old_price }}</td>
+                    <td>{{ $price->new_price }}</td>
 					<td>{{ $price->discount }}</td>
 					<td>{{ $price->default }}</td>
                     <td class="text-center">@include('admin.product.price.actions')</td>

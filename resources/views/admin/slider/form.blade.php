@@ -26,6 +26,16 @@
         {{ Form::file('image', ['class' => 'form-control dropify' . ($errors->has('image') ? ' is-invalid' : ''), 'accept' => 'image/png,image/jpg,image/jpeg','data-default-file' => $slider->image ? $slider->image : '', $slider->image ? '' : 'required','data-height' => '275']) }}
         {!! $errors->first('image', '<div class="invalid-feedback">:message</div>') !!}
     </div>
+    <div class="form-group col-md-6 heading" style="display: none;">
+        {{ Form::label('heading') }}
+        {{ Form::text('heading', $slider->heading, ['class' => 'form-control' . ($errors->has('heading') ? ' is-invalid' : ''), 'placeholder' => 'Heading']) }}
+        {!! $errors->first('heading', '<div class="invalid-feedback">:message</div>') !!}
+    </div>
+    <div class="form-group col-md-6 subheading" style="display: none;">
+        {{ Form::label('sub_heading') }}
+        {{ Form::text('sub_heading', $slider->sub_heading, ['class' => 'form-control' . ($errors->has('sub_heading') ? ' is-invalid' : ''), 'placeholder' => 'Sub Heading']) }}
+        {!! $errors->first('sub_heading', '<div class="invalid-feedback">:message</div>') !!}
+    </div>
     <div class="col-md-12 d-flex justify-content-end align-items-center mt-3">
         <button type="submit" class="btn btn-primary ms-3">
             Submit <i class="ph-paper-plane-tilt ms-2"></i>
