@@ -35,6 +35,12 @@ class PermissionSeeder extends Seeder
                   'categories-subEdit', 
                   'categories-subDelete',
 
+                  'compositions-list', 
+                  'compositions-view', 
+                  'compositions-create', 
+                  'compositions-edit', 
+                  'compositions-delete',
+
                   'products-list', 
                   'products-view', 
                   'products-create', 

@@ -24,6 +24,7 @@ class ProductSeeder extends Seeder
                 'category_id'       => $row['category_id'],
                 'sub_category_id'   => $row['sub_category_id'],
                 'name'              => $row['name'],
+                'composition_id'    => Null,
                 'description'       => $row['description'],
                 'thumbnail'         => $row['thumbnail'],
                 'quantity'          => $row['quantity'],

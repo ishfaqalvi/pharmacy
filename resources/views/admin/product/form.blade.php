@@ -20,9 +20,9 @@
         {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="form-group col-lg-6 mb-3">
-        {{ Form::label('formula') }}
-        {{ Form::text('formula', $product->formula, ['class' => 'form-control' . ($errors->has('formula') ? ' is-invalid' : ''), 'placeholder' => 'Formula','required']) }}
-        {!! $errors->first('formula', '<div class="invalid-feedback">:message</div>') !!}
+        {{ Form::label('composition') }}
+        {{ Form::select('composition_id', compositions(), $product->composition_id, ['class' => 'form-control select' . ($errors->has('composition_id') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
+        {!! $errors->first('composition_id', '<div class="invalid-feedback">:message</div>') !!}
     </div>
      <div class="form-group col-lg-6 mb-3">
         {{ Form::label('quantity') }}

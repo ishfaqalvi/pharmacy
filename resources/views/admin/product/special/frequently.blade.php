@@ -71,7 +71,7 @@
                             </a>
                             <div class="d-inline-flex align-items-center text-muted fs-sm">
                                 <span class="bg-secondary rounded-pill p-1 me-1"></span>
-                                {{ $product->formula }}
+                                {{ $product->composition?->formula }}
                             </div>
                         </td>
                         <td>

@@ -8,6 +8,14 @@
         <span>Dashboard</span>
     </a>
 </li>
+@can('compositions-list')
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('compositions') ? 'active' : ''}}" href="{{ route('compositions.index') }}">
+        <i class="ph-atom"></i>
+        <span>Compositions</span>
+    </a>
+</li>
+@endcan
 @canany(['brands-list','brands-popularList'])
 <li class="nav-item nav-item-submenu {{ request()->is('admin/brands*') ? 'nav-item-open' : ''}}">
     <a href="#" class="nav-link">

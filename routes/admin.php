@@ -26,8 +26,8 @@ Route::controller(BrandController::class)->prefix('brands')->as('brands.')->grou
 	Route::delete('delete/{id}',		'destroy'		)->name('destroy'	 	 	);
 	Route::get('popular/list',			'popular'		)->name('popular.index'	 	);
 	Route::post('popular/list',			'popular'		)->name('popular.filter'	);
-	Route::post('popular/store',		'subStore'		)->name('popular.store'  	);
-	Route::delete('popular/delete/{id}','subDestroy'	)->name('popular.destroy'	);
+	Route::post('popular/store',		'popularStore'	)->name('popular.store'  	);
+	Route::delete('popular/delete/{id}','popularDestroy')->name('popular.destroy'	);
     Route::post('popular/check_brand',	'checkBrand'	)->name('popular.checkBrand');
 });
 
@@ -51,6 +51,13 @@ Route::controller(CategoryController::class)->prefix('categories')->as('categori
 	Route::post('sub/update',			'subUpdate'	)->name('sub.update'  	);
 	Route::delete('sub/delete/{id}',	'subDestroy')->name('sub.destroy'	);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Compositions Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('compositions', CompositionController::class);
 
 /*
 |--------------------------------------------------------------------------

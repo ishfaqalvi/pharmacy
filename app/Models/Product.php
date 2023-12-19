@@ -52,7 +52,7 @@ class Product extends Model implements Auditable
         'category_id',
         'sub_category_id',
         'name',
-        'formula',
+        'composition_id',
         'description',
         'thumbnail',
         'quantity',
@@ -157,6 +157,14 @@ class Product extends Model implements Auditable
     public function subCategory()
     {
         return $this->hasOne('App\Models\SubCategory', 'id', 'sub_category_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function composition()
+    {
+        return $this->hasOne('App\Models\Composition', 'id', 'composition_id');
     }
     
     /**

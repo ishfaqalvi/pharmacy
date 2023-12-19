@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
             $table->foreignId('sub_category_id')->references('id')->on('sub_categories')->cascadeOnDelete();
             $table->string('name');
-            $table->string('formula')->nullable();
+            $table->integer('composition_id')->nullable();
             $table->text('description')->nullable();
             $table->text('thumbnail');
             $table->integer('quantity');

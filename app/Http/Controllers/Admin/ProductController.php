@@ -405,9 +405,9 @@ class ProductController extends Controller
      *
      * @return void
      */
-    public function getSubCategories(Request $request)
+    public function subCategories(Request $request)
     {
         $category = Category::find($request->id);
-        echo json_encode($category->subCategories);
+        echo json_encode($category->sub);
     }
 }

@@ -82,7 +82,7 @@
         });
         function sub_category_list(id,sub_category_id){
             $('select[name=sub_category_id]').html('<option>--Select--</option>');
-            $.get('/admin/products/sub_categories', {id: id}).done(function (result) {
+            $.get('/admin/products/sub-categories', {id: id}).done(function (result) {
                 let data = JSON.parse(result);
                 var selected_sub_category_id = 0;
                 $.each(data, function (i, val) {
