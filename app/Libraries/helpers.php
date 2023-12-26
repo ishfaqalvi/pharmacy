@@ -3,6 +3,7 @@
 
 use App\Models\Setting;
 use App\Models\Category;
+use App\Models\ProductPrice;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -56,4 +57,26 @@ function getFilter($collection, $filterables)
 function categoriesList()
 {
     return Category::all();
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function cart()
+{
+    $items = 0;
+    $total = 0;
+    $products = [];
+    if (auth()->user()) {
+        foreach(auth()->user()->cartProducts as $row){
+            $price = ProductPrice::find($row->price_id);
+            $total = $total + ($row->quantity * $price->new_price);
+            $items = $items + 1;
+            $products[] = $row;
+        }
+    }
+    $data = ['itmes' => $items, 'total' => $total, 'products' => $products];
+    return $data;
 }

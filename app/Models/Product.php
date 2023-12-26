@@ -113,10 +113,15 @@ class Product extends Model implements Auditable
                 $query->whereName($subCategory);
             });
         }
+        if (isset($request['formula'])) {
+            $formula = $request['formula'];
+            $query->whereHas('composition', function ($query) use ($formula) {
+                $query->whereFormula($formula);
+            });
+        }
         if (isset($request['search'])) {
             $query->where('name', 'like', '%'.$request['search'].'%')
-            ->orWhere('formula', 'like', '%'.$request['search'].'%')
-            ->orWhere('formula', 'like', '%'.$request['search'].'%');
+            ->orWhere('description', 'like', '%'.$request['search'].'%');
         }
         return $query;
     }

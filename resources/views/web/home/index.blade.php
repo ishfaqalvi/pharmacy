@@ -101,13 +101,17 @@
         </div>
         <div class="category-block">
             <div class="row g-0">
-                @foreach($categories as $category)
+                @foreach(categoriesList() as $category)
                 <div class="col-lg-2 col-md-4 col-sm-6">
                     <div class="category-block-single">
                         <a href="{{ route('product.index', ['category' => $category->name ])}}" class="icon">
                             <img src="{{ $category->logo }}" alt="">
                         </a>
-                        <h3><a href="#">{{ $category->name }}</a></h3>
+                        <h3>
+                            <a href="{{ route('product.index', ['category' => $category->name ])}}">
+                                {{ $category->name }}
+                            </a>
+                        </h3>
                     </div>
                 </div>
                 @endforeach
@@ -151,6 +155,7 @@
             ]'
         >
             @foreach($frequently as $product)
+            @php($price = $product->prices()->whereDefault('Yes')->first())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -168,19 +173,27 @@
                                 </li>
                             </ul>
                         </div>
-                        <span class="onsale-badge">Sale!</span>
+                        <span class="onsale-badge">{{ $price->title }}</span>
                     </div>
                     <div class="content">
-                        <h3>{{ $product->name }}</h3>
-                        @php($price = $product->prices()->where('default','Yes')->first())
+                        <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
                             @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
                             @endif
-                            <span>&#8360; {{ $price->new_price }}</span>
+                            <span>&#8360; 
+                                {{ $price->new_price }}
+                            </span>
                         </div>
                         <div class="btn-block">
-                            <a href="#" class="btn btn-outlined btn-rounded">Add to Cart</a>
+                            <form method="post" action="{{ route('cart.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+                                <button type="submit" class="btn btn-outlined btn-rounded">
+                                    Add to Cart
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -213,6 +226,7 @@
             ]'
         >
             @foreach($featured as $product)
+            @php($price = $product->prices()->whereDefault('Yes')->first())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -230,19 +244,27 @@
                                 </li>
                             </ul>
                         </div>
-                        <span class="onsale-badge">Sale!</span>
+                        <span class="onsale-badge">{{ $price->title }}</span>
                     </div>
                     <div class="content">
-                        <h3>{{ $product->name }}</h3>
-                        @php($price = $product->prices()->where('default','Yes')->first())
+                        <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
                             @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
                             @endif
-                            <span>&#8360; {{ $price->new_price }}</span>
+                            <span>&#8360; 
+                                {{ $price->new_price }}
+                            </span>
                         </div>
                         <div class="btn-block">
-                            <a href="#" class="btn btn-outlined btn-rounded">Add to Cart</a>
+                            <form method="post" action="{{ route('cart.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+                                <button type="submit" class="btn btn-outlined btn-rounded">
+                                    Add to Cart
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -275,6 +297,7 @@
             ]'
         >
             @foreach($menWomans as $product)
+            @php($price = $product->prices()->whereDefault('Yes')->first())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -292,19 +315,27 @@
                                 </li>
                             </ul>
                         </div>
-                        <span class="onsale-badge">Sale!</span>
+                        <span class="onsale-badge">{{ $price->title }}</span>
                     </div>
                     <div class="content">
-                        <h3>{{ $product->name }}</h3>
-                        @php($price = $product->prices()->where('default','Yes')->first())
+                        <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
                             @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
                             @endif
-                            <span>&#8360; {{ $price->new_price }}</span>
+                            <span>&#8360; 
+                                {{ $price->new_price }}
+                            </span>
                         </div>
                         <div class="btn-block">
-                            <a href="#" class="btn btn-outlined btn-rounded">Add to Cart</a>
+                            <form method="post" action="{{ route('cart.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+                                <button type="submit" class="btn btn-outlined btn-rounded">
+                                    Add to Cart
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -333,26 +364,35 @@
                 {"breakpoint":991, "settings": {"slidesToShow": 2} },
                 {"breakpoint":768, "settings": {"slidesToShow": 1} }
             ]'>
-            @foreach($featured as $product)
+            @foreach($wellness as $product)
+            @php($price = $product->prices()->whereDefault('Yes')->first())
             <div class="single-slide">
                 <div class="pm-product  product-type-list">
                     <div class="image">
                         <a href="{{ route('product.show', $product->id)}}">
                             <img src="{{ $product->thumbnail }}" alt="">
                         </a>
-                        <span class="onsale-badge">Sale!</span>
+                        <span class="onsale-badge">{{ $price->title }}</span>
                     </div>
                     <div class="content">
-                        @php($price = $product->prices()->where('default','Yes')->first())
                         <h3>{{ $product->name }}</h3>
                         <div class="price text-red">
                             @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
                             @endif
-                            <span>&#8360; {{ $price->new_price }}</span>
+                            <span>&#8360; 
+                                {{ $price->new_price }}
+                            </span>
                         </div>
                         <div class="btn-block">
-                            <a href="#" class="btn btn-outlined btn-rounded">Add to Cart</a>
+                            <form method="post" action="{{ route('cart.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+                                <button type="submit" class="btn btn-outlined btn-rounded">
+                                    Add to Cart
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

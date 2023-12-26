@@ -36,14 +36,14 @@
             <!-- Template Logo -->
             <div class="col-lg-3 col-md-12 col-sm-4">
                 <div class="site-brand  text-center text-lg-start">
-                    <a href="index.html" class="brand-image">
-                        <img src="{{ asset('assets/web/image/main-logo.png') }}" alt="">
+                    <a href="{{ route('home') }}" class="brand-image">
+                        <img src="{{ asset('assets/web/image/logo/sakoon125tran.png') }}" alt="">
                     </a>
                 </div>
             </div>
             <!-- Category With Search -->
             <div class="col-lg-5 col-md-7 order-3 order-md-2">
-                <form class="category-widget">
+                <form class="category-widget" method="get" action="{{ route('product.index') }}">
                     <input type="text" name="search" placeholder="Search products">
                     <div class="search-form__group search-form__group--select">
                         <select name="category" id="searchCategory" class="search-form__select nice-select">
@@ -76,11 +76,16 @@
                         </li>
                         <li>
                             @auth
-                                <a href="{{ route('user.profile') }}">
-                                    <i class="fas fa-user"></i> {{ Auth::user()->name }}
+                            <form method="POST" action="{{ route('web.logout') }}">
+                                @csrf
+                                <a 
+                                    href="{{ route('web.logout') }}" 
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <i class="fas fa-user"></i> Logout
                                 </a>
+                            </form>
                             @else
-                                <a href="{{ route('register') }}">
+                                <a href="{{ route('web.showLoginForm') }}">
                                     <i class="fas fa-user"></i> Register or Sign in
                                 </a>
                             @endauth

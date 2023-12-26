@@ -17,13 +17,6 @@ class User extends Authenticatable implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-    use UsersFilter, Filterable;
-
-    private static $whiteListFilter = [
-        'name',
-        'email',
-        'status',
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +26,7 @@ class User extends Authenticatable implements Auditable
     protected $fillable = [
         'name',
         'email',
+        'phone_number',
         'password',
         'image'
     ];
@@ -63,7 +57,9 @@ class User extends Authenticatable implements Auditable
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        if ($value) {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 
     /**
@@ -88,5 +84,13 @@ class User extends Authenticatable implements Auditable
     public function getImageAttribute($image)
     {
         return asset($image);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cartProducts()
+    {
+        return $this->hasMany('App\Models\Cart', 'user_id', 'id');
     }
 }

@@ -59,7 +59,7 @@
                             <a href="#" class="mainmenu__link">Contact</a>
                         </li>
                         <li class="mainmenu__item">
-                            <a href="#" class="mainmenu__link">My Account</a>
+                            <a href="{{ route('user.profile') }}" class="mainmenu__link">My Account</a>
                         </li>
                     </ul>
                     <!-- Mainmenu End -->
@@ -68,50 +68,7 @@
             <!-- Cart block-->
             <div class="col-lg-2 col-6 offset-6 offset-md-0 col-md-3 order-3">
                 <div class="cart-widget-wrapper slide-down-wrapper">
-                    <div class="cart-widget slide-down--btn">
-                        <div class="cart-icon">
-                            <i class="ion-bag"></i>
-                            <span class="cart-count-badge">
-                                1
-                            </span>
-                        </div>
-                        <div class="cart-text">
-                            <span class="d-block">Your cart</span>
-                            <strong>
-                                <span class="amount"><span class="currencySymbol">$</span>40.00</span>
-                            </strong>
-                        </div>
-                    </div>
-                    <div class="slide-down--item ">
-                        <div class="cart-widget-box">
-                            <ul class="cart-items">
-                                <li class="single-cart">
-                                    <a href="#" class="cart-product">
-                                        <div class="cart-product-img">
-                                            <img src="{{ asset('assets/web/image/product/cart-product.jpg') }}" alt="Selected Products">
-                                        </div>
-                                        <div class="product-details">
-                                            <h4 class="product-details--title"> Ras Neque Metus</h4>
-                                            <span class="product-details--price">1 x $120.00</span>
-                                        </div>
-                                        <span class="cart-cross">x</span>
-                                    </a>
-                                </li>
-                                <li class="single-cart">
-                                    <div class="cart-product__subtotal">
-                                        <span class="subtotal--title">Subtotal</span>
-                                        <span class="subtotal--price">$200</span>
-                                    </div>
-                                </li>
-                                <li class="single-cart">
-                                    <div class="cart-buttons">
-                                        <a href="cart.html" class="btn btn-outlined">View Cart</a>
-                                        <a href="checkout.html" class="btn btn-outlined">Check Out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    @include('web.include.product.cart')
                 </div>
             </div>
             <!-- Mobile Menu -->
@@ -130,8 +87,8 @@
         <div class="row align-items-center">
             <div class="col-lg-3">
                 <!-- Sticky Logo Start -->
-                <a class="sticky-logo" href="index.html">
-                    <img src="{{ asset('assets/web/image/main-logo.png') }}" alt="logo">
+                <a class="sticky-logo" href="{{ route('home') }}">
+                    <img src="{{ asset('assets/web/image/logo/sakoon125tran.png') }}" alt="logo">
                 </a>
                 <!-- Sticky Logo End -->
             </div>
@@ -156,7 +113,9 @@
                             <a href="#" class="mainmenu__link">Contact</a>
                         </li>
                         <li class="mainmenu__item">
-                            <a href="#" class="mainmenu__link">My Account</a>
+                            <a href="{{ route('user.profile') }}" class="mainmenu__link">
+                                My Account
+                            </a>
                         </li>
                     </ul>
                     <div class="sticky-mobile-menu  d-lg-none">

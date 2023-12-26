@@ -69,7 +69,7 @@ jQuery(document).ready(function () {
                 $("#js-cat-nav").slideToggle(500);
             });
             $(".js-expand-hidden-menu").on('click', function (e) {
-                e.preventDefault();
+                // e.preventDefault();
                 $(".hidden-menu-item").toggle(500);
                 if (window_width <= 1200) {
                     $(".hidden-lg-menu-item").toggle(500);
@@ -88,7 +88,7 @@ jQuery(document).ready(function () {
 
         function categoryMenuExpandInMobile() {
             $('.has-children').on('click', function (e) {
-                e.preventDefault();
+                // e.preventDefault();
                 $(this).find('.category-nav__submenu').slideToggle('500');
             });
         }

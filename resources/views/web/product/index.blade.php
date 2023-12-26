@@ -15,7 +15,22 @@
 </nav>
 <main class="section-padding shop-page-section">
   	<div class="container">
-    	{{ $products->links('web.include.product.toolbar') }}
+  		<div class="shop-toolbar mb--30">
+			<div class="row align-items-center">
+				<div class="col-5 col-md-3 col-lg-4">
+		  		<!-- Product View Mode -->
+		  			<div class="product-view-mode">
+		    			<a href="#" class="sortting-btn active" data-bs-target="list ">
+		    				<i class="fas fa-list"></i>
+		    			</a>
+		    			<a href="#" class="sortting-btn" data-bs-target="grid">
+		    				<i class="fas fa-th"></i>
+		    			</a>
+		  			</div>
+				</div>
+				{{ $products->links('web.include.product.toolbar') }}	
+			</div>
+		</div>
     	<div class="shop-product-wrap list with-pagination row border grid-four-column me-0 ms-0 g-0">
       		@foreach($products as $product)
       		<div class="col-lg-3 col-sm-6">
@@ -56,9 +71,14 @@
               				<span>&#8360; {{ $price->new_price }}</span>
             			</div>
             			<div class="btn-block grid-btn">
-              				<a href="cart.html" class="btn btn-outlined btn-rounded btn-mid" tabindex="0">
-              					Add to Cart
-              				</a>
+            				<form method="post" action="{{ route('cart.store') }}">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+                                <button type="submit" class="btn btn-outlined btn-rounded btn-mid">
+                                    Add to Cart
+                                </button>
+                            </form>
             			</div>
             			<div class="card-list-content ">
               				<div class="rating-widget mt--20">
@@ -73,9 +93,15 @@
                   				<p>{{ $product->description }}</p>
               				</article>
               				<div class="btn-block d-flex">
-                				<a href="cart.html" class="btn btn-outlined btn-rounded btn-mid" tabindex="0">
-                				Add to Cart</a>
-                				<div class="btn-options">
+              					<form method="post" action="{{ route('cart.store') }}">
+	                                @csrf
+	                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+	                                <input type="hidden" name="price_id" value="{{ $price->id }}">
+	                                <button type="submit" class="btn btn-outlined btn-rounded btn-mid">
+	                                    Add to Cart
+	                                </button>
+	                            </form>
+                				<div class="btn-options ms-2">
                   					<a href="wishlist.html">
                   						<i class="ion-ios-heart-outline"></i>Add to Wishlist
                   					</a>
