@@ -135,7 +135,6 @@
 	    coderesult.confirm(code).then(function (result) {
 	        var user = result.user;
 	        sendFormData();
-	        $("#submitForm").submit();
 	    }).catch(function (error) {
 	        showToast('error', error.message);
 	    }).finally(() => {
