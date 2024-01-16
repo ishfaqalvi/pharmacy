@@ -21,8 +21,8 @@ class SettingsSeeder extends Seeder
                 'value' => '15',
             ],
             [
-                'key' 	=> 'footer_logo',
-                'value' => 'upload/images/settings/derivative-calculator-logo.webp',
+                'key' 	=> 'shiping_charges',
+                'value' => '200',
             ],
             [
                 'key'   => 'page_title_icon',

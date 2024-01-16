@@ -28,6 +28,9 @@ class User extends Authenticatable implements Auditable
         'email',
         'phone_number',
         'password',
+        'city_id',
+        'address',
+        'contact_number',
         'image'
     ];
 
@@ -70,7 +73,7 @@ class User extends Authenticatable implements Auditable
     public function setImageAttribute($image)
     {
         if ($image) {
-            $this->attributes['image'] = uploadFile($image, 'profile', '100', '100');
+            $this->attributes['image'] = uploadFile($image, 'profile', '150', '150');
         } else {
             unset($this->attributes['image']);
         }
@@ -87,10 +90,26 @@ class User extends Authenticatable implements Auditable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function city()
+    {
+        return $this->hasOne('App\Models\City', 'id', 'city_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function cartProducts()
     {
         return $this->hasMany('App\Models\Cart', 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wishProducts()
+    {
+        return $this->hasMany('App\Models\Wishlist', 'user_id', 'id');
     }
 }

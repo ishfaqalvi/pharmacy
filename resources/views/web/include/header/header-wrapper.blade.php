@@ -76,14 +76,9 @@
                         </li>
                         <li>
                             @auth
-                            <form method="POST" action="{{ route('web.logout') }}">
-                                @csrf
-                                <a 
-                                    href="{{ route('web.logout') }}" 
-                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <i class="fas fa-user"></i> Logout
+                                <a href="{{ route('user.profile') }}">
+                                    <i class="fas fa-user"></i> {{ auth()->user()->name }}
                                 </a>
-                            </form>
                             @else
                                 <a href="{{ route('web.showLoginForm') }}">
                                     <i class="fas fa-user"></i> Register or Sign in

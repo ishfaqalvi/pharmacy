@@ -38,15 +38,15 @@
 						<div class="row" id="dataRow">
 							<div class="col-md-12 col-12 mb--20">
 								<label>Name *</label>
-								<input class="mb-0" type="text" name="name" required="required" placeholder="Your Name">
+								<input class="mb-0" type="text" name="name" id="name" placeholder="Your Name">
 							</div>
 							<div class="col-md-12 col-12 mb--20">
 								<label>Email Address *</label>
-								<input class="mb-0" type="email" name="email" required="required" placeholder="abc@example.com">
+								<input class="mb-0" type="email" name="email" id="email" placeholder="abc@example.com">
 							</div>
 							<div class="col-12 mb--20">
 								<label>Phone Number *</label>
-								<input class="mb-0" type="tel" name="phone_number" id="number" required="required" pattern="\+[0-9]{1,3}-[0-9]{6,12}" placeholder="+923001234567">
+								<input class="mb-0" type="tel" name="phone_number" id="number" required="required" pattern="\+[0-9]{1,3}-[0-9]{6,12}" placeholder="3001234567">
 							</div>
 							<div class="col-md-12">
 								<div class="d-flex align-items-center flex-wrap">
@@ -76,6 +76,9 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+@endsection
+
+@section('script')
 <script>
     var firebaseConfig = {
         apiKey: "AIzaSyCbkgvDAAa7BauY2EPVahYt7WIeoUqJlTo",
@@ -101,37 +104,93 @@
 		  	}
 		});
     }
-    function sendOTP() {
-    	$("#error").hide();
-    	$("#overlay").show('slow');
-        var number = $("#number").val();
-        firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
-            window.confirmationResult = confirmationResult;
-            coderesult = confirmationResult;
-            $("#successAuth").text("Message sent successfully! Check Your Phone.");
-            $("#successAuth").show();
-            $("#dataRow").hide();
-            $("#otpRow").show();
-            $("#overlay").hide('slow');
-        }).catch(function (error) {
-        	$("#successAuth").hide();
-            $("#error").text(error.message);
-            $("#error").show();
-            $("#overlay").hide('slow');
-        });
-    }
-    function verify() {
-    	$("#overlay").show('slow');
-        var code = $("#verification").val();
-        coderesult.confirm(code).then(function (result) {
-            var user = result.user;
-            $("#submitForm").submit();
-        }).catch(function (error) {
-        	$("#successAuth").hide();
-            $("#error").text(error.message);
-            $("#error").show();
-            $("#overlay").hide('slow');
-        });
-    }
+	function sendOTP() {
+	    var name = $("#name").val();
+	    var email = $("#email").val();
+	    var number = $("#number").val();
+	    if (isFormDataValid(name, email, number)) {
+	        var phone = convertToStandardFormat(number);
+	        if (phone) {
+	            showOverlay(true);
+	            firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
+	                .then(function (confirmationResult) {
+	                    window.confirmationResult = confirmationResult;
+	                    coderesult = confirmationResult;
+	                    $("#dataRow").hide();
+	                    $("#otpRow").show();
+	                    showToast('success', 'Message sent successfully! Check your phone.');
+	                }).catch(function (error) {
+	                    showToast('error', error.message);
+	                }).finally(() => {
+	                    showOverlay(false);
+	                });
+	        } else {
+	            showToast('error', 'Phone number format is invalid!');
+	        }
+	    }
+	}
+	function verify() {
+	    showOverlay(true);
+	    var code = $("#verification").val();
+	    coderesult.confirm(code).then(function (result) {
+	        var user = result.user;
+	        sendFormData();
+	        $("#submitForm").submit();
+	    }).catch(function (error) {
+	        showToast('error', error.message);
+	    }).finally(() => {
+	        showOverlay(false);
+	    });
+	}
+	function sendFormData() {
+	    $.ajax({
+	        url: '/login',
+	        type: 'POST',
+	        data: {
+	            name: $("#name").val(),
+	            email: $("#email").val(),
+	            phone_number: convertToStandardFormat($("#number").val()),
+	            _token: $('meta[name="csrf-token"]').attr('content')
+	        },
+	        success: function (response) {
+	            showToast('success', response.message);
+	            window.location.href = '/user/profile';
+	        },
+	        error: function (xhr) {
+	            showToast('error', errorMessage);
+	        }
+	    });
+	}
+	function showOverlay(show) {
+	    if(show) {
+	        $("#overlay").show('slow');
+	    } else {
+	        $("#overlay").hide('slow');
+	    }
+	}
+	function showToast(type, message) {
+	    toastr[type](message);
+	}
+	function isFormDataValid(name, email, number) {
+	    if(!name || !email || !number) {
+	        showToast('warning', 'Please fill all fields!');
+	        return false;
+	    }
+	    return true;
+	}
+	function convertToStandardFormat(number) {
+	    number = number.replace(/[^0-9]/g, '');
+	    if(number.length === 12 && number.startsWith('92')) {
+	        return '+' + number;
+	    }
+	    else if(number.length === 11 && number.startsWith('03')) {
+	        return '+92' + number.substring(1);
+	    }
+	    else if(number.length === 10) {
+	        return '+92' + number;
+	    }else {
+	    	return false;
+	    }
+	}
 </script>
 @endsection

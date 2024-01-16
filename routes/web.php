@@ -87,9 +87,30 @@ Route::group(['namespace' => 'App\Http\Controllers\Web','middleware' => ['web','
 	|--------------------------------------------------------------------------
 	*/
 	Route::controller(CartController::class)->prefix('cart')->group(function () {
-		Route::get('index',			'index'  )->name('cart.index'  );
+		Route::get('',				'index'  )->name('cart.index'  );
 		Route::post('store',		'store'  )->name('cart.store'  );
 		Route::post('update',		'update' )->name('cart.update' );
-		Route::delete('delete/{id}','destroy')->name('cart.destroy');
+		Route::post('delete',		'destroy')->name('cart.destroy');
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Checkout Routes
+	|--------------------------------------------------------------------------
+	*/
+	Route::controller(OrderController::class)->group(function () {
+		Route::get('checkout',  'checkout')->name('checkout');
+		Route::post('store',	'store')->name('store');
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Wishlist Routes
+	|--------------------------------------------------------------------------
+	*/
+	Route::controller(WishlistController::class)->prefix('wishlist')->group(function () {
+		Route::get('',				'index'  )->name('wishlist.index'  );
+		Route::post('store',		'store'  )->name('wishlist.store'  );
+		Route::post('delete',		'destroy')->name('wishlist.destroy');
 	});
 });

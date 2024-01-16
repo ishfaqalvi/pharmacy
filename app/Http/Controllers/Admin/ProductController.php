@@ -119,7 +119,6 @@ class ProductController extends Controller
         $page      = $request->page;
         $products  = Product::where(function ($query) use ($parameter) {
                         $query->where('name', 'LIKE', '%' . $parameter . '%')
-                        ->orWhere('formula', 'LIKE', '%' . $parameter . '%')
                         ->orWhere('description', 'LIKE', '%' . $parameter . '%');
                     })->paginate(10, ['*'], 'page', $page)->toArray();
         return $products;

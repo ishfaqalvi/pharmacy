@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('assets/web/css/plugins.css') }}"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('assets/web/css/main.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/web/css/custom.css') }}"/>
     <link rel="shortcut icon" href="{{ asset('assets/web/image/favicon.ico') }}" type="image/x-icon">
     <title>@yield('page_title')</title>
 </head>
-<body class="">
+<body class="@if (str_contains(url()->full(), '/products/show')) elevet-enable @endif">
     <div id="overlay" style="display:none;">
         <div class="spinner"></div>
         <br/>
@@ -44,8 +45,10 @@
         </footer>
         <!-- Site Footer End -->
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('assets/web/js/plugins.js') }}"></script>
-    <script src="{{ asset('assets/web/js/ajax-mail.js') }}"></script>
+    <script src="{{ asset('assets/web/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/web/js/custom.js') }}"></script>
     @yield('script')
 </body>

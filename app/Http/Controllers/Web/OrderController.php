@@ -1,31 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\API;
-use App\Http\Controllers\API\BaseController;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SubCategory;
 
-class SubCategoryController extends BaseController
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function checkout()
     {
-        return $this->sendResponse(SubCategory::get(), 'Sub Category list get successfully.');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('web.checkout.index');
     }
 
     /**

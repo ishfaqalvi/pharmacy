@@ -131,7 +131,6 @@
         </a>
     </div>
 </section>
-
 <!-----------------------------------------------------------------------------------
 						FREQUENTLY ORDERD PRODUCTS SECTION
 ------------------------------------------------------------------------------------>
@@ -155,7 +154,7 @@
             ]'
         >
             @foreach($frequently as $product)
-            @php($price = $product->prices()->whereDefault('Yes')->first())
+            @php($price = $product->price())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -164,7 +163,11 @@
                         </a>
                         <div class="hover-conents">
                             <ul class="product-btns">
-                                <li><a href="#"><i class="ion-ios-heart-outline"></i></a></li>
+                                <li>
+                                    <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
+                                        <i class="ion-ios-heart-outline"></i>
+                                    </a>
+                                </li>
                                 <li><a href="#"><i class="ion-ios-shuffle"></i></a></li>
                                 <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#productPreview">
@@ -186,14 +189,7 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <form method="post" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-                                <button type="submit" class="btn btn-outlined btn-rounded">
-                                    Add to Cart
-                                </button>
-                            </form>
+                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -226,7 +222,7 @@
             ]'
         >
             @foreach($featured as $product)
-            @php($price = $product->prices()->whereDefault('Yes')->first())
+            @php($price = $product->price())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -235,7 +231,11 @@
                         </a>
                         <div class="hover-conents">
                             <ul class="product-btns">
-                                <li><a href="#"><i class="ion-ios-heart-outline"></i></a></li>
+                                <li>
+                                    <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
+                                        <i class="ion-ios-heart-outline"></i>
+                                    </a>
+                                </li>
                                 <li><a href="#"><i class="ion-ios-shuffle"></i></a></li>
                                 <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#producPreview">
@@ -257,14 +257,7 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <form method="post" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-                                <button type="submit" class="btn btn-outlined btn-rounded">
-                                    Add to Cart
-                                </button>
-                            </form>
+                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -297,7 +290,7 @@
             ]'
         >
             @foreach($menWomans as $product)
-            @php($price = $product->prices()->whereDefault('Yes')->first())
+            @php($price = $product->price())
             <div class="single-slide">
                 <div class="pm-product">
                     <div class="image">
@@ -306,7 +299,11 @@
                         </a>
                         <div class="hover-conents">
                             <ul class="product-btns">
-                                <li><a href="#"><i class="ion-ios-heart-outline"></i></a></li>
+                                <li>
+                                    <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
+                                        <i class="ion-ios-heart-outline"></i>
+                                    </a>
+                                </li>
                                 <li><a href="#"><i class="ion-ios-shuffle"></i></a></li>
                                 <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#producPreview">
@@ -328,14 +325,7 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <form method="post" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-                                <button type="submit" class="btn btn-outlined btn-rounded">
-                                    Add to Cart
-                                </button>
-                            </form>
+                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -365,7 +355,7 @@
                 {"breakpoint":768, "settings": {"slidesToShow": 1} }
             ]'>
             @foreach($wellness as $product)
-            @php($price = $product->prices()->whereDefault('Yes')->first())
+            @php($price = $product->price())
             <div class="single-slide">
                 <div class="pm-product  product-type-list">
                     <div class="image">
@@ -385,14 +375,7 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <form method="post" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-                                <button type="submit" class="btn btn-outlined btn-rounded">
-                                    Add to Cart
-                                </button>
-                            </form>
+                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
                         </div>
                     </div>
                 </div>

@@ -8,9 +8,17 @@
         <span>Dashboard</span>
     </a>
 </li>
+@can('orders-list')
+<li class="nav-item">
+    <a class="nav-link {{ request()->is('admin/orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}">
+        <i class="ph-shopping-cart"></i>
+        <span>Orders</span>
+    </a>
+</li>
+@endcan
 @can('compositions-list')
 <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('compositions') ? 'active' : ''}}" href="{{ route('compositions.index') }}">
+    <a class="nav-link {{ request()->is('admin/compositions*') ? 'active' : ''}}" href="{{ route('compositions.index') }}">
         <i class="ph-atom"></i>
         <span>Compositions</span>
     </a>
@@ -126,6 +134,14 @@
     <a class="nav-link {{ request()->routeIs('sliders') ? 'active' : ''}}" href="{{ route('sliders.index') }}">
         <i class="ph-house"></i>
         <span>Sliders</span>
+    </a>
+</li>
+@endcan
+@can('cities-list')
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('cities') ? 'active' : ''}}" href="{{ route('cities.index') }}">
+        <i class="ph-house"></i>
+        <span>Cities</span>
     </a>
 </li>
 @endcan

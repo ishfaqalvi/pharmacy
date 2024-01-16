@@ -13,39 +13,29 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function all(Request $request)
     {
-        $products = Product::with(['brand','category','subCategory','prices'])->get();
+        $relations = ['brand', 'category', 'subCategory', 'composition', 'prices', 'images'];
+        $products = Product::filter($request->all())->with($relations)->paginate();
 
-        return $this->sendResponse($products, 'Products list get successfully.');
+        return $this->sendResponse($products, 'All Products list get successfully.');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function special()
     {
-        try {
-            $product = Product::create($request->all());
-            $product->prices()->createMany($request->prices);
-            return $this->sendResponse('', 'Product created successfully.');
-        } catch (\Throwable $th) {
-            return $this->sendException($th->getMessage());
+        $specialTypes = ['Frequently', 'Featured', 'Wellness', 'Men & Woman'];
+        $relations = ['brand', 'category', 'subCategory', 'composition', 'prices', 'images'];
+        $data = [];
+
+        foreach ($specialTypes as $type) {
+            $key = strtolower(str_replace([' & ', ' '], ['And', ''], $type));
+            $data[$key] = Product::special($type)->with($relations)->get();
         }
-    }
-
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        Product::find($id)->delete();
-
-        return $this->sendResponse('', 'Product deleted successfully.');
+        return $this->sendResponse($data, 'Special Products list get successfully.');
     }
 }

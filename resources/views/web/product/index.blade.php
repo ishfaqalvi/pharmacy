@@ -41,7 +41,7 @@
           			<div class="hover-conents">
 	            		<ul class="product-btns">
 	              			<li>
-	              				<a href="wishlist.html" tabindex="0">
+	              				<a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
 	              					<i class="ion-ios-heart-outline"></i>
 	              				</a>
 	              			</li>
@@ -64,21 +64,14 @@
             				</a>
             			</h3>
             			<div class="price text-red">
-            				@php($price = $product->prices()->where('default','Yes')->first())
+            				@php($price = $product->price())
               				@if($price->new_price != $price->old_price)
               					<span class="old">&#8360; {{ $price->old_price }}</span>
               				@endif
               				<span>&#8360; {{ $price->new_price }}</span>
             			</div>
             			<div class="btn-block grid-btn">
-            				<form method="post" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-                                <button type="submit" class="btn btn-outlined btn-rounded btn-mid">
-                                    Add to Cart
-                                </button>
-                            </form>
+            				<a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
             			</div>
             			<div class="card-list-content ">
               				<div class="rating-widget mt--20">
@@ -93,18 +86,11 @@
                   				<p>{{ $product->description }}</p>
               				</article>
               				<div class="btn-block d-flex">
-              					<form method="post" action="{{ route('cart.store') }}">
-	                                @csrf
-	                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-	                                <input type="hidden" name="price_id" value="{{ $price->id }}">
-	                                <button type="submit" class="btn btn-outlined btn-rounded btn-mid">
-	                                    Add to Cart
-	                                </button>
-	                            </form>
+	                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
                 				<div class="btn-options ms-2">
-                  					<a href="wishlist.html">
-                  						<i class="ion-ios-heart-outline"></i>Add to Wishlist
-                  					</a>
+                					<a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
+	              						<i class="ion-ios-heart-outline"></i>Add to Wishlist
+	              					</a>
                   					<a href="compare.html">
                   						<i class="ion-ios-shuffle"></i>Add to Compare
                   					</a>

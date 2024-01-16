@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('old_price', 9, 2);
             $table->decimal('new_price', 9, 2);
             $table->decimal('discount', 9, 2)->default(0);
-            $table->enum('default', ['Yes', 'No']);
+            $table->enum('default', ['Yes', 'No'])->default('No');
             $table->timestamps();
         });
     }

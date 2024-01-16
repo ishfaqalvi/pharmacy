@@ -32,8 +32,14 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        auth()->user()->cartProducts()->create($request->all());
-        return redirect()->back();
+        $check = auth()->user()->cartProducts()->where('product_id',$request->product_id)->first();
+        if ($check) {
+            $response = ['state' => 'warning', 'message' => 'Product already exist in cart!'];
+        }else{
+            auth()->user()->cartProducts()->create($request->all());
+            $response = ['state' => 'success', 'cartData' => cart(),'message' => 'Product added to cart successfully!'];
+        }
+        return response()->json($response);
     }
 
     /**
@@ -49,7 +55,7 @@ class CartController extends Controller
             $cart = Cart::find($item['itemId']);
             $cart->update(['price_id' => $item['priceId'], 'quantity' => $item['quantity']]);
         }
-        return redirect()->back()->with('success', 'Cart updated successfully.');
+        return response()->json(['message' => 'Cart updated successfully!','cartData' => cart(),]);
     }
 
     /**
@@ -57,10 +63,9 @@ class CartController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $cart = Cart::find($id)->delete();
-
-        return redirect()->back();
+        $cart = Cart::find($request->id)->delete();
+        return response()->json(['message' => 'Product removed from cart successfully!','cartData' => cart(),]);
     }
 }

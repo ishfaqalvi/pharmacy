@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function profile()
     {
-        return view('web.user.profile');
+        return view('web.user.index');
     }
 
     /**
@@ -27,6 +27,6 @@ class UserController extends Controller
     public function update(Request $request)
     {
         auth()->user()->update($request->all());
-        return redirect()->back()->with('success', 'Your profile updated successfully.');
+        return response()->json(['message' => 'Your profile updated successfully!']);
     }
 }

@@ -14,18 +14,15 @@
     	</ol>
   	</div>
 </nav>
+@php($defaultPrice = $product->price())
 <main class="product-details-section">
   	<div class="container">
     	<div class="pm-product-details">
       		<div class="row">
-        	<!-- Blog Details Image Block -->
         		<div class="col-md-6">
           			<div class="image-block">
-            		<!-- Zoomable IMage -->
             			<img id="zoom_03" src="{{ $product->thumbnail }}" data-zoom-image="{{ $product->thumbnail }}" alt="" width="400px" height="400px"/>
-            			<!-- Product Gallery with Slick Slider -->
             			<div id="product-view-gallery" class="elevate-gallery">
-	              			<!-- Slick Single -->
 	              			@foreach($product->images as $gallery)
 			              	<a href="#" class="gallary-item" data-image="{{ $gallery->image }}"
 			                data-zoom-image="{{ $gallery->image }}">
@@ -56,27 +53,42 @@
               					<a href="#comment-form">(1 customer review)</a>
               				</p>
             			</div>
-            			<p class="price">
-            				@php($price = $product->prices()->where('default','Yes')->first())
-              				@if($price->new_price != $price->old_price)
-              					<span class="old-price">&#8360; {{ $price->old_price }}</span>
+  						<p class="price">
+              				@if($defaultPrice->new_price != $defaultPrice->old_price)
+              					<span class="old-price">&#8360; {{ $defaultPrice->old_price }}</span>
               				@endif
-            				&#8360; {{ $price->new_price }}
+              				&#8360; <span id="original_price">{{ $defaultPrice->new_price }}</span> 
             			</p>
+            			<div class="wrapper">
+            				@php($option = 0 )
+            				@foreach($product->prices as $key => $price)
+            				@php($option = ++$key)
+            				<input type="radio" id="option-{{ $option}}" name="price_id" data-price="{{$price->new_price}}"value="{{ $price->id }}" @if($price->default == 'Yes') checked @endif>
+  							<label class="option option-{{$option}}" for="option-{{$option}}">
+  								<div class="dot"></div>
+  								<span class="title">{{ $price->title }}</span>
+  							</label>
+            				@endforeach
+               			</div>
             			<div class="product-short-para">
               				<p>{{ $product->description }}</p>
             			</div>
             			<div class="status">
               				<i class="fas fa-check-circle"></i>{{ $product->quantity }} IN STOCK
             			</div>
-            			<form action="https://htmldemo.net/petmark/petmark/" class="add-to-cart">
+            			<div class="add-to-cart">
               				<div class="count-input-block">
-                				<input type="number" class="form-control text-center" value="1" min="1">
+                				<input type="number" id="quantity-input" class="form-control text-center" value="1" min="1">
               				</div>
               				<div class="btn-block">
-                				<a href="#" class="btn btn-rounded btn-outlined--primary">Add to cart</a>
+                				<a 
+                					href="javascript:void(0)" 
+                					class="addToCart btn btn-rounded btn-outlined--primary" 
+                					data-product-id="{{ $product->id }}">
+                					Add to Cart
+                				</a>
               				</div>
-            			</form>
+            			</div>
             			<div class="btn-options">
               				<a href="wishlist.html"><i class="ion-ios-heart-outline"></i>Add to Wishlist</a>
               				<a href="compare.html"><i class="ion-ios-shuffle"></i>Add to Compare</a>
@@ -260,4 +272,19 @@
 	    </div>
   	</section>
 </main>
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function() {
+	    $('.wrapper input[type="radio"][name="price_id"]').change(function() {
+	    	var selectedPriceId = $(this).val();
+	        var price = $(this).data('price');
+	        $('#original_price').text(price);
+	    });
+	    var defaultRadio = $('.wrapper input[type="radio"][name="price_id"]:checked');
+	    $('#hidden_price_id').val(defaultRadio.val());
+	    $('#original_price').text(defaultRadio.data('price'));
+	});
+</script>
 @endsection

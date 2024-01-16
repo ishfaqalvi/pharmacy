@@ -87,6 +87,16 @@ class Product extends Model implements Auditable
     }
 
     /**
+     * The get attributes.
+     *
+     * @var array
+     */
+    public function price()
+    {
+        return $this->prices()->whereDefault('yes')->first();
+    }
+
+    /**
      * Scope a query to filter product.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

@@ -1,19 +1,19 @@
 @extends('admin.layout.app')
 
 @section('title')
-    {{ $cart->name ?? "{{ __('Show') Cart" }}
+    {{ $city->name ?? "{{ __('Show') City" }}
 @endsection
 
 @section('header')
 <div class="page-header-content d-lg-flex">
     <div class="d-flex">
         <h4 class="page-title mb-0">
-            Home - <span class="fw-normal">Cart Managment</span>
+            Home - <span class="fw-normal">City Managment</span>
         </h4>
     </div>
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <a href="{{ route('carts.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            <a href="{{ route('cities.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-arrow-circle-left"></i>
                 </span>
@@ -28,19 +28,17 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">{{ __('Show') }} Cart</h5>
+            <h5 class="mb-0">{{ __('Show') }} City</h5>
         </div>
         <div class="card-body">
-            
-                        <div class="form-group mb-3">
-                            <strong>User Id:</strong>
-                            {{ $cart->user_id }}
-                        </div>
-                        <div class="form-group mb-3">
-                            <strong>Product Id:</strong>
-                            {{ $cart->product_id }}
-                        </div>
-
+            <div class="form-group mb-3">
+                <strong>Name:</strong>
+                {{ $city->name }}
+            </div>
+            <div class="form-group mb-3">
+                <strong>Status:</strong>
+                {{ $city->status }}
+            </div>
         </div>
     </div>
 </div>

@@ -16,6 +16,12 @@ class PermissionSeeder extends Seeder
       public function run()
       {
             $permissions = [ 
+                  'orders-list', 
+                  'orders-view', 
+                  'orders-create', 
+                  'orders-edit', 
+                  'orders-delete',
+
                   'brands-list', 
                   'brands-view', 
                   'brands-create', 
@@ -65,6 +71,12 @@ class PermissionSeeder extends Seeder
                   'sliders-create', 
                   'sliders-edit', 
                   'sliders-delete',
+
+                  'cities-list', 
+                  'cities-view', 
+                  'cities-create', 
+                  'cities-edit', 
+                  'cities-delete',
 
                   'roles-list', 
                   'roles-view', 

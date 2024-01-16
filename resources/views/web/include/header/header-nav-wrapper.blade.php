@@ -55,11 +55,18 @@
                         <li class="mainmenu__item">
                             <a href="#" class="mainmenu__link">About Us</a>
                         </li>
-                        <li class="mainmenu__item">
+                        <!-- <li class="mainmenu__item">
                             <a href="#" class="mainmenu__link">Contact</a>
+                        </li> -->
+                        <li class="mainmenu__item">
+                            <a href="{{ route('wishlist.index')}}" class="mainmenu__link">
+                                Wishlist
+                            </a>
                         </li>
                         <li class="mainmenu__item">
-                            <a href="{{ route('user.profile') }}" class="mainmenu__link">My Account</a>
+                            <a href="{{ route('user.profile') }}" class="mainmenu__link">
+                                My Account
+                            </a>
                         </li>
                     </ul>
                     <!-- Mainmenu End -->
@@ -109,8 +116,13 @@
                         <li class="mainmenu__item">
                             <a href="#" class="mainmenu__link">About Us</a>
                         </li>
-                        <li class="mainmenu__item">
+                        <!-- <li class="mainmenu__item">
                             <a href="#" class="mainmenu__link">Contact</a>
+                        </li> -->
+                        <li class="mainmenu__item">
+                            <a href="{{ route('wishlist.index')}}" class="mainmenu__link">
+                                Wishlist
+                            </a>
                         </li>
                         <li class="mainmenu__item">
                             <a href="{{ route('user.profile') }}" class="mainmenu__link">

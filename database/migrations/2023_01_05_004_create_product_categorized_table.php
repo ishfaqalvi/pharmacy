@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product_categorized', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
-            $table->enum('type',['Frequently','Featured','Wellness','Men & Woman']);
+            $table->enum('type',['Prescription','Frequently','Featured','Wellness','Men & Woman']);
             $table->timestamps();
         });
     }

@@ -17,6 +17,9 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        if (auth()->user()) {
+            return redirect()->route('user.profile');
+        }
         return view('web.auth.login');
     }
 
@@ -39,7 +42,7 @@ class LoginController extends Controller
             ['name' => $request->name, 'email' => $request->email]
         );
         Auth::login($user, true);
-        return redirect()->route('product.index');
+        return response()->json(['message' => 'You have been login successfully!']);
     }
 
     /**

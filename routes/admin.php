@@ -11,6 +11,22 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
+| Orders Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(OrderController::class)->prefix('orders')->as('orders.')->group(function () {
+	Route::get('list',					'index'		)->name('index'		);
+	Route::post('list',					'index'		)->name('filter'	);
+	Route::get('create',				'create'	)->name('create'	);
+	Route::post('store',				'store'		)->name('store'		);
+	Route::get('edit/{id}',				'edit'		)->name('edit'		);
+	Route::get('show/{id}',				'show'		)->name('show'		);
+	Route::patch('update/{order}',		'update'	)->name('update'	);
+	Route::delete('delete/{id}',		'destroy'	)->name('destroy'	);
+});
+
+/*
+|--------------------------------------------------------------------------
 | Brands Routes
 |--------------------------------------------------------------------------
 */
@@ -43,7 +59,7 @@ Route::controller(CategoryController::class)->prefix('categories')->as('categori
 	Route::post('store',				'store'		)->name('store'		 	);
 	Route::get('edit/{id}',				'edit'		)->name('all.edit'		);
 	Route::get('show/{id}',				'show'		)->name('all.show'		);
-	Route::patch('update/{brand}',		'update'	)->name('update'	 	);
+	Route::patch('update/{category}',	'update'	)->name('update'	 	);
 	Route::delete('delete/{id}',		'destroy'	)->name('destroy'	 	);
 	Route::get('sub/list',				'sub'		)->name('sub.index'	 	);
 	Route::post('sub/list',				'sub'		)->name('sub.filter'	);
@@ -81,6 +97,13 @@ Route::controller(SliderController::class)->prefix('sliders')->as('sliders.')->g
 	Route::delete('delete/{id}',	'destroy'		)->name('destroy'	 );
     Route::post('check_parent',		'checkParent'	)->name('checkParent');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Cities Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('cities', CityController::class);
 
 /*
 |--------------------------------------------------------------------------
