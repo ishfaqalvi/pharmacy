@@ -1,1 +1,1 @@
-# Integral-Calculator
+# Pharmacy
