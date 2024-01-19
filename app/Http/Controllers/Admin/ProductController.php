@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\ProductPrice;
-use App\Models\ProductCategorized;
-use App\Models\ProductRelated;
 use Illuminate\Http\Request;
+use App\Models\{Product,Category,ProductPrice,ProductCategorized,ProductRelated};
 
 /**
  * Class ProductController
@@ -214,8 +210,11 @@ class ProductController extends Controller
      */
     public function priceDestroy($id)
     {
-        ProductPrice::find($id)->delete();
-
+        $price = ProductPrice::find($id)->delete();
+        if ($price->default == 'Yes') {
+            return redirect()->back()->with('warning', 'Opps! You cannot delete default price.');    
+        }
+        $price->delete();
         return redirect()->back()->with('success', 'Product Price deleted successfully.');
     }
 

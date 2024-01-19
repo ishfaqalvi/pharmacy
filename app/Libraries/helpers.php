@@ -181,3 +181,36 @@ function cart()
         'dropdownHtml'=> $dropdownHtml
     ];
 }
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function orders()
+{
+    $tableHtml = '';
+    $orders = auth()->user()->orders()->whereUserState('Show')->get();
+    if (count($orders) > 0) {
+        foreach($orders as $key => $order){
+            $tableHtml .='<tr>
+                <td>'.++$key.'</td>
+                <td>'.$order->name.'</td>
+                <td>'.date('M d Y', $order->created_at->timestamp).'</td>
+                <td>'.$order->status.'</td>
+                <td>&#8360; '.$order->totalAmount+$order->shipping_cost.'</td>
+                <td>';
+                    if($order->status == 'Pending'){
+                        $tableHtml .='<a href="javascript:void(0)" class="cancelOrder" data-order-id="'.$order->id.'">Cancel</a>';
+                    }
+                    if($order->status == 'Cancelled' || $order->status == 'Completed'){
+                        $tableHtml .='<a href="javascript:void(0)" class="deleteOrder" data-order-id="'.$order->id.'">Delete</a>';
+                    }
+                $tableHtml .='</td>
+            </tr>';
+        }
+    }else{
+        $tableHtml .= '<tr><td colspan="6" class="text-center">No order found</td></tr>';
+    }
+    return $tableHtml;
+}

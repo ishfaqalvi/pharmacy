@@ -8,6 +8,14 @@
         <span>Dashboard</span>
     </a>
 </li>
+@can('customers-list')
+<li class="nav-item">
+    <a class="nav-link {{ request()->is('admin/customers*') ? 'active' : ''}}" href="{{ route('customers.index') }}">
+        <i class="ph-users-three"></i>
+        <span>Customers</span>
+    </a>
+</li>
+@endcan
 @can('orders-list')
 <li class="nav-item">
     <a class="nav-link {{ request()->is('admin/orders*') ? 'active' : ''}}" href="{{ route('orders.index') }}">

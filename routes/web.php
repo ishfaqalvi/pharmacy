@@ -99,8 +99,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Web','middleware' => ['web','
 	|--------------------------------------------------------------------------
 	*/
 	Route::controller(OrderController::class)->group(function () {
-		Route::get('checkout',  'checkout')->name('checkout');
-		Route::post('store',	'store')->name('store');
+		Route::get('checkout',   	'checkout')->name('checkout'   );
+		Route::post('order/store',	'store'	  )->name('order.store');
+		Route::post('order/cancel',	'cancel'  )->name('order.cancel');
+		Route::post('order/delete',	'delete'  )->name('order.delete');
 	});
 
 	/*

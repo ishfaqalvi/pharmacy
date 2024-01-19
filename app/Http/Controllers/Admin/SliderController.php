@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Slider;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\SubCategory;
-use App\Models\Product;
+use App\Models\{Slider,Brand,Category,SubCategory,Product};
 use Illuminate\Http\Request;
 
 /**

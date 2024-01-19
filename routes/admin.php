@@ -11,18 +11,41 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
+| Customer Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(CustomerController::class)->prefix('customers')->as('customers.')->group(function () {
+	Route::get('list',				 'index'	 )->name('index'  	 );
+	Route::post('list',				 'index'	 )->name('filter' 	 );
+	Route::get('create',			 'create'	 )->name('create' 	 );
+	Route::post('store',			 'store'	 )->name('store'  	 );
+	Route::get('edit/{id}',			 'edit'		 )->name('edit'	  	 );
+	Route::get('show/{id}',			 'show'		 )->name('show'	  	 );
+	Route::patch('update/{user}',    'update'	 )->name('update' 	 );
+	Route::delete('delete/{id}',	 'destroy'	 )->name('destroy'	 );
+	Route::post('check-phone', 		 'checkPhone')->name('checkPhone');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Orders Routes
 |--------------------------------------------------------------------------
 */
 Route::controller(OrderController::class)->prefix('orders')->as('orders.')->group(function () {
-	Route::get('list',					'index'		)->name('index'		);
-	Route::post('list',					'index'		)->name('filter'	);
-	Route::get('create',				'create'	)->name('create'	);
-	Route::post('store',				'store'		)->name('store'		);
-	Route::get('edit/{id}',				'edit'		)->name('edit'		);
-	Route::get('show/{id}',				'show'		)->name('show'		);
-	Route::patch('update/{order}',		'update'	)->name('update'	);
-	Route::delete('delete/{id}',		'destroy'	)->name('destroy'	);
+	Route::get('list',					 'index'		 )->name('index'		  );
+	Route::post('list',					 'index'		 )->name('filter'		  );
+	Route::get('create',				 'create'		 )->name('create'		  );
+	Route::post('store',				 'store'		 )->name('store'		  );
+	Route::get('edit/{id}',				 'edit'			 )->name('edit'			  );
+	Route::get('show/{id}',				 'show'			 )->name('show'			  );
+	Route::patch('update/{order}',		 'update'		 )->name('update'		  );
+	Route::delete('delete/{id}',		 'destroy'		 )->name('destroy'		  );
+	Route::get('product/search',		 'productSearch' )->name('product.search' );
+	Route::post('product/store',		 'productStore'  )->name('product.store'  );
+	Route::patch('product/update/{item}','productUdate'  )->name('product.update' );
+	Route::delete('product/delete/{id}', 'productDestroy')->name('product.destroy');
+	Route::post('product/check', 		 'productCheck'	 )->name('product.check'  );
+	Route::get('product/prices',    	 'productPrices' );
 });
 
 /*

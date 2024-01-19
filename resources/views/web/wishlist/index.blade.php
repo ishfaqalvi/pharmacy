@@ -24,9 +24,9 @@
                                 <th class="pro-thumbnail">Image</th>
                                 <th class="pro-title">Product</th>
                                 <th class="pro-title">Brand</th>
-                                <th class="pro-quantity">Formula</th>
                                 <th class="pro-price">Price</th>
                                 <th class="pro-remove">Remove</th>
+                                <th class="pro-remove">Add to Cart</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,15 +45,17 @@
                                 <td class="pro-title">
                                     {{ $wish->product->brand->name }}
                                 </td>
-                                <td class="pro-title">
-                                    {{ $wish->product->composition->formula ?? '' }}
-                                </td>
                                 <td class="pro-price">
                                     <span>&#8360; {{ $wish->product->price()->new_price }}</span>
                                 </td>
                                 <td class="pro-remove">
                                     <a href="javascript:void(0)" class="remove-from-wishlist" data-id="{{ $wish->id }}">
                                         <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td class="pro-remove">
+                                    <a href="javascript:void(0)" class="addToCart" data-product-id="{{ $wish->product->id }}" data-price-id="{{ $wish->product->price()->id }}">
+                                        <i class="fa fa-shopping-cart"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -29,8 +29,8 @@ class SettingsSeeder extends Seeder
                 'value' => 'upload/images/settings/derivative-favicon.png',
             ],
             [
-                'key'   => 'bazigate_website_url',
-                'value' => '',
+                'key'   => 'minimun_receiving_order_amount',
+                'value' => '1000',
             ],
             [
                 'key'   => 'facebook_link',

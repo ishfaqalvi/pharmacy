@@ -22,9 +22,12 @@ return new class extends Migration
             $table->string('email');
             $table->string('address');
             $table->string('contact_number');
+            $table->integer('shipping_cost')->nullable();
             $table->string('image')->nullable();
             $table->string('description');
             $table->enum('type',['Simple','Asan']);
+            $table->enum('admin_state',['Show','Hide'])->default('Show');
+            $table->enum('user_state',['Show','Hide'])->default('Show');
             $table->string('status')->default('Pending');
             $table->timestamps();
         });

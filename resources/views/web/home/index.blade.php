@@ -312,16 +312,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <span class="onsale-badge">{{ $price->title }}</span>
+                        <span class="onsale-badge">{{ $price->title ?? '' }}</span>
                     </div>
                     <div class="content">
                         <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
                             @if($price->new_price != $price->old_price)
-                                <span class="old">&#8360; {{ $price->old_price }}</span>
+                                <span class="old">&#8360; {{ $price->old_price ?? 0}}</span>
                             @endif
                             <span>&#8360; 
-                                {{ $price->new_price }}
+                                {{ $price->new_price ?? 0}}
                             </span>
                         </div>
                         <div class="btn-block">

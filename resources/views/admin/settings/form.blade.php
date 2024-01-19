@@ -7,4 +7,8 @@
     <div class="col-lg-8">
         <input type="text" name="values[shiping_charges]" class="form-control" value="{{ settings('shiping_charges') }}">
     </div>
+    <label class="col-lg-4 col-form-label">Minimum Receiving Order Amount  :</label>
+    <div class="col-lg-8">
+        <input type="text" name="values[minimun_receiving_order_amount]" class="form-control" value="{{ settings('minimun_receiving_order_amount') }}">
+    </div>
 </div>

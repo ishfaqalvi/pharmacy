@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->references('id')->on('orders')->cascadeOnDelete();
             $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
+            $table->foreignId('price_id')->references('id')->on('product_prices')->cascadeOnDelete();
             $table->integer('price');
             $table->integer('quantity')->default(1);
             $table->timestamps();

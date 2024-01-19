@@ -14,6 +14,12 @@
     @can('orders-create')
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+            <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
+                <span class="btn-labeled-icon bg-primary text-white rounded-pill">
+                    <i class="ph-funnel"></i>
+                </span>
+                Filter
+            </button>
             <a href="{{ route('orders.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
@@ -35,25 +41,23 @@
         <table class="table datatable-basic">
             <thead class="thead">
                 <tr>
-                    <th>No</th>
+                    <th>#</th>
 					<th>User Name</th>
-                    <th>Mobile #</th>
-					<th>City</th>
-					<th>Contact Number</th>
+					<th>Contact #</th>
+                    <th>Amount</th>
                     <th>Type</th>
 					<th>Status</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach ($orders as $key => $order)
+            @foreach ($orders as $order)
                 <tr>
-                    <td>{{ ++$key }}</td>
-					<td>{{ $order->user->name }}</td>
-                    <td>{{ $order->user->mobile_number }}</td>
-					<td>{{ $order->city->name }}</td>
+                    <td>{{ $order->order_number }}</td>
+					<td>{{ $order->name }}</td>
 					<td>{{ $order->contact_number }}</td>
-                    <td>{{ $order->type }}</td>
+                    <td>{{ $order->shipping_cost + $order->totalAmount }}</td>
+                    <td><span class="badge bg-secondary">{{ $order->type }}</span></td>
 					<td>{{ $order->status }}</td>
                     <td class="text-center">@include('admin.order.actions')</td>
                 </tr>

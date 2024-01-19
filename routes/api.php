@@ -91,4 +91,16 @@ Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group
 		Route::patch('update/{item}',    'update' );
         Route::delete('delete/{id}',     'destroy');
 	});
+
+    /*
+    |--------------------------------------------------------------------------
+    | Order Route
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(OrderController::class)->prefix('orders')->group(function () {
+        Route::get('list',               'index'  );
+        Route::post('store',             'store'  );
+        Route::patch('cancel/{order}',   'cancel' );
+        Route::delete('delete/{id}',     'destroy');
+    });
 });

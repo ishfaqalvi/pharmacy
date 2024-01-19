@@ -1,7 +1,7 @@
 <div class="myaccount-content">
 	<h3>Orders</h3>
 	<div class="myaccount-table table-responsive text-center">
-		<table class="table table-bordered">
+		<table class="table table-bordered" id="orderTable">
 			<thead class="thead-light">
 			<tr>
 				<th>No</th>
@@ -12,32 +12,24 @@
 				<th>Action</th>
 			</tr>
 			</thead>
-
-			<tbody>
-			<tr>
-				<td>1</td>
-				<td>Mostarizing Oil</td>
-				<td>Aug 22, 2018</td>
-				<td>Pending</td>
-				<td>$45</td>
-				<td><a href="cart.html" class="btn">View</a></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>Katopeno Altuni</td>
-				<td>July 22, 2018</td>
-				<td>Approved</td>
-				<td>$100</td>
-				<td><a href="cart.html" class="btn">View</a></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>Murikhete Paris</td>
-				<td>June 12, 2017</td>
-				<td>On Hold</td>
-				<td>$99</td>
-				<td><a href="cart.html" class="btn">View</a></td>
-			</tr>
+			<tbody id="orderTableBody">
+				@foreach(auth()->user()->orders()->whereUserState('Show')->get() as $key => $order)
+				<tr>
+					<td>{{ ++$key }}</td>
+					<td>{{ $order->name }}</td>
+					<td>{{ date('M d Y', $order->created_at->timestamp) }}</td>
+					<td>{{ $order->status }}</td>
+					<td>&#8360; {{ $order->totalAmount+$order->shipping_cost }}</td>
+					<td>
+						@if($order->status == 'Pending')
+						<a href="javascript:void(0)" class="cancelOrder" data-order-id="{{ $order->id}}">Cancel</a>
+						@endif
+						@if($order->status == 'Cancelled' || $order->status == 'Completed')
+						<a href="javascript:void(0)" class="deleteOrder" data-order-id="{{ $order->id}}">Delete</a>
+						@endif
+					</td>
+				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</div>

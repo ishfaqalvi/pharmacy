@@ -23,12 +23,10 @@ return [
     | Define the morph prefix and authentication guards for the User resolver.
     |
     */
-
-    'user'      => [
-        'morph_prefix' => 'user',
-        'guards'       => [
-            'web',
-            'api'
+    'user' => [
+        'morph_prefix' => 'admin',
+        'guards' => [
+            'admin',
         ],
         'resolver'     => OwenIt\Auditing\Resolvers\UserResolver::class
     ],

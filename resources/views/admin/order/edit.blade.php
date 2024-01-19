@@ -34,7 +34,7 @@
             <form method="POST" action="{{ route('orders.update', $order->id) }}" class="validate"   role="form" enctype="multipart/form-data">
                 @csrf
                 {{ method_field('PATCH') }}
-                 @include('admin.order.form')
+                @include('admin.order.form')
             </form>
         </div>
     </div>
@@ -44,6 +44,7 @@
 @section('script')
 <script>
     $(function(){
+        $(".select").select2();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',
             successClass: 'validation-valid-label',

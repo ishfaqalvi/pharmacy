@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Order;
+use App\Models\{Order, Product, OrderDetail, ProductPrice};
 use Illuminate\Http\Request;
 
 /**
@@ -33,7 +33,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::get();
+        $orders = Order::whereAdminState('Show')->get();
 
         return view('admin.order.index', compact('orders'));
     }
@@ -70,7 +70,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::with('details')->find($id);
 
         return view('admin.order.show', compact('order'));
     }
@@ -110,9 +110,84 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $order = Order::find($id)->delete();
+        $order = Order::find($id);
+        $order->update(['admin_state' => 'Hide']);
 
         return redirect()->route('orders.index')
             ->with('success', 'Order deleted successfully');
+    }
+
+    /**
+     * Validate a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function productSearch(Request $request)
+    {
+        $parameter = $request->q;
+        $page      = $request->page;
+        $products  = Product::where(function ($query) use ($parameter) {
+                        $query->where('name', 'LIKE', '%' . $parameter . '%')
+                        ->orWhere('description', 'LIKE', '%' . $parameter . '%');
+                    })->paginate(10, ['*'], 'page', $page)->toArray();
+        return $products;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function productStore(Request $request)
+    {
+        OrderDetail::create($request->all());
+        return redirect()->back()->with('success', 'Product added successfully.');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function productUdate(Request $request, OrderDetail $item)
+    {
+        $item->update($request->all());
+        return redirect()->back()->with('success', 'Product updated successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function productDestroy($id)
+    {
+        OrderDetail::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Product removed successfully.');
+    }
+
+    /**
+     * Check the record existance from a resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function productCheck(Request $request)
+    {
+        $product = OrderDetail::whereOrderId($request->order_id)->whereProductId($request->product)->first();
+        if ($product) { echo "false"; }else{ echo "true"; }
+    }
+
+    /**
+     * get a listing of the resource
+     *
+     * @return void
+     */
+    public function productPrices(Request $request)
+    {
+        $prices = ProductPrice::whereProductId($request->id)->get();
+        echo json_encode($prices);
     }
 }

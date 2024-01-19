@@ -43,7 +43,11 @@ function compositions()
  */
 function users()
 {
-    return User::pluck('name','id');
+    $users = User::all()->mapWithKeys(function ($user) {
+        $string = "{$user->name} ({$user->phone_number} )";
+        return [$user->id => $string];
+    })->toArray();
+    return $users; 
 }
 
 /**

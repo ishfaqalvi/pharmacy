@@ -34,8 +34,15 @@ class OrderDetail extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['order_id','product_id','price','quantity'];
+    protected $fillable = ['order_id','product_id','price_id','price','quantity'];
 
+    /**
+     * Calculate the amount attribute.
+     */
+    public function getAmountAttribute()
+    {
+        return $this->quantity * $this->price;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -53,5 +60,11 @@ class OrderDetail extends Model implements Auditable
         return $this->hasOne('App\Models\Product', 'id', 'product_id');
     }
     
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function productPrice()
+    {
+        return $this->hasOne('App\Models\ProductPrice', 'id', 'price_id');
+    }
 }

@@ -90,7 +90,9 @@
               				</div>
             			</div>
             			<div class="btn-options">
-              				<a href="wishlist.html"><i class="ion-ios-heart-outline"></i>Add to Wishlist</a>
+              				<a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}">
+              					<i class="ion-ios-heart-outline"></i>Add to Wishlist
+              				</a>
               				<a href="compare.html"><i class="ion-ios-shuffle"></i>Add to Compare</a>
             			</div>
             			<div class="product-meta mt--30">

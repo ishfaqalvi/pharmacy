@@ -4,6 +4,111 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('.placeOrder').on('click', function(e) {
+        e.preventDefault();
+        var name        = $('#name').val();
+        var email       = $('#email').val();
+        var number      = $('#contact_number').val();
+        var city_id     = $('#city_id').val();
+        var address     = $('#address').val();
+        var description = $('#description').val();
+        if(!name || !email || !number || !city_id || !address) {
+            toastr.warning('Please fill all required fields.');
+        }else{
+            $("#overlay").show('slow');
+            $.ajax({
+                url: '/order/store',
+                type: 'POST',
+                data: {
+                    type: 'Simple',
+                    name: name,
+                    email: email,
+                    contact_number: number,
+                    city_id: city_id,
+                    address: address,
+                    description: description,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $("#overlay").hide('slow');
+                    if (response.state == 'warning') {
+                        toastr.warning(response.message);    
+                    }else{
+                        toastr.success(response.message);
+                        window.location.href = '/user/profile';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $("#overlay").hide('slow');
+                    if(xhr.status === 401) {
+                        toastr.warning('Please login first to place order.');
+                    } else {
+                        toastr.error('Error place order.');
+                    }
+                }
+            });
+        }
+    });
+    $('#orderTable').on('click', '.cancelOrder', function(e) {
+        e.preventDefault();
+        var orderId = $(this).data('order-id');
+        $("#overlay").show('slow');
+        $.ajax({
+            url: '/order/cancel',
+            type: 'POST',
+            data: {
+                id: orderId,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                $("#overlay").hide('slow');
+                if (response.state == 'warning') {
+                    toastr.warning(response.message);    
+                }else{
+                    toastr.success(response.message);
+                    $('#orderTableBody').html(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#overlay").hide('slow');
+                if(xhr.status === 401) {
+                    toastr.warning('Please login first to cancel order.');
+                } else {
+                    toastr.error('Error in cancel order.');
+                }
+            }
+        });
+    });
+    $('#orderTable').on('click', '.deleteOrder', function(e) {
+        e.preventDefault();
+        var orderId = $(this).data('order-id');
+        $("#overlay").show('slow');
+        $.ajax({
+            url: '/order/delete',
+            type: 'POST',
+            data: {
+                id: orderId,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                $("#overlay").hide('slow');
+                if (response.state == 'warning') {
+                    toastr.warning(response.message);    
+                }else{
+                    toastr.success(response.message);
+                    $('#orderTableBody').html(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#overlay").hide('slow');
+                if(xhr.status === 401) {
+                    toastr.warning('Please login first to delete order.');
+                } else {
+                    toastr.error('Error in delete order.');
+                }
+            }
+        });
+    });
     $('#updateProfile').on('submit', function(e) {
         e.preventDefault();
         $("#overlay").show('slow');

@@ -112,4 +112,47 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasMany('App\Models\Wishlist', 'user_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order', 'user_id', 'id');
+    }
+
+    /**
+     * Count the pending orders
+     */
+    public function pendingOrder()
+    {
+        return $this->orders()->whereStatus('Pending')->count();
+    }
+
+    /**
+     * Count the processed orders
+     */
+    public function processedOrder()
+    {
+        return $this->orders()->whereIn('Status',['Received','Shipped'])->count();
+    }
+
+    /**
+     * Get the latest order date
+     */
+    public function latestOrderDate()
+    {
+        $order = $this->orders()->latest()->first();
+        return $date = $order ? 'Latest order:'. $order->create_at : 'No order submitted.';
+    }
+
+    /**
+     * Get the cart amount
+     */
+    public function cartAmount()
+    {
+        return $this->cartProducts->sum(function ($product) {
+            return $product->quantity * $product->price->new_price;
+        });
+    }
 }

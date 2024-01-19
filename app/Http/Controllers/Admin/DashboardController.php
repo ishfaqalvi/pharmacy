@@ -5,14 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Auther;
-use App\Models\Tool;
-use App\Models\Gallery;
-use App\Models\Language;
-use App\Models\JobApplication;
-use App\Models\Feedback;
-use App\Models\Comment;
-use App\Models\Page;
 
 class DashboardController extends Controller
 {

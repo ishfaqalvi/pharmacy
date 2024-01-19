@@ -1,19 +1,17 @@
 @extends('admin.layout.app')
 
-@section('title')
-{{ __('Create') }} Order Detail
-@endsection
+@section('title','Create Customer')
 
 @section('header')
 <div class="page-header-content d-lg-flex">
     <div class="d-flex">
         <h4 class="page-title mb-0">
-            Home - <span class="fw-normal">Order Detail Managment</span>
+            Home - <span class="fw-normal">Customer Managment</span>
         </h4>
     </div>
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <a href="{{ route('order-details.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            <a href="{{ route('customers.index') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-arrow-circle-left"></i>
                 </span>
@@ -28,12 +26,12 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">{{ __('Create') }} Order Detail</h5>
+            <h5 class="mb-0">{{ __('Create Customer') }}</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('order-details.store') }}" class="validate" role="form" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('customers.store') }}" class="validate" role="form" enctype="multipart/form-data">
                 @csrf
-                @include('admin.order-detail.form')
+                @include('admin.customer.form')
             </form>
         </div>
     </div>
@@ -43,6 +41,8 @@
 @section('script')
 <script>
     $(function(){
+        var _token = $("input[name='_token']").val();
+        $(".select").select2();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',
             successClass: 'validation-valid-label',
@@ -67,6 +67,27 @@
                     error.appendTo(element.parent().parent());
                 }else {
                     error.insertAfter(element);
+                }
+            },
+            rules:{
+                phone_number:{
+                    "remote":
+                    {
+                        url: "{{ route('customers.checkPhone') }}",
+                        type: "POST",
+                        data: {
+                            _token:_token,
+                            phone_number: function() {
+                                return $("input[name='phone_number']").val();
+                            }
+                        },
+                    }
+                }
+            },
+            messages:{
+                phone_number:{
+                    required: "Please enter a valid phone number.",
+                    remote: jQuery.validator.format("{0} is already exist.")
                 }
             }
         });
