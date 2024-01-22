@@ -95,7 +95,7 @@
 									CATEGORIES SECTION
 ------------------------------------------------------------------------------------>
 <section class="category-section pt--50">
-    <div class="container">
+    <div class="container category-block-section">
         <div class="block-title">
             <h2>TOP CATEGORIES</h2>
         </div>
@@ -118,8 +118,38 @@
             </div>
         </div>
     </div>
+    <div class="container category-slider">
+        <div class="block-title">
+            <h2>TOP CATEGORIES</h2>
+        </div>
+        <div class="petmark-slick-slider brand-slider border normal-slider grid-border-none category-block-single"
+            data-slick-setting='{
+                "autoplay": true,
+                "autoplaySpeed": 3000,
+                "slidesToShow": 5,
+                "arrows": true
+            }'
+            data-slick-responsive='[
+                {"breakpoint":991, "settings": {"slidesToShow": 4} },
+                {"breakpoint":768, "settings": {"slidesToShow": 3} },
+                {"breakpoint":480, "settings": {"slidesToShow": 2} },
+                {"breakpoint":320, "settings": {"slidesToShow": 1} }
+            ]'>
+            @foreach(categoriesList() as $category)
+            <div class="single-slide">
+                <a href="{{ route('product.index', ['category' => $category->name ])}}" class="icon">
+                    <img src="{{ $category->logo }}" alt="">
+                </a>
+                <h6>
+                    <a href="{{ route('product.index', ['category' => $category->name ])}}">
+                        {{ $category->name }}
+                    </a>
+                </h6>
+            </div>
+            @endforeach
+        </div>
+    </div>
 </section>
-
 <!-----------------------------------------------------------------------------------
 								PROMOTION BLOCK SECTION
 ------------------------------------------------------------------------------------>
@@ -181,9 +211,9 @@
                     <div class="content">
                         <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
-                            @if($price->new_price != $price->old_price)
+                            <!-- @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
-                            @endif
+                            @endif -->
                             <span>&#8360; 
                                 {{ $price->new_price }}
                             </span>
@@ -249,9 +279,9 @@
                     <div class="content">
                         <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
-                            @if($price->new_price != $price->old_price)
+                            <!-- @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
-                            @endif
+                            @endif -->
                             <span>&#8360; 
                                 {{ $price->new_price }}
                             </span>
@@ -317,9 +347,9 @@
                     <div class="content">
                         <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
-                            @if($price->new_price != $price->old_price)
+                            <!-- @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price ?? 0}}</span>
-                            @endif
+                            @endif -->
                             <span>&#8360; 
                                 {{ $price->new_price ?? 0}}
                             </span>
@@ -367,9 +397,9 @@
                     <div class="content">
                         <h3>{{ $product->name }}</h3>
                         <div class="price text-red">
-                            @if($price->new_price != $price->old_price)
+                            <!-- @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>
-                            @endif
+                            @endif -->
                             <span>&#8360; 
                                 {{ $price->new_price }}
                             </span>

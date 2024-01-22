@@ -65,9 +65,9 @@
             			</h3>
             			<div class="price text-red">
             				@php($price = $product->price())
-              				@if($price->new_price != $price->old_price)
+              				<!-- @if($price->new_price != $price->old_price)
               					<span class="old">&#8360; {{ $price->old_price }}</span>
-              				@endif
+              				@endif -->
               				<span>&#8360; {{ $price->new_price }}</span>
             			</div>
             			<div class="btn-block grid-btn">

@@ -126,3 +126,11 @@
     </div>
 </main>
 @endsection
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#city_id').select2();
+    });
+</script>
+@endsection

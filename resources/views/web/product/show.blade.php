@@ -54,9 +54,9 @@
               				</p>
             			</div>
   						<p class="price">
-              				@if($defaultPrice->new_price != $defaultPrice->old_price)
+              				<!-- @if($defaultPrice->new_price != $defaultPrice->old_price)
               					<span class="old-price">&#8360; {{ $defaultPrice->old_price }}</span>
-              				@endif
+              				@endif -->
               				&#8360; <span id="original_price">{{ $defaultPrice->new_price }}</span> 
             			</p>
             			<div class="wrapper">
@@ -254,12 +254,10 @@
 	                		<h3>{{ $row->child->name }}</h3>
 	                		<div class="price text-red">
 	                			@php($price = $row->child->prices()->where('default','Yes')->first())
-	              				@if($price->new_price != $price->old_price)
+	              				<!-- @if($price->new_price != $price->old_price)
 	              					<span class="old">&#8360; {{ $price->old_price }}</span>
-	              				@endif
+	              				@endif -->
 	              				<span>&#8360; {{ $price->new_price }}</span>
-	                  			<span class="old">$200</span>
-	                  			<span>$300</span>
 	                		</div>
 	                		<div class="btn-block">
 	                  			<a href="cart.html" class="btn btn-outlined btn-rounded">

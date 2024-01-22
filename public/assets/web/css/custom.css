@@ -107,3 +107,18 @@
 #option-3:checked:checked ~ .option-3 span{
     color: #fff;
 }
+/*Radio button css end here*/
+
+/*Category scroll css start here*/
+.category-slider {
+    display: none;
+}
+@media only screen and (max-width: 767px) {
+    .category-block-section {
+        display: none;
+    }
+    .category-slider {
+        display: block;
+    }
+}
+/*Category scroll css end here*/

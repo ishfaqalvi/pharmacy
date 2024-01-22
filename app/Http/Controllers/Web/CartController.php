@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 
-use App\Models\Cart;
+use App\Models\{Cart,Product};
 use Illuminate\Http\Request;
 
 /**
@@ -33,8 +33,11 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $check = auth()->user()->cartProducts()->where('product_id',$request->product_id)->first();
+        $product = Product::find($request->product_id);
         if ($check) {
             $response = ['state' => 'warning', 'message' => 'Product already exist in cart!'];
+        }elseif($product->in_stock == "false"){
+            $response = ['state' => 'warning', 'message' => 'Product is out of stock!'];
         }else{
             auth()->user()->cartProducts()->create($request->all());
             $response = ['state' => 'success', 'cartData' => cart(),'message' => 'Product added to cart successfully!'];

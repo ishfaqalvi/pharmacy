@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('assets/web/css/plugins.css') }}"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
     <link rel="stylesheet" href="{{ asset('assets/web/css/main.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/web/css/custom.css') }}"/>
     <link rel="shortcut icon" href="{{ asset('assets/web/image/favicon.ico') }}" type="image/x-icon">
@@ -47,6 +48,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="{{ asset('assets/web/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/web/js/ajax.js') }}"></script>
     <script src="{{ asset('assets/web/js/custom.js') }}"></script>
