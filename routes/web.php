@@ -16,19 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
-| Admin Auth Routes
-|--------------------------------------------------------------------------
-*/
-Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
-	Route::controller(LoginController::class)->prefix('admin')->group(function () {
-	    Route::get('login', 	'showLoginForm'	)->name('admin.showLoginForm');
-	    Route::post('login', 	'login'			)->name('admin.login'		 );
-	    Route::post('logout', 	'logout'		)->name('admin.logout'		 );
-	});
-});
-
-/*
-|--------------------------------------------------------------------------
 | Web Auth Routes
 |--------------------------------------------------------------------------
 */

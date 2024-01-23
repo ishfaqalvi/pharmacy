@@ -44,7 +44,7 @@ class OrderController extends Controller
                     ]);
                     $row->delete();
                 }
-                event(new OrderNotification($order));
+                // event(new OrderNotification($order));
             });
             $response = ['state' => 'success', 'message' => 'Your order have been placed successfully!'];
         }else{
@@ -91,7 +91,7 @@ class OrderController extends Controller
                 'state' => 'success',
                 'message' => 'Your order has been cancelled successfully!'
             ];
-            event(new OrderNotification($order));  
+            // event(new OrderNotification($order));  
         }else{
             $response = ['state' => 'warning', 'message' => 'You can not cancel order your order is in under process!'];
         }

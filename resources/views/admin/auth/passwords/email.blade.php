@@ -1,9 +1,9 @@
-@extends('auth.layout.app')
+@extends('admin.auth.layout.app')
 
 @section('page_title', 'Reset Password')
 
 @section('page_content')
-<form class="login-form needs-validation" method="POST" action="{{ route('password.email') }}" novalidate>
+<form class="login-form needs-validation" method="POST" action="{{ route('admin.password.email') }}" novalidate>
     @csrf
     <div class="card mb-0">
         <div class="card-body">
