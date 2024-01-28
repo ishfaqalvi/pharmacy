@@ -12,7 +12,6 @@ use App\Models\{Product,Category,ProductPrice,ProductCategorized,ProductRelated}
  */
 class ProductController extends Controller
 {
-    protected $column = ['brand_id','category_id','sub_category_id','search_like'];
     /**
      * Display a listing of the resource.
      *
@@ -131,8 +130,7 @@ class ProductController extends Controller
     {
         $product->update($request->all());
 
-        return redirect()->route('products.all.index')
-            ->with('success', 'Product updated successfully.');
+        return redirect()->back()->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -146,18 +144,6 @@ class ProductController extends Controller
 
         return redirect()->route('products.all.index')
             ->with('success', 'Product deleted successfully.');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function prices($id)
-    {
-        $product = Product::find($id);
-
-        return view('admin.product.price.index', compact('product'));
     }
 
     /**
@@ -219,18 +205,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function images($id)
-    {
-        $product = Product::find($id);
-
-        return view('admin.product.image.index', compact('product'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -253,6 +227,31 @@ class ProductController extends Controller
         ProductImage::find($id)->delete();
 
         return redirect()->back()->with('success', 'Product Image deleted successfully.');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function relatedStore(Request $request)
+    {
+        $product = Product::find($request->prent_id);
+        $product->relatedParents()->create($request->all());
+        return redirect()->back()->with('success', 'Product Related created successfully.');
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function relatedDestroy($id)
+    {
+        ProductRelated::find($id)->delete();
+
+        return redirect()->back()->with('success', 'Product Related deleted successfully.');
     }
 
     /**
@@ -334,43 +333,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->back()->with('success', 'Product removed successfully.');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function related($id)
-    {
-        $product = Product::find($id);
-
-        return view('admin.product.related.index', compact('product'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function relatedStore(Request $request)
-    {
-        $product = Product::find($request->prent_id);
-        $product->relatedParents()->create($request->all());
-        return redirect()->back()->with('success', 'Product Related created successfully.');
-    }
-
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function relatedDestroy($id)
-    {
-        ProductRelated::find($id)->delete();
-
-        return redirect()->back()->with('success', 'Product Related deleted successfully.');
     }
 
     /**

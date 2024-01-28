@@ -1,4 +1,4 @@
-@canany(['products-view', 'products-edit', 'products-delete','products-priceList' ,'products-priceList','products-imageList'])
+@canany(['products-view', 'products-edit', 'products-delete'])
 <div class="d-inline-flex">
     <div class="dropdown">
         <a href="#" class="text-body" data-bs-toggle="dropdown">
@@ -22,21 +22,6 @@
                     <button type="submit" class="dropdown-item sa-confirm">
                         <i class="ph-trash me-2"></i>{{ __('Delete') }}
                     </button>
-                @endcan
-                @can('products-priceList')
-                    <a href="{{ route('products.prices.index',$product->id) }}" class="dropdown-item">
-                        <i class="ph-currency-circle-dollar me-2"></i>{{ __('Prices') }}
-                    </a>
-                @endcan
-                @can('products-imageList')
-                    <a href="{{ route('products.images.index',$product->id) }}" class="dropdown-item">
-                        <i class="ph-file-image me-2"></i>{{ __('Images') }}
-                    </a>
-                @endcan
-                @can('products-relatedList')
-                    <a href="{{ route('products.related.index',$product->id) }}" class="dropdown-item">
-                        <i class="ph-handshake me-2"></i>{{ __('Related') }}
-                    </a>
                 @endcan
             </form>
         </div>
