@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\User;
+use App\Models\Admin;
 use Carbon\Carbon; 
 use Mail; 
 use Hash;
@@ -85,7 +85,7 @@ class ForgotPasswordController extends Controller
             return back()->withInput()->with('error', 'Token is Invalid!');
         }
   
-        $user = User::where('email', $request->email)->update(['password' => $request->password]);
+        $user = Admin::where('email', $request->email)->update(['password' => $request->password]);
  
         DB::table('password_resets')->where(['email'=> $request->email])->delete();
   
