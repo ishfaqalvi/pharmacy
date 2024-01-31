@@ -46,7 +46,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         $this->guard()->logout();
         $request->session()->invalidate();
