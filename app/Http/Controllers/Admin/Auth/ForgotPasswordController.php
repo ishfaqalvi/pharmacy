@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+use App\Models\User;
+use Carbon\Carbon; 
+use Mail; 
+use Hash;
+use DB;
 
 class ForgotPasswordController extends Controller
 {
@@ -28,82 +31,64 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request)
     {
-        $request->validate(['email' => ['required', 'email', 'exists:admins,email']]);
+        $request->validate([
+            'email' => 'required|email|exists:admins',
+        ]);
+  
+        $token = Str::random(64);
+        $email = $request->email;
+        DB::table('password_resets')->insert([
+            'email' => $email, 
+            'token' => $token, 
+            'created_at' => Carbon::now()
+        ]);
 
-        $response = Password::sendResetLink(
-            $request->only('email')
+        Mail::send('admin.auth.email.forgot-password',
+            ['token' => $token, 'email' => $email],
+            function($message) use($email){
+                $message->to($email);
+                $message->subject('Reset Password');
+            }
         );
-
-        return $response == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($response))
-                    : back()->withErrors(['email' => __($response)]);
+  
+        return back()->with('message', 'We have e-mailed your password reset link!');
     }
 
     /**
-     * Validate the email for the given request.
+     * Display the form to reset password.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @return \Illuminate\View\View
      */
-    protected function validateEmail(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
+    public function showResetForm(Request $request, $token) 
+    { 
+        return view('admin.auth.passwords.reset', ['token' => $token,'email' => $request->email]);
     }
 
     /**
-     * Get the needed authentication credentials from the request.
+     * Update the password.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function credentials(Request $request)
-    {
-        return $request->only('email');
-    }
-
-    /**
-     * Get the response for a successful password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetLinkResponse(Request $request, $response)
+    public function reset(Request $request)
     {
-        return $request->wantsJson()
-                    ? new JsonResponse(['message' => trans($response)], 200)
-                    : back()->with('status', trans($response));
-    }
-
-    /**
-     * Get the response for a failed password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        if ($request->wantsJson()) {
-            throw ValidationException::withMessages([
-                'email' => [trans($response)],
-            ]);
+        $request->validate([
+            'password'             =>'required|string|min:6|confirmed',
+            'password_confirmation'=>'required'
+        ]);
+        $updatePassword = DB::table('password_resets')->where([
+                'email' => $request->email, 
+                'token' => $request->token
+            ])->first();
+  
+        if(!$updatePassword){
+            return back()->withInput()->with('error', 'Token is Invalid!');
         }
-
-        return back()
-                ->withInput($request->only('email'))
-                ->withErrors(['email' => trans($response)]);
-    }
-
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return Password::broker();
+  
+        $user = User::where('email', $request->email)->update(['password' => $request->password]);
+ 
+        DB::table('password_resets')->where(['email'=> $request->email])->delete();
+  
+        return redirect()->route('admin.login')->with('message', 'Your password has been changed!');
     }
 }

@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sliders    = Slider::all();
+        $sliders    = Slider::orderBy('order')->get();
         $frequently = Product::special('Frequently')->get();
         $featured   = Product::special('Featured')->get();
         $wellness   = Product::special('Wellness')->get();

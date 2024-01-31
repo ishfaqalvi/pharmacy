@@ -36,7 +36,7 @@
     </div>
     <div class="form-group col-lg-6 mb-3">
         {{ Form::label('in_stock') }}
-        {{ Form::select('in_stock', ['true' => 'True', 'false' => 'False'], $product->in_stock, ['class' => 'form-control form-select' . ($errors->has('in_stock') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
+        {{ Form::select('in_stock', ['true' => 'Yes', 'false' => 'No'], $product->in_stock, ['class' => 'form-control form-select' . ($errors->has('in_stock') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
         {!! $errors->first('in_stock', '<div class="invalid-feedback">:message</div>') !!}
     </div>
 </div>

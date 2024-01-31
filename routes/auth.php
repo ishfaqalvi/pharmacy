@@ -19,16 +19,8 @@ Route::controller(LoginController::class)->as('admin.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::controller(ForgotPasswordController::class)->as('admin.')->group(function () {
-	Route::get('password/reset', 'showLinkRequestForm')->name('password.request');
-    Route::post('password/email', 'sendResetLinkEmail')->name('password.email'	);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Reset Password Route
-|--------------------------------------------------------------------------
-*/
-Route::controller(ResetPasswordController::class)->as('admin.')->group(function () {
-	Route::get('password/reset/{token}', 'showResetForm')->name('password.reset' );
-    Route::post('password/reset', 		 'reset'		)->name('password.update');
+	Route::get('password/reset',         'showLinkRequestForm')->name('password.request');
+    Route::post('password/email',        'sendResetLinkEmail' )->name('password.email'	);
+    Route::get('password/reset/{token}', 'showResetForm'      )->name('password.reset'  );
+    Route::post('password/reset',        'reset'              )->name('password.update' );
 });

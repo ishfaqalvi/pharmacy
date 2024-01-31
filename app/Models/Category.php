@@ -41,7 +41,7 @@ class Category extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['name','logo'];
+    protected $fillable = ['name','discount','logo'];
 
     /**
      * The set attributes.

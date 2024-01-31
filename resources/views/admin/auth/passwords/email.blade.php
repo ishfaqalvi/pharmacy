@@ -22,9 +22,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
-            @if (session('status'))
+            @if (session('message'))
                 <div class="alert alert-success border-0 alert-dismissible fade show">
-                    {{ session('status') }}
+                    {{ session('message') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif

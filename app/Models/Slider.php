@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Image\Manipulations;
+use Spatie\Image\Image;
 
 /**
  * Class Slider
@@ -45,20 +47,23 @@ class Slider extends Model implements Auditable
     public function setImageAttribute($image)
     {
         if ($image instanceof \Illuminate\Http\UploadedFile) {
-            $this->attributes['image'] = uploadFile($image, 'slider', '1920', '570');
+            $extension = $image->getClientOriginalExtension();
+            $name = uniqid() . "." . $extension;
+            $originalPath = public_path('images/slider/');
+            $image->move($originalPath.'original', $name);
+
+            Image::load($originalPath.'original/'.$name)
+                ->fit(Manipulations::FIT_CROP, 1920, 570)
+                ->save($originalPath .'large/'.$name);
+
+            Image::load($originalPath.'original/'.$name)
+                ->fit(Manipulations::FIT_CROP, 500, 300)
+                ->save($originalPath.'small/'.$name);
+
+            $this->attributes['image'] = $name;
         } else {
             unset($this->attributes['image']);
         }
-    }
-
-    /**
-     * The get attributes.
-     *
-     * @var array
-     */
-    public function getImageAttribute($image)
-    {
-        if($image){ return asset($image); }
     }
 
     /**

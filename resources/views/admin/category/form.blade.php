@@ -1,8 +1,13 @@
 <div class="row">
-    <div class="form-group col-lg-12 mb-3">
+    <div class="form-group col-lg-6 mb-3">
         {{ Form::label('name') }}
         {{ Form::text('name', $category->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name','required']) }}
         {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
+    </div>
+    <div class="form-group col-lg-6 mb-3">
+        {{ Form::label('discount %') }}
+        {{ Form::number('discount', $category->discount, ['class' => 'form-control' . ($errors->has('discount') ? ' is-invalid' : ''), 'placeholder' => 'Discount','required', 'min'=>'0','max'=>'100']) }}
+        {!! $errors->first('discount', '<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="form-group col-lg-12 mb-3">
         {{ Form::label('logo') }}

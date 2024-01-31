@@ -239,7 +239,7 @@ jQuery(document).ready(function () {
             });
         }
 
-        stickyHeader()
+        // stickyHeader()
 
         /*----------  Range Slider  ----------*/
         $(function () {
@@ -335,16 +335,41 @@ jQuery(document).ready(function () {
         /*----------   Data Background Image   ----------*/
         function bgImageSettings() {
             $('.bg-image').each(function () {
-                var $this = $(this),
-                    $image = $this.data('bg');
-
-                $this.css({
-                    'background-image': 'url(' + $image + ')'
-                });
+                var $type = $(this).data('type');
+                if ($type == 'Banner') {
+                    var $smallBg = $(this).data('small-bg');
+                    var $largeBg = $(this).data('large-bg');
+                    if (window.matchMedia('(max-width: 768px)').matches) {
+                        $(this).css({
+                            'background-image': 'url(' + $smallBg + ')'
+                        });
+                    } else if (window.matchMedia('(min-width: 769px)').matches) {
+                        $(this).css({
+                            'background-image': 'url(' + $largeBg + ')'
+                        });
+                    } 
+                }else{
+                    var $image = $(this).data('bg');
+                    $(this).css({
+                        'background-image': 'url(' + $image + ')'
+                    });
+                }
             });
         }
-
         bgImageSettings();
+
+        // function bgImageSettings() {
+        //     $('.bg-image').each(function () {
+        //         var $this = $(this),
+        //             $image = $this.data('bg');
+
+        //         $this.css({
+        //             'background-image': 'url(' + $image + ')'
+        //         });
+                
+        //     });
+        // }
+        // bgImageSettings();
 
 
         /*----------   NIce Select  ----------*/

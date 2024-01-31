@@ -58,8 +58,8 @@
                 </p>
                 <div class="pt-2">
                     <div class="input-box-with-icon">
-                        <input type="text" placeholder="Enter Your email">
-                        <button><i class="fas fa-envelope"></i></button>
+                        <input type="text" placeholder="Enter Your email" name="news-letter-email">
+                        <button class="news-letter"><i class="fas fa-envelope"></i></button>
                     </div>
                 </div>
             </div>

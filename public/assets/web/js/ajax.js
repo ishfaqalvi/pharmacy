@@ -4,6 +4,45 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('.sendToWhatsApp').on('click', function(e) {
+        e.preventDefault();
+        var name = $(this).data('product-name');
+        var description = $(this).data('product-description');
+        var message = encodeURIComponent(name + "\n" + description);
+        var adminPhoneNumber = '+923027679079';
+        var whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+    });
+    $('.news-letter').on('click', function(e) {
+        e.preventDefault();
+        var email = $('input[name=news-letter-email]').val();
+        if(!email) {
+            toastr.warning('Please enter your email!.');
+        }else{
+            $("#overlay").show('slow');
+            $.ajax({
+                url: '/news-letter/store',
+                type: 'POST',
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $("#overlay").hide('slow');
+                    if (response.state == 'warning') {
+                        toastr.warning(response.message);    
+                    }else{
+                        toastr.success(response.message);
+                        $('input[name=news-letter-email]').val('');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $("#overlay").hide('slow');
+                    toastr.error('Excaption occured!.');
+                }
+            });
+        }
+    });
     $('.placeOrder').on('click', function(e) {
         e.preventDefault();
         var name        = $('#name').val();

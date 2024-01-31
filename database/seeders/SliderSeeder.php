@@ -18,7 +18,7 @@ class SliderSeeder extends Seeder
         for ($i = 1; $i < 7; $i++) {
             DB::table('sliders')->insert([
                 'title' => 'Slide '.$i,
-                'image' => 'images/slider/slide'.$i.'.jpg',
+                'image' => 'slide'.$i.'.jpg',
                 'type'  => 'Simple',
                 'order' => $i,
                 'created_at' => now(),

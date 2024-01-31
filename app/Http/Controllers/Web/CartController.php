@@ -34,11 +34,16 @@ class CartController extends Controller
     {
         $check = auth()->user()->cartProducts()->where('product_id',$request->product_id)->first();
         $product = Product::find($request->product_id);
-        if ($check) {
+        if ($check) 
+        {
             $response = ['state' => 'warning', 'message' => 'Product already exist in cart!'];
-        }elseif($product->in_stock == "false"){
+        }
+        elseif($product->in_stock == "false")
+        {
             $response = ['state' => 'warning', 'message' => 'Product is out of stock!'];
-        }else{
+        }
+        else
+        {
             auth()->user()->cartProducts()->create($request->all());
             $response = ['state' => 'success', 'cartData' => cart(),'message' => 'Product added to cart successfully!'];
         }

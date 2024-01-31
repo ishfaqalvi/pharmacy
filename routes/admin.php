@@ -130,6 +130,18 @@ Route::resource('cities', CityController::class);
 
 /*
 |--------------------------------------------------------------------------
+| News Letters Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(NewsletterController::class)->prefix('newsletters')->as('newsletters.')->group(function () {
+	Route::get('list',				'index'			)->name('index'		 );
+	Route::get('create',			'create'		)->name('create'	 );
+	Route::post('store',			'store'			)->name('store'		 );
+	Route::delete('delete/{id}',	'destroy'		)->name('destroy'	 );
+});
+
+/*
+|--------------------------------------------------------------------------
 | Role Routes
 |--------------------------------------------------------------------------
 */

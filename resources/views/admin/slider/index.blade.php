@@ -11,18 +11,18 @@
             Home - <span class="fw-normal">Slider Managment</span>
         </h4>
     </div>
-    @can('sliders-create')
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
+            @can('sliders-create')
             <a href="{{ route('sliders.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
                 </span>
                 Create New
             </a>
+            @endcan
         </div>
     </div>
-    @endcan
 </div>
 @endsection
 
@@ -47,7 +47,7 @@
             @foreach ($sliders as $key => $slider)
                 <tr>
                     <td>{{ ++$key }}</td>
-					<td><img src="{{ $slider->image }}" width="150px"></td>
+					<td><img src="{{ asset('images/slider/small/'.$slider->image) }}" width="150px"></td>
                     <td>{{ $slider->title }}</td>
 					<td>{{ $slider->type }}</td>
 					<td>{{ $slider->order }}</td>

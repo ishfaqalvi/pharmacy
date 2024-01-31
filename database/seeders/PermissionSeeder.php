@@ -88,6 +88,10 @@ class PermissionSeeder extends Seeder
                   'cities-edit', 
                   'cities-delete',
 
+                  'newsletters-list',
+                  'newsletters-create',
+                  'newsletters-delete',
+
                   'roles-list', 
                   'roles-view', 
                   'roles-create', 

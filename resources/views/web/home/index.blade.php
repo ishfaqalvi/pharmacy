@@ -9,7 +9,7 @@
 									SLIDER SECTION
 ------------------------------------------------------------------------------------>
 <section>
-    <div class=" petmark-slick-slider  home-slider dot-position-1" data-slick-setting='{
+    <div class="petmark-slick-slider home-slider dot-position-1" data-slick-setting='{
         "autoplay": true,
         "autoplaySpeed": 8000,
         "slidesToShow": 1,
@@ -17,7 +17,10 @@
     }'
     >
         @foreach($sliders as $slider)
-        <div class="single-slider home-content bg-image" data-bg="{{ $slider->image }}">
+        <div 
+            class="single-slider home-content bg-image" 
+            data-small-bg="{{ asset('images/slider/small/'.$slider->image) }}"
+            data-large-bg="{{ asset('images/slider/large/'.$slider->image) }}" data-type="Banner">
         	@if($slider->type != 'Simple')
             <div class="container position-relative">
                 <div class="row">
@@ -373,29 +376,47 @@
         <div class="block-title">
             <h2>WELLNESS PRODUCTS</h2>
         </div>
-        <div class="petmark-slick-slider border normal-slider"
+        <div class="petmark-slick-slider border grid-column-slider" 
             data-slick-setting='{
                 "autoplay": true,
                 "autoplaySpeed": 3000,
-                "slidesToShow": 3,
+                "slidesToShow": 5,
+                "rows" :2,
                 "arrows": true
             }'
             data-slick-responsive='[
-                {"breakpoint":991, "settings": {"slidesToShow": 2} },
-                {"breakpoint":768, "settings": {"slidesToShow": 1} }
-            ]'>
+                {"breakpoint":991, "settings": {"slidesToShow": 3} },
+                {"breakpoint":768, "settings": {"slidesToShow": 2} },
+                {"breakpoint":480, "settings": {"slidesToShow": 1,"rows" :1} }
+            ]'
+        >
             @foreach($wellness as $product)
             @php($price = $product->price())
             <div class="single-slide">
-                <div class="pm-product  product-type-list">
+                <div class="pm-product">
                     <div class="image">
                         <a href="{{ route('product.show', $product->id)}}">
-                            <img src="{{ $product->thumbnail }}" alt="">
+                            <img src="{{ $product->thumbnail }}" alt="" width="150px" height="175px">
                         </a>
+                        <div class="hover-conents">
+                            <ul class="product-btns">
+                                <li>
+                                    <a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
+                                        <i class="ion-ios-heart-outline"></i>
+                                    </a>
+                                </li>
+                                <li><a href="#"><i class="ion-ios-shuffle"></i></a></li>
+                                <li>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#producPreview">
+                                        <i class="ion-ios-search"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <span class="onsale-badge">{{ $price->title }}</span>
                     </div>
                     <div class="content">
-                        <h3>{{ $product->name }}</h3>
+                        <h3>{{ Str::limit($product->name, 25) }}</h3>
                         <div class="price text-red">
                             <!-- @if($price->new_price != $price->old_price)
                                 <span class="old">&#8360; {{ $price->old_price }}</span>

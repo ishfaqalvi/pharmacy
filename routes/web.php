@@ -51,6 +51,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Web'], function () {
 		Route::post('list',		'index')->name('product.filter');
 		Route::get('show/{id}',	'show' )->name('product.show');
 	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| NewsLetter Routes
+	|--------------------------------------------------------------------------
+	*/
+	Route::post('news-letter/store', 'NewsletterController@store');
 });
 
 /*

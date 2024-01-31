@@ -1,26 +1,20 @@
 @extends('admin.layout.app')
 
 @section('title')
-    Category
+    Newsletter
 @endsection
 
 @section('header')
 <div class="page-header-content d-lg-flex">
     <div class="d-flex">
         <h4 class="page-title mb-0">
-            Home - <span class="fw-normal">Category Managment</span>
+            Home - <span class="fw-normal">Newsletter Management</span>
         </h4>
     </div>
     <div class="d-lg-block my-lg-auto ms-lg-auto">
         <div class="d-sm-flex align-items-center mb-3 mb-lg-0 ms-lg-3">
-            <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 collapsed" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true">
-                <span class="btn-labeled-icon bg-primary text-white rounded-pill">
-                    <i class="ph-magnifying-glass"></i>
-                </span>
-                Filter
-            </button>
-            @can('categories-create')
-            <a href="{{ route('categories.all.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
+            @can('newsletters-create')
+            <a href="{{ route('newsletters.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
                     <i class="ph-plus"></i>
                 </span>
@@ -34,43 +28,38 @@
 
 @section('content')
 <div class="col-sm-12">
-    <div class="card collapse {{ !is_null($userRequest) ? 'show' : ''}}" id="filters">
-        <div class="card-body">
-            <form action="{{route('categories.all.filter')}}" method="post">
-                @csrf
-                @include('admin.category.filter')
-            </form>
-        </div>
-    </div>
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">Category</h5>
+            <h5 class="mb-0">Newsletter</h5>
         </div>
-        <table class="table">
+        <table class="table datatable-basic">
             <thead class="thead">
                 <tr>
                     <th>No</th>
-                    <th>Logo</th>
-					<th>Name</th>
-                    <th>Discount</th>
+                    <th>Email</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach ($categories as $key => $category)
+            @foreach ($newsletters as $key => $newsletter)
                 <tr>
                     <td>{{ ++$key }}</td>
-                    <td><img src="{{ $category->logo }}" height="50px"></td>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->discount }}%</td>
-                    <td class="text-center">@include('admin.category.actions')</td>
+                    <td>{{ $newsletter->email }}</td>
+                    <td class="text-center">
+                        <form action="{{ route('newsletters.destroy',$newsletter->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        @can('newsletters-delete')
+                            <button type="submit" class="btn btn-sm btn-danger sa-confirm">
+                                <i class="ph-trash"></i>
+                            </button>
+                        @endcan
+                    </form>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <div class="card-body">
-            {{ $categories->links('vendor.pagination.bootstrap-5') }}
-        </div>
     </div>
 </div>
 @endsection

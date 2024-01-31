@@ -12,7 +12,7 @@ use Spatie\Image\Manipulations;
  *
  * @return \Illuminate\Http\Response
  */
-function uploadFile($file, $path, $width, $height)
+function uploadFile($file, $path, $width = null, $height = null)
 {
     $extension = $file->getClientOriginalExtension();
     $name = uniqid().".".$extension;
@@ -20,8 +20,9 @@ function uploadFile($file, $path, $width, $height)
     $folder = 'images/'.$path;
     $finalPath = $folder.'/'.$name;
     $file->move($folder, $name);
-
-    Image::load($finalPath)->fit(Manipulations::FIT_CROP, $width, $height)->save(public_path($finalPath));
+    if ($width && $height) {
+        Image::load($finalPath)->fit(Manipulations::FIT_CROP, $width, $height)->save(public_path($finalPath));
+    }
     return $finalPath;
 }
 

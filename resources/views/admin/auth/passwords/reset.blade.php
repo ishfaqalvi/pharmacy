@@ -1,11 +1,12 @@
-@extends('auth.layout.app')
+@extends('admin.auth.layout.app')
 
 @section('page_title', 'Reset Password')
 
 @section('page_content')
-<form class="login-form needs-validation" method="POST" action="{{ route('password.update') }}" novalidate>
+<form class="login-form needs-validation" method="POST" action="{{ route('admin.password.update') }}" novalidate>
     @csrf
     <input type="hidden" name="token" value="{{ $token }}">
+    <input type="hidden" name="email" value="{{ $email }}">
     <div class="card mb-0">
         <div class="card-body">
             <div class="text-center mb-3">
@@ -23,15 +24,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <div class="form-control-feedback form-control-feedback-start">
-                    <input type="email" name="email" class="form-control" placeholder="john@doe.com" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-                    <div class="form-control-feedback-icon">
-                        <i class="ph-user-circle text-muted"></i>
-                    </div>
-                </div>
-            </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
                 <div class="form-control-feedback form-control-feedback-start">

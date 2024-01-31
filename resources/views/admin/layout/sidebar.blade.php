@@ -153,6 +153,14 @@
     </a>
 </li>
 @endcan
+@can('newsletters-list')
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('newsletters') ? 'active' : ''}}" href="{{ route('newsletters.index') }}">
+        <i class="ph-newspaper-clipping"></i>
+        <span>Newletters</span>
+    </a>
+</li>
+@endcan
 @canany(['roles-list', 'users-list'])
 <li class="nav-item-header">
     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Access Management</div>

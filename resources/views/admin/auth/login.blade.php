@@ -22,6 +22,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
+            @if (session('message'))
+                <div class="alert alert-success border-0 alert-dismissible fade show">
+                    {{ session('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <div class="form-control-feedback form-control-feedback-start">

@@ -70,15 +70,17 @@
   							</label>
             				@endforeach
                			</div>
-            			<div class="product-short-para">
+            			<!-- <div class="product-short-para">
               				<p>{{ $product->description }}</p>
-            			</div>
+            			</div> -->
             			<div class="status">
-              				<i class="fas fa-check-circle"></i>{{ $product->quantity }} IN STOCK
+              				<i class="fas fa-check-circle"></i>{{ $product->in_stock == 'true' ? 'IN STOCK' : 'OUT OF STOCK' }}
             			</div>
             			<div class="add-to-cart">
               				<div class="count-input-block">
-                				<input type="number" id="quantity-input" class="form-control text-center" value="1" min="1">
+                				<button onclick="changeQuantity(-1)">-</button>
+								<input type="number" id="quantity-input" class="text-center" value="1" min="1">
+								<button onclick="changeQuantity(1)">+</button>
               				</div>
               				<div class="btn-block">
                 				<a 
@@ -86,6 +88,16 @@
                 					class="addToCart btn btn-rounded btn-outlined--primary" 
                 					data-product-id="{{ $product->id }}">
                 					Add to Cart
+                				</a>
+              				</div>
+              				<div class="btn-block">
+                				<a 
+                					href="javascript:void(0)"
+                					class="sendToWhatsApp btn btn-rounded btn-outlined--primary" 
+                					data-product-name="{{ $product->name }}"
+                					data-product-description="{{ $product->description }}"
+                					>
+                					Send to WhatsApp
                 				</a>
               				</div>
             			</div>
@@ -286,5 +298,11 @@
 	    $('#hidden_price_id').val(defaultRadio.val());
 	    $('#original_price').text(defaultRadio.data('price'));
 	});
+	function changeQuantity(val) {
+  		var input = document.getElementById('quantity-input');
+  		var currentValue = parseInt(input.value);
+  		var newValue = currentValue + val;
+  		if (newValue >= 1) input.value = newValue;
+	}
 </script>
 @endsection
