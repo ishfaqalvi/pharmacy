@@ -85,7 +85,7 @@ class ForgotPasswordController extends Controller
             return back()->withInput()->with('error', 'Token is Invalid!');
         }
   
-        $user = Admin::where('email', $request->email)->update(['password' => $request->password]);
+        $user = Admin::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
  
         DB::table('password_resets')->where(['email'=> $request->email])->delete();
   
