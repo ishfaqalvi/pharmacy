@@ -33,15 +33,15 @@ class SettingsSeeder extends Seeder
                 'value' => '1000',
             ],
             [
-                'key'   => 'facebook_link',
+                'key'   => 'watsapp_number_order_receive',
                 'value' => '',
             ],
             [
-                'key'   => 'twitter_link',
+                'key'   => 'admin_email_order_receive1',
                 'value' => '',
             ],
             [
-                'key'   => 'instagram_link',
+                'key'   => 'admin_email_order_receive2',
                 'value' => '',
             ],
             [

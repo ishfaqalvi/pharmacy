@@ -104,6 +104,21 @@ class OrderController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  Order $order
+     * @return \Illuminate\Http\Response
+     */
+    public function actions(Request $request, Order $order)
+    {
+        $order->update($request->all());
+        $order->updateNotification();
+        return redirect()->route('orders.index')
+            ->with('success', 'Order updated successfully!');
+    }
+
+    /**
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception

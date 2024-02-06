@@ -39,6 +39,7 @@ Route::controller(OrderController::class)->prefix('orders')->as('orders.')->grou
 	Route::get('edit/{id}',				 'edit'			 )->name('edit'			  );
 	Route::get('show/{id}',				 'show'			 )->name('show'			  );
 	Route::patch('update/{order}',		 'update'		 )->name('update'		  );
+	Route::patch('actions/{order}',		 'actions'		 )->name('actions'		  );
 	Route::delete('delete/{id}',		 'destroy'		 )->name('destroy'		  );
 	Route::get('product/search',		 'productSearch' )->name('product.search' );
 	Route::post('product/store',		 'productStore'  )->name('product.store'  );

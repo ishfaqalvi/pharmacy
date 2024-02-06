@@ -17,9 +17,7 @@ class NewPermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [ 
-            'newsletters-list',
-            'newsletters-create',
-            'newsletters-delete'
+            'orders-actions'
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission, 'guard_name' => 'admin']);

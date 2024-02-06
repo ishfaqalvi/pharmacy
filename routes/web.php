@@ -72,8 +72,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Web','middleware' => ['web','
 	|--------------------------------------------------------------------------
 	*/
 	Route::controller(UserController::class)->prefix('user')->group(function () {
-		Route::get('profile',	'profile')->name('user.profile');
-		Route::post('update',	'update' )->name('user.update' );
+		Route::get('profile',		'profile'	)->name('user.profile'	 );
+		Route::post('update',		'update' 	)->name('user.update' 	 );
+		Route::get('search-city',	'searchCity')->name('user.searchCity');
 	});
 
 	/*

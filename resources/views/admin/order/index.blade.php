@@ -61,6 +61,33 @@
 					<td>{{ $order->status }}</td>
                     <td class="text-center">@include('admin.order.actions')</td>
                 </tr>
+                <div id="orderAction{{ $order->id }}" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form method="POST" action="{{ route('orders.actions',$order->id) }}" class="validate" role="form" enctype="multipart/form-data">
+                                @csrf
+                                {{ method_field('PATCH') }}
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('Update Order') }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group mb-3">
+                                            {{ Form::label('status') }}
+                                            {{ Form::select('status', ['Accepted'=>'Accepted','Rejected'=>'Rejected','Shipped'=>'Shipped','Completed'=>'Completed'], Null, ['class' => 'form-control' . ($errors->has('status') ? ' is-invalid' : ''), 'placeholder' => '--Select--', 'required','id'=>'product']) }}
+                                            {!! $errors->first('status', '<div class="invalid-feedback">:message</div>') !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submitt</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             @endforeach
             </tbody>
         </table>

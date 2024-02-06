@@ -39,7 +39,8 @@
         },
         "files": [
             "app/Libraries/helpers.php",
-            "app/Libraries/dropdowns.php"
+            "app/Libraries/dropdowns.php",
+            "app/Traits/OrderNotifications.php"
         ]
     },
     "autoload-dev": {

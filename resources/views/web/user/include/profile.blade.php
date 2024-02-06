@@ -33,17 +33,10 @@
 				</div>
 				<div class="col-12 mb-30"><h4>Address Detail</h4></div>
 				<div class="col-lg-6 col-12 mb-30">
-					<select name="city_id">
-						<option value="">--Select City--</option>
-						@foreach(cityList() as $city)
-							@if($city->id == auth()->user()->city_id)
-								@php($selected = 'selected')
-							@else
-								@php($selected = '')
-							@endif
-							<option value="{{ $city->id }}" {{ $selected }}>{{ $city->name }}</option>
-						@endforeach
-					</select>
+					<div class="search-box" id="cityBox">
+                        <input type="text" class="search-input search-city" name="city" placeholder="Search for cities..." id="city"  value="{{ auth()->user()->city->name ?? '' }}">
+                        <div id="searchResults" class="search-results"></div>
+                    </div>
 				</div>
 				<div class="col-lg-6 col-12 mb-30">
 					<input placeholder="Enter Contact Number" type="text" name="contact_number" value="{{ auth()->user()->contact_number }}">

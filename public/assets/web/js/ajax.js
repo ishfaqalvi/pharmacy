@@ -9,9 +9,32 @@ $(function () {
         var name = $(this).data('product-name');
         var description = $(this).data('product-description');
         var message = encodeURIComponent(name + "\n" + description);
-        var adminPhoneNumber = '+923027679079';
-        var whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${message}`;
-        window.open(whatsappUrl, '_blank');
+        var adminPhoneNumber = $(this).data('admin-phone');
+        if (adminPhoneNumber) {
+            var whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        toastr.info('Opps this service will be comming soon!.');
+    });
+    $('.search-city').on('keyup', function() {
+        var query = $(this).val();
+
+        $.ajax({
+            url:"/user/search-city",
+            type:"GET",
+            data:{'city':query},
+            success:function (data) {
+                $('#searchResults').html(data);
+                $('.search-results').show();
+            }
+        });
+        if(query.length == 0) {
+            $('.search-results').hide();
+        }
+    });
+    $('#cityBox').on('click', '.search-result', function() {
+        $('input[name=city]').val($(this).text());
+        $('.search-results').hide();
     });
     $('.news-letter').on('click', function(e) {
         e.preventDefault();
@@ -48,10 +71,10 @@ $(function () {
         var name        = $('#name').val();
         var email       = $('#email').val();
         var number      = $('#contact_number').val();
-        var city_id     = $('#city_id').val();
+        var city        = $('#city').val();
         var address     = $('#address').val();
         var description = $('#description').val();
-        if(!name || !email || !number || !city_id || !address) {
+        if(!name || !email || !number || !city || !address) {
             toastr.warning('Please fill all required fields.');
         }else{
             $("#overlay").show('slow');
@@ -63,7 +86,7 @@ $(function () {
                     name: name,
                     email: email,
                     contact_number: number,
-                    city_id: city_id,
+                    city: city,
                     address: address,
                     description: description,
                     _token: $('meta[name="csrf-token"]').attr('content')
@@ -160,7 +183,11 @@ $(function () {
             processData: false,
             success: function(response) {
                 $("#overlay").hide('slow');
-                toastr.success(response.message);
+                if (response.state == 'warning') {
+                    toastr.warning(response.message);
+                }else{
+                    toastr.success(response.message);
+                }
             },
             error: function(xhr, status, error) {
                 $("#overlay").hide('slow');

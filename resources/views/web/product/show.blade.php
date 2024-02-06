@@ -59,15 +59,12 @@
               				@endif -->
               				&#8360; <span id="original_price">{{ $defaultPrice->new_price }}</span> 
             			</p>
-            			<div class="wrapper">
-            				@php($option = 0 )
+               			<div class="wrapper">
             				@foreach($product->prices as $key => $price)
-            				@php($option = ++$key)
-            				<input type="radio" id="option-{{ $option}}" name="price_id" data-price="{{$price->new_price}}"value="{{ $price->id }}" @if($price->default == 'Yes') checked @endif>
-  							<label class="option option-{{$option}}" for="option-{{$option}}">
-  								<div class="dot"></div>
-  								<span class="title">{{ $price->title }}</span>
-  							</label>
+  							<label class="container" for="option-{{$key}}">{{ $price->title }}
+							  	<input type="radio" name="price_id" id="option-{{$key}}" data-price="{{$price->new_price}}"value="{{ $price->id }}" @if($price->default == 'Yes') checked @endif>  
+							  	<span class="check"></span>  
+							</label>  
             				@endforeach
                			</div>
             			<!-- <div class="product-short-para">
@@ -89,13 +86,12 @@
                 					data-product-id="{{ $product->id }}">
                 					Add to Cart
                 				</a>
-              				</div>
-              				<div class="btn-block">
                 				<a 
                 					href="javascript:void(0)"
                 					class="sendToWhatsApp btn btn-rounded btn-outlined--primary" 
                 					data-product-name="{{ $product->name }}"
                 					data-product-description="{{ $product->description }}"
+                					data-admin-phone="{{ settings('watsapp_number_order_receive') }}"
                 					>
                 					Send to WhatsApp
                 				</a>

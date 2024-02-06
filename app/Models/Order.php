@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\OrderNotifications;
 
 /**
  * Class Order
@@ -25,6 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Order extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use OrderNotifications;
 
     protected $perPage = 20;
 

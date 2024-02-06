@@ -56,12 +56,10 @@
                                     </div>
                                     <div class="col-md-6 col-12 mb--20">
                                         <label>City*</label>
-                                        <select class="nice-select" id="city_id">
-                                            <option>--Select--</option>
-                                            @foreach(cityList() as $city)
-                                            <option value="{{ $city->id }}" {{ $city->id == auth()->user()->city_id ? 'selected' : ''}}>{{ $city->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="search-box" id="cityBox">
+                                            <input type="text" class="search-input search-city" name="city" placeholder="Search for cities..." id="city"  value="{{ auth()->user()->city->name ?? '' }}">
+                                            <div id="searchResults" class="search-results"></div>
+                                        </div>
                                     </div>
                                     <div class="col-12 mb--20">
                                         <label>Address*</label>
@@ -125,12 +123,4 @@
         </div>
     </div>
 </main>
-@endsection
-
-@section('script')
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#city_id').select2();
-    });
-</script>
 @endsection

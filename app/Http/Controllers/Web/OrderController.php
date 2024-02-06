@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Events\OrderNotification;
-use App\Models\Order;
+use App\Models\{Order, City};
 use DB;
 
 class OrderController extends Controller
@@ -30,10 +30,16 @@ class OrderController extends Controller
     {
         $user = auth()->user();
         $minimuStrVal = settings('minimun_receiving_order_amount');
-        $requiredAmount = isset($minimuStrVal) ? intval($minimuStrVal) : 100; 
+        $requiredAmount = isset($minimuStrVal) ? intval($minimuStrVal) : 100;
+        $city = City::whereName($request->city)->first();
+        if (!$city) {
+            return response()->json(['state' => 'warning', 'message' => 'City not found!']);
+        }
+        $input = $request->all();
+        $input['city_id'] = $city->id;
         if ($user->cartAmount() > $requiredAmount) {
-            DB::transaction(function() use($user, $request){
-                $order = $user->orders()->create($request->all());
+            DB::transaction(function() use($user, $input){
+                $order = $user->orders()->create($input);
                 foreach($user->cartProducts as $row)
                 {
                     $order->details()->create([
@@ -44,7 +50,7 @@ class OrderController extends Controller
                     ]);
                     $row->delete();
                 }
-                // event(new OrderNotification($order));
+                $order->createNotification();
             });
             $response = ['state' => 'success', 'message' => 'Your order have been placed successfully!'];
         }else{

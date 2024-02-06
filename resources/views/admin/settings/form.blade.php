@@ -11,4 +11,16 @@
     <div class="col-lg-8">
         <input type="text" name="values[minimun_receiving_order_amount]" class="form-control" value="{{ settings('minimun_receiving_order_amount') }}">
     </div>
+    <label class="col-lg-4 col-form-label">Order Receiving Watsapp Number:</label>
+    <div class="col-lg-8">
+        <input type="text" name="values[watsapp_number_order_receive]" class="form-control" value="{{ settings('watsapp_number_order_receive') }}">
+    </div>
+    <label class="col-lg-4 col-form-label">Order Receiving Admin Email 1:</label>
+    <div class="col-lg-8">
+        <input type="text" name="values[admin_email_order_receive1]" class="form-control" value="{{ settings('admin_email_order_receive1') }}">
+    </div>
+    <label class="col-lg-4 col-form-label">Order Receiving Admin Email 2:</label>
+    <div class="col-lg-8">
+        <input type="text" name="values[admin_email_order_receive2]" class="form-control" value="{{ settings('admin_email_order_receive2') }}">
+    </div>
 </div>
