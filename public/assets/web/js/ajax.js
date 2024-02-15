@@ -6,15 +6,15 @@ $(function () {
     });
     $('.sendToWhatsApp').on('click', function(e) {
         e.preventDefault();
-        var name = $(this).data('product-name');
-        var description = $(this).data('product-description');
-        var message = encodeURIComponent(name + "\n" + description);
-        var adminPhoneNumber = $(this).data('admin-phone');
+        var name            = $(this).data('product-name');
+        var productUrl      = $(this).data('product-url');
+        var message         = encodeURIComponent(name + "\n" + productUrl);
+        var adminPhoneNumber= $(this).data('admin-phone');
         if (adminPhoneNumber) {
             var whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
-        toastr.info('Opps this service will be comming soon!.');
+        toastr.info('This service will be coming soon!.');
     });
     $('.search-city').on('keyup', function() {
         var query = $(this).val();

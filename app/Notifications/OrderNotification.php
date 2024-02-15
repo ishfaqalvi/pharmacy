@@ -48,7 +48,7 @@ class OrderNotification extends Notification
     {
         if($this->type === 'CustomerOrderCreate') {
             return (new MailMessage)
-            ->subject('Order Received')
+            ->subject('Order Placed')
             ->markdown('email.order.create.customer', ['order' => $this->order]);
         }elseif($this->type === 'AdminOrderReceive'){
             return (new MailMessage)

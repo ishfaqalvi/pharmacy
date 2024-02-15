@@ -90,7 +90,8 @@
                 					href="javascript:void(0)"
                 					class="sendToWhatsApp btn btn-rounded btn-outlined--primary" 
                 					data-product-name="{{ $product->name }}"
-                					data-product-description="{{ $product->description }}"
+                					data-product-image="{{ $product->thumbnail }}"
+                					data-product-url="{{ route('product.show', $product->id)}}"
                 					data-admin-phone="{{ settings('watsapp_number_order_receive') }}"
                 					>
                 					Send to WhatsApp

@@ -196,7 +196,7 @@ class ProductController extends Controller
      */
     public function priceDestroy($id)
     {
-        $price = ProductPrice::find($id)->delete();
+        $price = ProductPrice::find($id);
         if ($price->default == 'Yes') {
             return redirect()->back()->with('warning', 'Opps! You cannot delete default price.');    
         }

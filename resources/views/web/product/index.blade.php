@@ -71,7 +71,8 @@
               				<span>&#8360; {{ $price->new_price }}</span>
             			</div>
             			<div class="btn-block grid-btn">
-            				<a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+            				<!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+            				<a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
             			</div>
             			<div class="card-list-content ">
               				<div class="rating-widget mt--20">
@@ -86,7 +87,8 @@
                   				<p>{{ $product->description }}</p>
               				</article>
               				<div class="btn-block d-flex">
-	                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+	                            <!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+	                            <a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
                 				<div class="btn-options ms-2">
                 					<a href="javascript:void(0)" class="add-to-wishlist" data-product-id="{{ $product->id }}" title="Add to Wishlist">
 	              						<i class="ion-ios-heart-outline"></i>Add to Wishlist

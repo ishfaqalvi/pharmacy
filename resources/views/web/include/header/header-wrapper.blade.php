@@ -64,7 +64,7 @@
                             CALL US NOW: 
                             <i class="icon ion-ios-telephone"></i>
                             <span class="font-weight-mid">
-                                +91-012 345 678
+                                +92-333-8662076
                             </span>
                         </p>
                     </div>

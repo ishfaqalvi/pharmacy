@@ -222,7 +222,8 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+                            <!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+                            <a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -290,7 +291,8 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+                            <!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+                            <a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -358,7 +360,8 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+                            <!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+                            <a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
                         </div>
                     </div>
                 </div>
@@ -426,7 +429,8 @@
                             </span>
                         </div>
                         <div class="btn-block">
-                            <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a>
+                            <!-- <a href="javascript:void(0)" class="addToCart btn btn-outlined btn-rounded" data-product-id="{{ $product->id }}" data-price-id="{{ $price->id }}">Add to Cart</a> -->
+                            <a href="{{ route('product.show', $product->id)}}" class="btn btn-outlined btn-rounded">Add to Cart</a>
                         </div>
                     </div>
                 </div>
