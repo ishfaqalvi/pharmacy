@@ -294,6 +294,9 @@
 	    var defaultRadio = $('.wrapper input[type="radio"][name="price_id"]:checked');
 	    $('#hidden_price_id').val(defaultRadio.val());
 	    $('#original_price').text(defaultRadio.data('price'));
+	    if (window.innerWidth < 992) {
+	        document.body.classList.remove('elevet-enable');
+	    }
 	});
 	function changeQuantity(val) {
   		var input = document.getElementById('quantity-input');
