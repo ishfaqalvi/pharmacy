@@ -122,3 +122,8 @@
     background-color: #f2f2f2;
 }
 /*Search city input css end here*/
+@media (max-width: 800px) {
+    #zoom_03 {
+        pointer-events: none;
+    }
+}
