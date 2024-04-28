@@ -52,6 +52,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Web'], function () {
 		Route::get('show/{id}',	'show' )->name('product.show');
 	});
 
+    /*
+	|--------------------------------------------------------------------------
+	| Cart Routes
+	|--------------------------------------------------------------------------
+	*/
+	Route::controller(CartController::class)->prefix('cart')->group(function () {
+		Route::get('',				'index'  )->name('cart.index'  );
+		Route::post('store',		'store'  )->name('cart.store'  );
+		Route::post('update',		'update' )->name('cart.update' );
+		Route::post('delete',		'destroy')->name('cart.destroy');
+	});
+
 	/*
 	|--------------------------------------------------------------------------
 	| NewsLetter Routes
@@ -75,18 +87,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Web','middleware' => ['web','
 		Route::get('profile',		'profile'	)->name('user.profile'	 );
 		Route::post('update',		'update' 	)->name('user.update' 	 );
 		Route::get('search-city',	'searchCity')->name('user.searchCity');
-	});
-
-	/*
-	|--------------------------------------------------------------------------
-	| Cart Routes
-	|--------------------------------------------------------------------------
-	*/
-	Route::controller(CartController::class)->prefix('cart')->group(function () {
-		Route::get('',				'index'  )->name('cart.index'  );
-		Route::post('store',		'store'  )->name('cart.store'  );
-		Route::post('update',		'update' )->name('cart.update' );
-		Route::post('delete',		'destroy')->name('cart.destroy');
 	});
 
 	/*

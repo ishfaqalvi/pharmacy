@@ -47,7 +47,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-12 mb--15">
-                <div class="cart-block-title">
+                {{-- <div class="cart-block-title">
                     <h2>YOU MAY BE INTERESTED IN…</h2>
                 </div>
                 <div class="petmark-slick-slider border normal-slider arrow-type-two" data-slick-setting='{
@@ -85,16 +85,16 @@
                         </div>
                     </div>
                 @endforeach
-                </div>
+                </div> --}}
             </div>
             <div class="col-lg-6 col-12 d-flex">
                 <div class="cart-summary">
                     <div class="cart-summary-wrap">
                         <h4><span>Cart Summary</span></h4>
-                        <p>Sub Total 
+                        <p>Sub Total
                             <span class="text-primary sub-total">&#8360; {{ $cart['amount'] }}</span>
                         </p>
-                        <p>Shipping Cost 
+                        <p>Shipping Cost
                             <span class="text-primary">&#8360; {{ settings('shiping_charges') ?? '0' }}
                             </span>
                         </p>

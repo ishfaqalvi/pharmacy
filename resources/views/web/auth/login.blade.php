@@ -81,15 +81,25 @@
 @section('script')
 <script>
     var firebaseConfig = {
-        apiKey: "AIzaSyCbkgvDAAa7BauY2EPVahYt7WIeoUqJlTo",
-        authDomain: "pharmacy-6b014.firebaseapp.com",
-        projectId: "pharmacy-6b014",
-        storageBucket: "pharmacy-6b014.appspot.com",
-        messagingSenderId: "1027484965522",
-        appId: "1:1027484965522:web:795cfe00348077045a244b",
-        measurementId: "G-4T097TE9C8",
-        databaseURL: "https://pharmacy-6b014.firebaseio.com"
+        apiKey: "AIzaSyARoI89BHL50LdVU7_MEWeFOrEA05k8iz4",
+        authDomain: "sakoon-ed0db.firebaseapp.com",
+        projectId: "sakoon-ed0db",
+        storageBucket: "sakoon-ed0db.appspot.com",
+        messagingSenderId: "817649220513",
+        appId: "1:817649220513:web:937e578a0da080e1cfe9e0",
+        measurementId: "G-DLPMWPTE53",
+        databaseURL: "https://sakoon-ed0db.firebaseio.com"
     };
+    // var firebaseConfig = {
+    //     apiKey: "AIzaSyARoI89BHL50LdVU7_MEWeFOrEA05k8iz4",
+    //     authDomain: "pharmacy-6b014.firebaseapp.com",
+    //     projectId: "pharmacy-6b014",
+    //     storageBucket: "pharmacy-6b014.appspot.com",
+    //     messagingSenderId: "1027484965522",
+    //     appId: "1:1027484965522:web:795cfe00348077045a244b",
+    //     measurementId: "G-4T097TE9C8",
+    //     databaseURL: "https://pharmacy-6b014.firebaseio.com"
+    // };
     firebase.initializeApp(firebaseConfig);
 </script>
 <script type="text/javascript">

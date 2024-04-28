@@ -48,7 +48,7 @@ class ProductController extends Controller
     {
         $products = Product::filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
-
+ 
         return view('admin.product.index', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }

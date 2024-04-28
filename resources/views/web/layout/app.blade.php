@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('assets/web/css/main.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/web/css/custom.css?v=1.1') }}"/>
-    <link rel="shortcut icon" href="{{ asset('assets/web/image/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/web/image/favicon.png') }}" type="image/x-icon">
     <title>@yield('page_title')</title>
 </head>
 <body class="@if (str_contains(url()->full(), '/products/show')) elevet-enable @endif">

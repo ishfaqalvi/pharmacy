@@ -53,7 +53,7 @@ $(function () {
                 success: function(response) {
                     $("#overlay").hide('slow');
                     if (response.state == 'warning') {
-                        toastr.warning(response.message);    
+                        toastr.warning(response.message);
                     }else{
                         toastr.success(response.message);
                         $('input[name=news-letter-email]').val('');
@@ -94,7 +94,7 @@ $(function () {
                 success: function(response) {
                     $("#overlay").hide('slow');
                     if (response.state == 'warning') {
-                        toastr.warning(response.message);    
+                        toastr.warning(response.message);
                     }else{
                         toastr.success(response.message);
                         window.location.href = '/user/profile';
@@ -125,7 +125,7 @@ $(function () {
             success: function(response) {
                 $("#overlay").hide('slow');
                 if (response.state == 'warning') {
-                    toastr.warning(response.message);    
+                    toastr.warning(response.message);
                 }else{
                     toastr.success(response.message);
                     $('#orderTableBody').html(response.data);
@@ -155,7 +155,7 @@ $(function () {
             success: function(response) {
                 $("#overlay").hide('slow');
                 if (response.state == 'warning') {
-                    toastr.warning(response.message);    
+                    toastr.warning(response.message);
                 }else{
                     toastr.success(response.message);
                     $('#orderTableBody').html(response.data);
@@ -219,7 +219,7 @@ $(function () {
             success: function(response) {
                 $("#overlay").hide('slow');
                 if (response.state == 'warning') {
-                    toastr.warning(response.message);    
+                    toastr.warning(response.message);
                 }else{
                     updateCartWidget(response.cartData);
                     toastr.success(response.message);
@@ -255,7 +255,6 @@ $(function () {
             var itemId = $(this).attr('name').split('-')[1];
             var quantity = $(this).val();
             var selectedPriceRadio = $('input[name="price-' + itemId + '"]:checked');
-
             if (selectedPriceRadio.length) {
                 var priceId = selectedPriceRadio.data('price-id');
                 selectedItems.push({ itemId: itemId, priceId: priceId, quantity: quantity });

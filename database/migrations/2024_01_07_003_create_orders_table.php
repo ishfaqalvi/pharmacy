@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('contact_number');
             $table->integer('shipping_cost')->nullable();
             $table->string('image')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->enum('type',['Simple','Asan']);
             $table->enum('admin_state',['Show','Hide'])->default('Show');
             $table->enum('user_state',['Show','Hide'])->default('Show');

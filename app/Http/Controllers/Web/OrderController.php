@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Events\OrderNotification;
-use App\Models\{Order, City};
 use DB;
+use App\Models\Product;
+use App\Models\ProductPrice;
+use Illuminate\Http\Request;
+use App\Models\{Order, City};
+use App\Events\OrderNotification;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -17,7 +19,16 @@ class OrderController extends Controller
      */
     public function checkout()
     {
-        return view('web.checkout.index');
+        $cart = [];
+        $amount = 0;
+        foreach(session()->get('cart', []) as $key => $row){
+            $product = Product::find($key);
+            $price = ProductPrice::find($row['price_id']);
+            $quantity = $row['quantity'];
+            $cart[] = [$product, $price, $quantity];
+            $amount += $row['quantity'] * $price->new_price;
+        }
+        return view('web.checkout.index', compact('cart', 'amount'));
     }
 
     /**
@@ -37,21 +48,30 @@ class OrderController extends Controller
         }
         $input = $request->all();
         $input['city_id'] = $city->id;
-        if ($user->cartAmount() > $requiredAmount) {
-            DB::transaction(function() use($user, $input){
+        $cart = [];
+        $amount = 0;
+        foreach(session()->get('cart', []) as $key => $row){
+            $product = Product::find($key);
+            $price = ProductPrice::find($row['price_id']);
+            $quantity = $row['quantity'];
+            $cart[] = [$product, $price, $quantity];
+            $amount += $row['quantity'] * $price->new_price;
+        }
+        if ($amount > $requiredAmount) {
+            DB::transaction(function() use($user, $input, $cart){
                 $order = $user->orders()->create($input);
-                foreach($user->cartProducts as $row)
+                foreach($cart as $row)
                 {
                     $order->details()->create([
-                        'product_id' => $row->product_id,
-                        'price_id'   => $row->price_id,
-                        'price'      => $row->price->new_price,
-                        'quantity'   => $row->quantity
+                        'product_id' => $row[0]->id,
+                        'price_id'   => $row[1]->id,
+                        'price'      => $row[1]->new_price,
+                        'quantity'   => $row[2]
                     ]);
-                    $row->delete();
                 }
                 $order->createNotification();
             });
+            session()->forget('cart');
             $response = ['state' => 'success', 'message' => 'Your order have been placed successfully!'];
         }else{
             $response = ['state' => 'warning', 'message' => 'You can not palce order your cart amount is less then minimum order amount!'];
@@ -69,12 +89,12 @@ class OrderController extends Controller
     {
         $order = Order::find($request->id);
         if($order->status == 'Cancelled' || $order->status == 'Completed') {
-            $order->update(['user_state' => 'Hide']); 
+            $order->update(['user_state' => 'Hide']);
             $response = [
                 'data' => orders(),
                 'state' => 'success',
                 'message' => 'Your order has been deleted successfully!'
-            ];   
+            ];
         }else{
             $response = ['state' => 'warning', 'message' => 'You can not deleted order your order is in under process!'];
         }
@@ -91,13 +111,13 @@ class OrderController extends Controller
     {
         $order = Order::find($request->id);
         if ($order->status == 'Pending') {
-            $order->update(['status' => 'Cancelled']); 
+            $order->update(['status' => 'Cancelled']);
             $response = [
                 'data' => orders(),
                 'state' => 'success',
                 'message' => 'Your order has been cancelled successfully!'
             ];
-            // event(new OrderNotification($order));  
+            // event(new OrderNotification($order));
         }else{
             $response = ['state' => 'warning', 'message' => 'You can not cancel order your order is in under process!'];
         }

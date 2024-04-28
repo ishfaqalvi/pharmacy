@@ -21,9 +21,9 @@
                     <div class="row row-40">
                         <div class="col-12">
                             <h1 class="quick-title">CHECKOUT</h1>
-                            <div class="checkout-quick-box">
+                            {{-- <div class="checkout-quick-box">
                                 <p>
-                                    <i class="far fa-sticky-note"></i>Have a coupon? 
+                                    <i class="far fa-sticky-note"></i>Have a coupon?
                                     <a href="javascript:" class="slide-trigger" data-bs-target="#quick-cupon">
                                         Click here to enter your code
                                     </a>
@@ -36,7 +36,7 @@
                                         <a href="#" class="btn btn-black">Apply coupon</a>
                                     </div>
                                 </form>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-lg-7 mb--20">
                             <div id="billing-form" class="mb-40">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="order-note-block mt--30">
                                 <label for="description">Order notes</label>
-                                <textarea id="description" cols="30" rows="10" class="order-note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                <textarea id="description" cols="30" rows="10" class="order-note" placeholder="Notes about your order, e.g. special notes for delivery." required></textarea>
                             </div>
                         </div>
                         <div class="col-lg-5">
@@ -79,27 +79,27 @@
                                         <h2 class="checkout-title">YOUR ORDER</h2>
                                         <h4>Product <span>Total</span></h4>
                                         <ul>
-                                            @foreach(auth()->user()->cartProducts as $row)
+                                            @foreach($cart as $row)
                                             <li>
                                                 <span class="left">
-                                                    {{ Str::limit($row->product->name, 35).' X '. $row->quantity }}
+                                                    {{ Str::limit($row[0]->name, 35).' X '. $row[2] }}
                                                 </span>
                                                 <span class="right">
-                                                    &#8360; {{ $row->price->new_price }}
+                                                    &#8360; {{ $row[1]->new_price }}
                                                 </span>
                                             </li>
                                             @endforeach
                                         </ul>
-                                        <p>Sub Total 
-                                            <span>&#8360; {{ auth()->user()->cartAmount() }}</span>
+                                        <p>Sub Total
+                                            <span>&#8360; {{ $amount }}</span>
                                         </p>
-                                        <p>Shipping Fee 
+                                        <p>Shipping Fee
                                             <span>&#8360; {{ settings('shiping_charges') }}</span>
                                         </p>
-                                        <h4>Grand Total 
-                                            <span>&#8360; {{ auth()->user()->cartAmount() + settings('shiping_charges') }}</span>
+                                        <h4>Grand Total
+                                            <span>&#8360; {{ $amount + settings('shiping_charges') }}</span>
                                         </h4>
-                                        <div class="method-notice mt--25">
+                                        {{-- <div class="method-notice mt--25">
                                             <article>
                                                 <h3 class="d-none sr-only">blog-article</h3>
                                                 Sorry, it seems that there are no available payment methods for your state. Please contact us if you
@@ -111,8 +111,8 @@
                                         <div class="term-block">
                                             <input type="checkbox" id="accept_terms2">
                                             <label for="accept_terms2">I’ve read and accept the terms & conditions</label>
-                                        </div>
-                                        <button class="place-order w-100 placeOrder">Place order</button>
+                                        </div> --}}
+                                        <button class="place-order w-100 placeOrder mt--25">Place order</button>
                                     </div>
                                 </div>
                             </div>

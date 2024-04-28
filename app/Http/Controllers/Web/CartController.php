@@ -32,10 +32,9 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $check = auth()->user()->cartProducts()->where('product_id',$request->product_id)->first();
         $product = Product::find($request->product_id);
-        if ($check) 
-        {
+        $cart = session()->get('cart', []);
+        if(isset($cart[$product->id])) {
             $response = ['state' => 'warning', 'message' => 'Product already exist in cart!'];
         }
         elseif($product->in_stock == "false")
@@ -44,7 +43,8 @@ class CartController extends Controller
         }
         else
         {
-            auth()->user()->cartProducts()->create($request->all());
+            $cart[$product->id] = ["price_id" => $request->price_id, "quantity" => $request->quantity];
+            session()->put('cart', $cart);
             $response = ['state' => 'success', 'cartData' => cart(),'message' => 'Product added to cart successfully!'];
         }
         return response()->json($response);
@@ -59,11 +59,15 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
+        $cart = session()->get('cart', []);
         foreach (json_decode($request->data, true) as $item) {
-            $cart = Cart::find($item['itemId']);
-            $cart->update(['price_id' => $item['priceId'], 'quantity' => $item['quantity']]);
+            if(isset($cart[$item['itemId']])) {
+                $cart[$item['itemId']]['quantity'] = $item['quantity'];
+                $cart[$item['itemId']]['quantity'] = $item['quantity'];
+                session()->put('cart', $cart);
+            }
         }
-        return response()->json(['message' => 'Cart updated successfully!','cartData' => cart(),]);
+        return response()->json(['message' => 'Cart updated successfully!','cartData' => cart()]);
     }
 
     /**
@@ -73,7 +77,11 @@ class CartController extends Controller
      */
     public function destroy(Request $request)
     {
-        $cart = Cart::find($request->id)->delete();
-        return response()->json(['message' => 'Product removed from cart successfully!','cartData' => cart(),]);
+        $cart = session()->get('cart', []);
+        if(isset($cart[$request->id])) {
+            unset($cart[$request->id]);
+            session()->put('cart', $cart);
+        }
+        return response()->json(['message' => 'Product removed from cart successfully!','cartData' => cart()]);
     }
 }
