@@ -41,6 +41,4 @@ class ProductCategorized extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Product', 'id', 'product_id');
     }
-    
-
 }

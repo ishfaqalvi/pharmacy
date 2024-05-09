@@ -41,6 +41,7 @@
 @section('script')
 <script>
     $(function(){
+        $('.select').select2();
         var _token = $("input[name='_token']").val();
         $('.validate').validate({
             errorClass: 'validation-invalid-label',
@@ -73,7 +74,7 @@
                     required: true,
                     minlength:8,
                     maxlength:15
-                },    
+                },
                 confirm_password:{
                     required: true,
                     equalTo: "#password"

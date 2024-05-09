@@ -13,15 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
+            $table->string('phone_number')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('image')->default('images/profile/avatar.jpg');
+            $table->string('password')->nullable();
+            $table->integer('city_id')->nullable();
+            $table->string('address')->nullable();
+            $table->string('contact_number')->nullable();
+            $table->string('image')->default('images/profile/avatar.png');
             $table->rememberToken();
-            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('customers');
     }
 };

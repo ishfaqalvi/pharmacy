@@ -40,9 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
+        'customer' => [
+            'driver' => 'session', // For web
+            'provider' => 'customers',
+        ],
+        'customerapi' => [
+            'driver' => 'sanctum', // For API
+            'provider' => 'customers',
         ]
     ],
 
@@ -67,10 +71,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'admins' => [
+        'customers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
-        ]
+            'model' => App\Models\Customer::class,
+        ],
     ],
 
     /*

@@ -26,11 +26,7 @@ class User extends Authenticatable implements Auditable
     protected $fillable = [
         'name',
         'email',
-        'phone_number',
         'password',
-        'city_id',
-        'address',
-        'contact_number',
         'image'
     ];
 
@@ -52,18 +48,6 @@ class User extends Authenticatable implements Auditable
     protected $casts = [
         'email_verified_at' => 'datetime'
     ];
-
-    /**
-     * The set attributes.
-     *
-     * @var array
-     */
-    public function setPasswordAttribute($value)
-    {
-        if ($value) {
-            $this->attributes['password'] = Hash::make($value);
-        }
-    }
 
     /**
      * The set attributes.

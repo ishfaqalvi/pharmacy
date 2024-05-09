@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use App\Models\Admin;
-use Auth;
 use DB;
+use Auth;
+use App\Models\Admin;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Contracts\AdminInterface;
+
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    protected $admin;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+    function __construct(AdminInterface $admin)
     {
+        $this->admin = $admin;
         $this->middleware('permission:users-list',  ['only' => ['index']]);
         $this->middleware('permission:users-view',  ['only' => ['show']]);
         $this->middleware('permission:users-create',['only' => ['create','store']]);
@@ -33,7 +36,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = Admin::get();
+        $users = $this->admin->userList();
         return view('admin.users.index', compact('users'));
     }
 
@@ -44,8 +47,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = new Admin();
-        $roles = Role::pluck('name','id')->all();
+        $responce = $this->admin->userNew();
+        $user = $responce[0];
+        $roles = $responce[1];
 
         return view('admin.users.create',compact('roles','user'));
     }
@@ -60,15 +64,12 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name'              => 'required',
-            'email'             => 'required|email|unique:admins,email',
+            'email'             => 'required|email|unique:users,email',
             'password'          => 'required|same:confirm_password',
             'confirm_password'  => 'required|same:password',
             'roles'             => 'required'
         ]);
-
-        $user = Admin::create($request->all());
-        $user->assignRole($request->input('roles'));
-
+        $this->admin->userStore($request->all());
         return redirect()->route('users.index')->with('success','User created successfully');
     }
 
@@ -80,7 +81,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = Admin::find($id);
+        $user = $this->admin->userFind($id);
         return view('admin.users.show', compact('user'));
     }
 
@@ -189,13 +190,8 @@ class UserController extends Controller
      */
     public function checkEmail(Request $request)
     {
-        if ($request->id) {
-            $user = Admin::where('id','!=',$request->id)->where('email', $request->email)->first();
-        }else{
-            $user = Admin::where('email', $request->email)->first();
-        }
-
-        if($user){ echo "false"; }else{ echo "true";}
+        $responce = $this->admin->userCheckEmail($request->all());
+        echo $responce;
     }
 
     /**

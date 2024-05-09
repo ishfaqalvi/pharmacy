@@ -8,126 +8,126 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
-      /**
-      * Run the database seeds.
-      *
-      * @return void
-      */
-      public function run()
-      {
-            $permissions = [ 
-                  'customers-list', 
-                  'customers-view', 
-                  'customers-create', 
-                  'customers-edit', 
-                  'customers-delete',
+    /**
+     * Run the database seeds.
+    *
+    * @return void
+    */
+    public function run()
+    {
+        $permissions = [
+            'customers-list',
+            'customers-view',
+            'customers-create',
+            'customers-edit',
+            'customers-delete',
 
-                  'orders-list', 
-                  'orders-view', 
-                  'orders-create', 
-                  'orders-edit', 
-                  'orders-delete',
-                  'orders-statusChnage',
-                  'orders-addProduct',
-                  'orders-editProduct',
-                  'orders-deleteProduct',
+            'orders-list',
+            'orders-view',
+            'orders-create',
+            'orders-edit',
+            'orders-delete',
+            'orders-statusChnage',
+            'orders-addProduct',
+            'orders-editProduct',
+            'orders-deleteProduct',
 
-                  'brands-list', 
-                  'brands-view', 
-                  'brands-create', 
-                  'brands-edit', 
-                  'brands-delete',
-                  'brands-popularList',
-                  'brands-popularCreate',
-                  'brands-popularDelete',
+            'brands-list',
+            'brands-view',
+            'brands-create',
+            'brands-edit',
+            'brands-delete',
+            'brands-popularList',
+            'brands-popularCreate',
+            'brands-popularDelete',
 
-                  'categories-list', 
-                  'categories-view', 
-                  'categories-create', 
-                  'categories-edit', 
-                  'categories-delete',
-                  'categories-subList',  
-                  'categories-subCreate', 
-                  'categories-subEdit', 
-                  'categories-subDelete',
+            'categories-list',
+            'categories-view',
+            'categories-create',
+            'categories-edit',
+            'categories-delete',
+            'categories-subList',
+            'categories-subCreate',
+            'categories-subEdit',
+            'categories-subDelete',
 
-                  'compositions-list', 
-                  'compositions-view', 
-                  'compositions-create', 
-                  'compositions-edit', 
-                  'compositions-delete',
+            'compositions-list',
+            'compositions-view',
+            'compositions-create',
+            'compositions-edit',
+            'compositions-delete',
 
-                  'products-list', 
-                  'products-view', 
-                  'products-create', 
-                  'products-edit', 
-                  'products-delete',
-                  'products-priceList', 
-                  'products-priceCreate', 
-                  'products-priceEdit', 
-                  'products-priceDelete',
-                  'products-imageList', 
-                  'products-imageCreate',
-                  'products-imageDelete',
-                  'products-specialList', 
-                  'products-specialCreate',
-                  'products-specialDelete',
-                  'products-relatedList', 
-                  'products-relatedCreate',
-                  'products-relatedDelete',
+            'products-list',
+            'products-view',
+            'products-create',
+            'products-edit',
+            'products-delete',
+            'products-priceList',
+            'products-priceCreate',
+            'products-priceEdit',
+            'products-priceDelete',
+            'products-imageList',
+            'products-imageCreate',
+            'products-imageDelete',
+            'products-specialList',
+            'products-specialCreate',
+            'products-specialDelete',
+            'products-relatedList',
+            'products-relatedCreate',
+            'products-relatedDelete',
 
-                  'sliders-list', 
-                  'sliders-view', 
-                  'sliders-create', 
-                  'sliders-edit', 
-                  'sliders-delete',
+            'sliders-list',
+            'sliders-view',
+            'sliders-create',
+            'sliders-edit',
+            'sliders-delete',
 
-                  'cities-list', 
-                  'cities-view', 
-                  'cities-create', 
-                  'cities-edit', 
-                  'cities-delete',
+            'cities-list',
+            'cities-view',
+            'cities-create',
+            'cities-edit',
+            'cities-delete',
 
-                  'newsletters-list',
-                  'newsletters-create',
-                  'newsletters-delete',
+            'newsletters-list',
+            'newsletters-create',
+            'newsletters-delete',
 
-                  'roles-list', 
-                  'roles-view', 
-                  'roles-create', 
-                  'roles-edit', 
-                  'roles-delete',
+            'roles-list',
+            'roles-view',
+            'roles-create',
+            'roles-edit',
+            'roles-delete',
 
-                  'users-list', 
-                  'users-view', 
-                  'users-create', 
-                  'users-edit', 
-                  'users-delete',
+            'users-list',
+            'users-view',
+            'users-create',
+            'users-edit',
+            'users-delete',
 
-                  'notifications-list', 
-                  'notifications-view', 
-                  'notifications-create', 
-                  'notifications-edit', 
-                  'notifications-delete',
+            'notifications-list',
+            'notifications-view',
+            'notifications-create',
+            'notifications-edit',
+            'notifications-delete',
 
-                  'audits-list', 
-                  'audits-view', 
-                  'audits-create', 
-                  'audits-edit', 
-                  'audits-delete',
+            'audits-list',
+            'audits-view',
+            'audits-create',
+            'audits-edit',
+            'audits-delete',
 
-                  'logs-list', 
-                  'logs-view', 
-                  'logs-create', 
-                  'logs-edit', 
-                  'logs-delete',
+            'logs-list',
+            'logs-view',
+            'logs-create',
+            'logs-edit',
+            'logs-delete',
 
-                  'settings-list',
-                  'settings-create',
-            ];
-        
-            foreach ($permissions as $permission) {
-                  Permission::create(['name' => $permission, 'guard_name' => 'admin']);
-            }
-      }
+            'settings-list',
+            'settings-create',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission, 'guard_name' => 'web']);
+        }
+    }
 }

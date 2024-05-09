@@ -26,20 +26,6 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::controller(AuthController::class)->group(function () {
         Route::post('auth/login',  'login');
     });
-});
-
-Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group(function () {
-	/*
-    |--------------------------------------------------------------------------
-    | Auth Route
-    |--------------------------------------------------------------------------
-    */
-    Route::controller(AuthController::class)->prefix('auth')->group(function () {
-        Route::get('view',              'view'   );
-        Route::post('update',           'update' );
-        Route::get('logout',            'logout' );
-        Route::delete('delete/{id}',    'destroy');
-    });
 
     /*
     |--------------------------------------------------------------------------
@@ -79,6 +65,20 @@ Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group
     Route::controller(SliderController::class)->prefix('sliders')->group(function () {
 		Route::get('list',			'index');
 	});
+});
+
+Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group(function () {
+	/*
+    |--------------------------------------------------------------------------
+    | Auth Route
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(AuthController::class)->prefix('auth')->group(function () {
+        Route::get('view',              'view'   );
+        Route::post('update',           'update' );
+        Route::get('logout',            'logout' );
+        Route::delete('delete/{id}',    'destroy');
+    });
 
 	/*
     |--------------------------------------------------------------------------

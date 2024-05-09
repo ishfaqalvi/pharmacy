@@ -106,22 +106,13 @@ class Product extends Model implements Auditable
     public function scopeFilter($query, $request)
     {
         if (isset($request['brand'])) {
-            $brand = $request['brand'];
-            $query->whereHas('brand', function ($query) use ($brand) {
-                $query->whereName($brand);
-            });
+            $query->whereBrandId($request['brand']);
         }
         if (isset($request['category'])) {
-            $category = $request['category'];
-            $query->whereHas('category', function ($query) use ($category) {
-                $query->whereName($category);
-            });
+            $query->whereCategoryId($request['category']);
         }
         if (isset($request['sub_category'])) {
-            $subCategory = $request['sub_category'];
-            $query->whereHas('subCategory', function ($query) use ($subCategory) {
-                $query->whereName($subCategory);
-            });
+            $query->whereSubCategoryId($request['sub_category']);
         }
         if (isset($request['formula'])) {
             $formula = $request['formula'];
@@ -157,7 +148,7 @@ class Product extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Brand', 'id', 'brand_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -181,7 +172,7 @@ class Product extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Composition', 'id', 'composition_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -189,7 +180,7 @@ class Product extends Model implements Auditable
     {
         return $this->hasMany('App\Models\ProductImage', 'product_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

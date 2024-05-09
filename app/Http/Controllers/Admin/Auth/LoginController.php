@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Contracts\AdminInterface;
+use App\Http\Controllers\Controller;
+
 
 class LoginController extends Controller
 {
+    protected $admin;
+
+    public function __construct(AdminInterface $admin){
+        $this->admin = $admin;
+    }
+
     /**
      * Show the application's login form.
      *
@@ -30,9 +37,8 @@ class LoginController extends Controller
             'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
-        if (Auth::guard('admin')->attempt($credentials)) {
+        if ($this->admin->login($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->route('dashboard');
         }
         return back()->withErrors([
@@ -48,20 +54,10 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        $this->admin->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('admin.showLoginForm');
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard('admin');
     }
 }

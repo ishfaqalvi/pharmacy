@@ -16,11 +16,11 @@ class NewPermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [ 
+        $permissions = [
             'orders-actions'
         ];
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission, 'guard_name' => 'admin']);
+            Permission::create(['name' => $permission, 'guard_name' => 'web']);
         }
         $role = Role::find(1);
 
