@@ -37,7 +37,8 @@ class CartController extends BaseController
         if (!$responce) {
             return $this->sendResponse('', 'Product already exist in cart!');
         }
-        return $this->sendResponse($responce, 'Product add to cart successfully.');
+        $cart = $this->cart->list($responce->session);
+        return $this->sendResponse($cart, 'Product add to cart successfully.');
     }
 
     /**
@@ -49,8 +50,9 @@ class CartController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $this->cart->update($request->all(), $id);
-        return $this->sendResponse('', 'Item updated successfully.');
+        $responce = $this->cart->update($request->all(), $id);
+        $cart = $this->cart->list($responce->session);
+        return $this->sendResponse($cart, 'Item updated successfully.');
     }
 
     /**
@@ -61,7 +63,8 @@ class CartController extends BaseController
      */
     public function destroy($id)
     {
-        $this->cart->delete($id);
-        return $this->sendResponse('', 'Item removed from cart successfully.');
+        $session = $this->cart->delete($id);
+        $cart = $this->cart->list($session);
+        return $this->sendResponse($cart, 'Item removed from cart successfully.');
     }
 }

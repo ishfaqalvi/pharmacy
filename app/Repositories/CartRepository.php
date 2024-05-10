@@ -30,11 +30,16 @@ class CartRepository implements CartInterface
 
 	public function update($data, $id)
     {
-        return Cart::find($id)->update($data);
+        $item = Cart::find($id);
+        $item->update($data);
+        return $item;
     }
 
 	public function delete($id)
     {
-        return Cart::find($id)->delete();
+        $item = Cart::find($id);
+        $session = $item->session;
+        $item->delete();
+        return $session;
     }
 }
