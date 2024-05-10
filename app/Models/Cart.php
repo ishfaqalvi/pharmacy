@@ -30,7 +30,7 @@ class Cart extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['user_id','product_id','price_id','quantity'];
+    protected $fillable = ['session','product_id','price_id','quantity'];
 
 
     /**
@@ -40,20 +40,12 @@ class Cart extends Model implements Auditable
     {
         return $this->hasOne('App\Models\Product', 'id', 'product_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function price()
     {
         return $this->hasOne('App\Models\ProductPrice', 'id', 'price_id');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function user()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
 }

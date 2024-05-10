@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Contracts\CustomerInterface;
+use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
+    protected $customer;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+    function __construct(CustomerInterface $customer)
     {
         $this->middleware('permission:customers-list',  ['only' => ['index']]);
         $this->middleware('permission:customers-view',  ['only' => ['show']]);
@@ -29,8 +31,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $users = User::get();
-        return view('admin.customer.index', compact('users'));
+        $customers = $this->customer->list('pagination');
+
+        return view('admin.customer.index', compact('customers'));
     }
 
     /**
@@ -40,9 +43,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $user = new User();
+        $customer = $this->customer->new();
 
-        return view('admin.customer.create',compact('user'));
+        return view('admin.customer.create',compact('customer'));
     }
 
     /**
@@ -56,9 +59,9 @@ class CustomerController extends Controller
         $this->validate($request, [
             'name'         => 'required',
             'email'        => 'required|email',
-            'phone_number' => 'required|unique:users,phone_number'
+            'phone_number' => 'required|unique:customers,phone_number'
         ]);
-        $user = User::create($request->all());
+        $this->customer->store($request->all());
         return redirect()->route('customers.index')->with('success','Customer created successfully!');
     }
 
@@ -70,8 +73,9 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        return view('admin.customer.show', compact('user'));
+        $customer = $this->customer->find($id);
+
+        return view('admin.customer.show', compact('customer'));
     }
 
     /**
@@ -82,8 +86,9 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.customer.edit',compact('user'));
+        $customer = $this->customer->find($id);
+
+        return view('admin.customer.edit',compact('customer'));
     }
 
     /**
@@ -93,14 +98,14 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name'         => 'required',
             'email'        => 'required|email',
             'phone_number' => 'required|unique:users,phone_number,' . $user->id,
         ]);
-        $user->update($request->all());
+        $this->customer->update($request->all(), $id);
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
     }
 

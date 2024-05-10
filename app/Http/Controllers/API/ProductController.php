@@ -1,13 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\API\BaseController;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Contracts\ProductInterface;
+use App\Http\Controllers\API\BaseController;
 
 class ProductController extends BaseController
 {
+    protected $product;
+
+    function __construct(ProductInterface $product)
+    {
+        $this->product = $product;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +22,7 @@ class ProductController extends BaseController
      */
     public function all(Request $request)
     {
-        $relations = ['brand', 'category', 'subCategory', 'composition', 'prices', 'images'];
-        $products = Product::filter($request->all())->with($relations)->paginate();
+        $products = $this->product->list($request->all(), true);
 
         return $this->sendResponse($products, 'All Products list get successfully.');
     }
@@ -26,15 +32,13 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function special()
+    public function special(Request $request)
     {
         $specialTypes = ['Frequently', 'Featured', 'Wellness', 'Men & Woman'];
-        $relations = ['brand', 'category', 'subCategory', 'composition', 'prices', 'images'];
         $data = [];
-
         foreach ($specialTypes as $type) {
             $key = strtolower(str_replace([' & ', ' '], ['And', ''], $type));
-            $data[$key] = Product::special($type)->with($relations)->get();
+            $data[$key] = $this->product->list($request->all(), $type);
         }
         return $this->sendResponse($data, 'Special Products list get successfully.');
     }

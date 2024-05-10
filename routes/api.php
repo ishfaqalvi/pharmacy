@@ -65,9 +65,20 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::controller(SliderController::class)->prefix('sliders')->group(function () {
 		Route::get('list',			'index');
 	});
-});
 
-Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group(function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Cart Route
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(CartController::class)->prefix('cart')->group(function () {
+		Route::get('list',			     'index'  );
+		Route::post('store',		     'store'  );
+		Route::patch('update/{item}',    'update' );
+        Route::delete('delete/{id}',     'destroy');
+	});
+});
+Route::middleware('auth:sanctum,customerapi')->namespace('\App\Http\Controllers\API')->group(function () {
 	/*
     |--------------------------------------------------------------------------
     | Auth Route
@@ -79,18 +90,6 @@ Route::middleware('auth:sanctum')->namespace('\App\Http\Controllers\API')->group
         Route::get('logout',            'logout' );
         Route::delete('delete/{id}',    'destroy');
     });
-
-	/*
-    |--------------------------------------------------------------------------
-    | Cart Route
-    |--------------------------------------------------------------------------
-    */
-    Route::controller(CartController::class)->prefix('cart')->group(function () {
-		Route::get('list',			     'index'  );
-		Route::post('store',		     'store'  );
-		Route::patch('update/{item}',    'update' );
-        Route::delete('delete/{id}',     'destroy');
-	});
 
     /*
     |--------------------------------------------------------------------------

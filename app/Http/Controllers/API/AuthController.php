@@ -1,15 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\API\BaseController;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Contracts\CustomerInterface;
+use App\Http\Controllers\API\BaseController;
 
 class AuthController extends BaseController
 {
+    protected $customer;
+
+    function __construct(CustomerInterface $customer)
+    {
+        $this->customer = $customer;
+    }
+
     /**
      * Validate the request and Log in the user.
      *
@@ -18,18 +23,8 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'name'          => ['required'],
-            'email'         => ['required', 'email'],
-            'phone_number'  => ['required']
-        ]);
-
-        $user = User::firstOrCreate(
-            ['phone_number' => $request->phone_number], 
-            ['name' => $request->name, 'email' => $request->email]
-        );
-        $user->token = $user->createToken("API TOKEN")->plainTextToken;
-        return $this->sendResponse($user, 'You have been login successfully!');
+        $responce = $this->customer->login('customerapi', $request->all());
+        return $this->sendResponse($responce, 'You have been login successfully!');
     }
 
     /**
@@ -39,19 +34,8 @@ class AuthController extends BaseController
      */
     public function view()
     {
-        return $this->sendResponse(auth()->user(), 'Profile data get successfully');
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth()->user()->tokens()->delete();
-        return $this->sendResponse('', 'You have been logout successfully!');
+        $customer = $this->customer->view('customerapi');
+        return $this->sendResponse($customer, 'Profile data get successfully');
     }
 
     /**
@@ -63,9 +47,20 @@ class AuthController extends BaseController
      */
     public function update(Request $request)
     {
-        $user = auth()->user();
-        $user->update($request->all());
-        return $this->sendResponse($user, 'Your profile updated successfully!');
+        $customer = $this->customer->update('customerapi', $request->all());
+        return $this->sendResponse($customer, 'Your profile updated successfully!');
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->customer->logout('customerapi');
+        return $this->sendResponse('', 'You have been logout successfully!');
     }
 
     /**
@@ -75,9 +70,8 @@ class AuthController extends BaseController
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->tokens()->delete();
-        $user->delete();
+        $this->customer->delete('customerapi', $id);
+
         return $this->sendResponse('', 'Your account removed successfully.');
     }
 }
