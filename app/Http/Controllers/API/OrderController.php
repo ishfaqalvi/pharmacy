@@ -1,15 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\API\BaseController;
-
 use Illuminate\Http\Request;
-use App\Events\OrderNotification;
-use App\Models\Order;
-use DB;
+
+use App\Contracts\OrderInterface;
+use App\Http\Controllers\API\BaseController;
 
 class OrderController extends BaseController
 {
+    protected $order;
+
+    function __construct(OrderInterface $order)
+    {
+        $this->order = $order;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,10 +21,12 @@ class OrderController extends BaseController
      */
     public function index()
     {
-        $orders = auth()->user()->orders()->whereUserState('Show')->with(['details' => function($query) {
-            $query->with(['product', 'productPrice']);
-        }, 'city'])->get();
-        return $this->sendResponse($orders, 'Orders list get successfully.');
+        try {
+            $orders = $this->order->list('customerapi');
+            return $this->sendResponse($orders, 'Orders list get successfully.');
+        } catch (\Throwable $th) {
+            return $this->sendException($th->getMessage());
+        }
     }
 
     /**
@@ -31,27 +37,14 @@ class OrderController extends BaseController
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $minimuStrVal = settings('minimun_receiving_order_amount');
-        $requiredAmount = isset($minimuStrVal) ? intval($minimuStrVal) : 100; 
-        if ($user->cartAmount() > $requiredAmount) {
-            DB::transaction(function() use($user, $request){
-                $order = $user->orders()->create($request->all());
-                foreach($user->cartProducts as $row)
-                {
-                    $order->details()->create([
-                        'product_id' => $row->product_id,
-                        'price_id'   => $row->price_id,
-                        'price'      => $row->price->new_price,
-                        'quantity'   => $row->quantity
-                    ]);
-                    $row->delete();
-                }
-                event(new OrderNotification($order));
-            });
-            return $this->sendResponse($orders, 'Your order have been placed successfully!');
-        }else{
-            return $this->sendResponse($orders, 'You can not palce order your cart amount is less then minimum order amount!');
+        try {
+            $responce = $this->order->store('customerapi', $request->all());
+            if($responce['status']){
+                return $this->sendResponse('', $responce['message']);
+            }
+            return $this->sendError('Order Not Placed', $responce['message']); 
+        } catch (\Throwable $th) {
+            return $this->sendException($th->getMessage());
         }
     }
 
@@ -62,14 +55,16 @@ class OrderController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function cancel(Request $request, Order $order)
+    public function cancel(Request $request, $order)
     {
-        if ($order->status == 'Pending') {
-            $order->update(['status' => 'Cancelled']);
-            return $this->sendResponse('', 'Your order has been cancelled successfully!');
-            event(new OrderNotification($order));  
-        }else{
-            return $this->sendResponse('', 'You can not cancel order your order is in under process!');
+        try {
+            $responce = $this->order->cancel('customerapi', $order);
+            if($responce){
+                return $this->sendResponse('', 'Order canceled successfully.');
+            }
+            return $this->sendError('Order Not canceled', 'You can not cancel order your order is in under process!'); 
+        } catch (\Throwable $th) {
+            return $this->sendException($th->getMessage());
         }
     }
 
@@ -81,12 +76,14 @@ class OrderController extends BaseController
      */
     public function destroy($id)
     {
-        $order = Order::find($id);
-        if($order->status == 'Cancelled' || $order->status == 'Completed') {
-            $order->update(['user_state' => 'Hide']); 
-            return $this->sendResponse('', 'Order deleted successfully.');  
-        }else{
-            return $this->sendResponse('', 'You can not deleted order your order is in under process!');
+        try {
+            $responce = $this->order->delete('customerapi', $id);
+            if($responce){
+                return $this->sendResponse('', 'Order deleted successfully.');
+            }
+            return $this->sendError('Order Not Deleted', 'You can not delete order your order is in under process!'); 
+        } catch (\Throwable $th) {
+            return $this->sendException($th->getMessage());
         }
     }
 }

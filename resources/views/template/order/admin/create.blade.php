@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                     <td>Total Amount:</td>
-                    <td>&#8360;{{ $order->totalAmount + $order->shipping_cost }}</td>
+                    <td><strong>&#8360; {{ ($order->totalAmount + $order->shipping_cost) - $order->discount }}</strong></td>
                 </tr>
             </table>
             <p>Items Ordered:</p>
@@ -70,6 +70,7 @@
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>Discount(Per Item)</th>
                     <th>Amount</th>
                 </tr>
                 @foreach ($order->details as $item)
@@ -77,7 +78,8 @@
                     <td>{{ $item->product->name }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td>{{ $item->price }}</td>
-                    <td>&#8360;{{ $item->quantity * $item->price }}</td>
+                    <td>{{ $item->discount }}</td>
+                    <td><strong>&#8360; {{ ($item->quantity * $item->price) - ($item->quantity * $item->discount) }}</strong></td>
                 </tr>
                 @endforeach
             </table>

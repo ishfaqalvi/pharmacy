@@ -41,7 +41,7 @@
 <body>
     <div class="email-container">
         <div class="header">
-            Order Received
+            New Order Placed
         </div>
         <div class="content">
             <p>Hi {{ $order->name }},</p>
@@ -66,6 +66,7 @@
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>Discount(Per Item)</th>
                     <th>Amount</th>
                 </tr>
                 @foreach ($order->details as $item)
@@ -73,20 +74,25 @@
                     <td>{{ $item->product->name }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td>{{ $item->price }}</td>
-                    <td>&#8360;{{ $item->quantity * $item->price }}</td>
+                    <td>{{ $item->discount }}</td>
+                    <td>&#8360; {{ ($item->quantity * $item->price) - ($item->quantity * $item->discount) }}</td>
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-                    <td>&#8360;{{ $order->totalAmount }}</td>
+                    <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
+                    <td>&#8360; {{ $order->totalAmount }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>Shipment Charges:</strong></td>
-                    <td>&#8360;{{ $order->shipping_cost }}</td>
+                    <td colspan="4" style="text-align: right;"><strong>Shipment Charges:</strong></td>
+                    <td>&#8360; {{ $order->shipping_cost }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>Grand Total:</strong></td>
-                    <td>&#8360;{{ $order->totalAmount+$order->shipping_cost }}</td>
+                    <td colspan="4" style="text-align: right;"><strong>Total Discount:</strong></td>
+                    <td>&#8360; {{ $order->discount }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: right;"><strong>Grand Total:</strong></td>
+                    <td><strong>&#8360; {{ $order->totalAmount + $order->shipping_cost - $order->discount }}</strong></td>
                 </tr>
             </table>
             <p>We will send you an update when your order status has been updated.</p>

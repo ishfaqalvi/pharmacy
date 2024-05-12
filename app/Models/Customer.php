@@ -94,13 +94,13 @@ class Customer extends Model implements Auditable
     {
         return $this->hasOne('App\Models\City', 'id', 'city_id');
     }
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cartProducts()
+    public function orders()
     {
-        return $this->hasMany('App\Models\Cart', 'user_id', 'id');
+        return $this->hasMany('App\Models\Order', 'customer_id', 'id');
     }
 
     /**
@@ -111,13 +111,6 @@ class Customer extends Model implements Auditable
         return $this->hasMany('App\Models\Wishlist', 'user_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function orders()
-    {
-        return $this->hasMany('App\Models\Order', 'user_id', 'id');
-    }
 
     /**
      * Count the pending orders

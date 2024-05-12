@@ -2,15 +2,15 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Order;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderMail extends Mailable
+class CustomerOrderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,18 +26,18 @@ class OrderMail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Get the message detail.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
     public function build()
     {
-        if ($this->order->status == 'Pending') {
-            $subject= 'Order Recieved';
-            $view   = 'admin.order.template.create';
+        if($this->order->status == 'Pending'){
+            $subject = 'Your order has been placed!';
+            $view = 'template.order.customer.create';
         }else{
-            $subject= 'Order Updated';
-            $view   = 'admin.order.template.edit';
+            $subject = 'Your order has been updated!';
+            $view = 'template.order.customer.update';
         }
         return $this->subject($subject)->view($view, ['order' => $this->order]);
     }

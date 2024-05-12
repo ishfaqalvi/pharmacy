@@ -36,19 +36,18 @@ class Order extends Model implements Auditable
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'city_id',
+        'customer_id',
         'order_number',
         'name',
         'email',
         'address',
         'contact_number',
+        'city_id',
         'shipping_cost',
-        'image',
-        'description',
-        'type',
-        'admin_state',
-        'user_state',
+        'discount',
+        'payment_method',
+        'admin_deleted_at',
+        'customer_deleted_at',
         'status'
     ];
 
@@ -100,8 +99,8 @@ class Order extends Model implements Auditable
      */
     public function getTotalAmountAttribute()
     {
-        return $this->details->sum(function ($product) {
-            return $product->price * $product->quantity;
+        return $this->details->sum(function ($record) {
+            return ($record->price * $record->quantity) - ($record->quantity * $record->discount);
         });
     }
 
@@ -116,9 +115,9 @@ class Order extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function customer()
     {
-        return $this->hasOne('App\Models\User', 'id', 'user_id');
+        return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
     }
 
     /**

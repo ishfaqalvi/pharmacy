@@ -34,7 +34,7 @@ class OrderDetail extends Model implements Auditable
      *
      * @var array
      */
-    protected $fillable = ['order_id','product_id','price_id','price','quantity'];
+    protected $fillable = ['order_id','product_id','price_id','price','discount','quantity'];
 
     /**
      * Calculate the amount attribute.

@@ -15,16 +15,14 @@ class OrderNotification extends Notification
     use Queueable;
 
     protected $order;
-    protected $type;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Order $order, $type)
+    public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->type = $type;
     }
 
     /**
@@ -35,7 +33,7 @@ class OrderNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
@@ -69,8 +67,17 @@ class OrderNotification extends Notification
      */
     public function toDatabase($notifiable)
     {
-        // return [
-        //     'message' => 'New order received'
-        // ];
+        if($this->order->status == 'Pending'){
+            return [
+                'title' => 'New Order Received',
+                'message' => $this->order->name.' placed a new order'
+            ];
+        }
+        else{
+            return [
+                'title' => 'Order Updated',
+                'message' => $this->order->order_number. ' order updated.'
+            ];
+        }
     }
 }

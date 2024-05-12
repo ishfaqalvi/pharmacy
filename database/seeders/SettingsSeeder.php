@@ -29,7 +29,7 @@ class SettingsSeeder extends Seeder
                 'value' => 'upload/images/settings/derivative-favicon.png',
             ],
             [
-                'key'   => 'minimun_receiving_order_amount',
+                'key'   => 'minimum_receiving_order_amount',
                 'value' => '1000',
             ],
             [

@@ -97,6 +97,19 @@ class Product extends Model implements Auditable
     }
 
     /**
+     * The get attributes.
+     *
+     * @var array
+     */
+    public function discount($price_id)
+    {
+        $productPrice = $this->prices()->whereId($price_id)->first();
+        $category = $this->category;
+        $price = $productPrice->new_price;
+        return intval($productPrice->discount) + (intval($category->discount) > 0 ? (($price * intval($category->discount)) / 100) : 0 );
+    }
+
+    /**
      * Scope a query to filter product.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
