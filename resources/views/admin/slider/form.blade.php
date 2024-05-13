@@ -23,7 +23,7 @@
     </div>
     <div class="form-group col-md-6">
         {{ Form::label('image') }}
-        {{ Form::file('image', ['class' => 'form-control dropify' . ($errors->has('image') ? ' is-invalid' : ''), 'accept' => 'image/png,image/jpg,image/jpeg','data-default-file' => $slider->image ? asset('images/slider/original/'.$slider->image) : '', $slider->image ? '' : 'required','data-height' => '275']) }}
+        {{ Form::file('image', ['class' => 'form-control dropify' . ($errors->has('image') ? ' is-invalid' : ''), 'accept' => 'image/png,image/jpg,image/jpeg','data-default-file' => $slider->image ? $slider->image : '', $slider->image ? '' : 'required','data-height' => '275']) }}
         {!! $errors->first('image', '<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="form-group col-md-6 heading" style="display: none;">

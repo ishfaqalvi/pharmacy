@@ -84,6 +84,22 @@ class SettingsSeeder extends Seeder
                 'key'   => 'newsletter_message',
                 'value' => 'Thanks for reaching us.',
             ],
+
+
+
+
+            [
+                'key'   => 'website_title',
+                'value' => 'Sakoon Pharmacy',
+            ],
+            [
+                'key'   => 'website_fav_icon',
+                'value' => 'images/settings/favicon.png',
+            ],
+            [
+                'key'   => 'website_logo',
+                'value' => 'images/settings/logo.png',
+            ],
         ]);
     }
 }

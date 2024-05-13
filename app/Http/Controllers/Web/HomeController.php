@@ -2,14 +2,33 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Brand;
 use App\Models\Slider;
 use App\Models\Product;
-use App\Models\Brand;
+use Illuminate\Http\Request;
+use App\Contracts\SliderInterface;
+use App\Contracts\ProductInterface;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
+    protected $slider;
+    protected $product;
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct(
+        SliderInterface $slider,
+        ProductInterface $product
+    )
+    {
+        $this->slider = $slider;
+        $this->product = $product;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,13 +36,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sliders    = Slider::orderBy('order')->get();
-        $frequently = Product::special('Frequently')->get();
-        $featured   = Product::special('Featured')->get();
-        $wellness   = Product::special('Wellness')->get();
-        $menWomans  = Product::special('Men & Woman')->get();
+        $sliders    = $this->slider->list(false, true);
+        $featured   = $this->product->list([], 'Featured');
+        $frequently = $this->product->list([], 'Frequently');
+        $wellness   = $this->product->list([], 'Wellness');
+        $menWomans  = $this->product->list([], 'Men & Woman');
         $brands     = Brand::popular()->get();
 
-        return view('web.home.index', compact('sliders','frequently','featured','wellness','menWomans','brands'));
+        return view('website.home.index', compact('sliders','featured','frequently','wellness','menWomans','brands'));
     }
 }

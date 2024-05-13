@@ -23,4 +23,19 @@
     <div class="col-lg-8">
         <input type="text" name="values[admin_email_order_receive2]" class="form-control" value="{{ settings('admin_email_order_receive2') }}">
     </div>
+
+    <label class="col-lg-4 col-form-label">Website Title:</label>
+    <div class="col-lg-8">
+        <input type="text" name="values[website_title]" class="form-control" value="{{ settings('website_title') }}">
+    </div>
+
+    <label class="col-lg-4 col-form-label">Website Fev Icon:</label>
+    <div class="col-lg-8">
+        <input type="file" name="website_title" class="form-control">
+    </div>
+
+    <label class="col-lg-4 col-form-label">Website Logo:</label>
+    <div class="col-lg-8">
+        <input type="file" name="website_logo" class="form-control">
+    </div>
 </div>

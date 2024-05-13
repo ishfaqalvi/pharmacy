@@ -47,24 +47,32 @@ class Slider extends Model implements Auditable
     public function setImageAttribute($image)
     {
         if ($image instanceof \Illuminate\Http\UploadedFile) {
-            $extension = $image->getClientOriginalExtension();
-            $name = uniqid() . "." . $extension;
-            $originalPath = public_path('images/slider/');
-            $image->move($originalPath.'original', $name);
-
-            Image::load($originalPath.'original/'.$name)
-                ->fit(Manipulations::FIT_CROP, 1920, 570)
-                ->save($originalPath .'large/'.$name);
-
-            Image::load($originalPath.'original/'.$name)
-                ->fit(Manipulations::FIT_CROP, 500, 300)
-                ->save($originalPath.'small/'.$name);
-
-            $this->attributes['image'] = $name;
+            $this->attributes['image'] = uploadFile($image, 'slider/', '1000', '391');
         } else {
             unset($this->attributes['image']);
         }
     }
+    // public function setImageAttribute($image)
+    // {
+    //     if ($image instanceof \Illuminate\Http\UploadedFile) {
+    //         $extension = $image->getClientOriginalExtension();
+    //         $name = uniqid() . "." . $extension;
+    //         $originalPath = public_path('images/slider/');
+    //         $image->move($originalPath.'original', $name);
+
+    //         Image::load($originalPath.'original/'.$name)
+    //             ->fit(Manipulations::FIT_CROP, 1920, 570)
+    //             ->save($originalPath .'large/'.$name);
+
+    //         Image::load($originalPath.'original/'.$name)
+    //             ->fit(Manipulations::FIT_CROP, 500, 300)
+    //             ->save($originalPath.'small/'.$name);
+
+    //         $this->attributes['image'] = $name;
+    //     } else {
+    //         unset($this->attributes['image']);
+    //     }
+    // }
 
     /**
      * The set attributes.
@@ -103,5 +111,15 @@ class Slider extends Model implements Auditable
     public function setOrderAttribute($value)
     {
         $this->attributes['order'] = empty($value) ? 1 : $value;
+    }
+
+    /**
+     * The get attributes.
+     *
+     * @var array
+     */
+    public function getImageAttribute($image)
+    {
+        return isset($image) ? asset($image) : null;
     }
 }

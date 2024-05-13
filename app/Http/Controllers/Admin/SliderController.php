@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
-
-use App\Models\{Slider,Brand,Category,SubCategory,Product};
 use Illuminate\Http\Request;
+
+use App\Contracts\SliderInterface;
+use App\Http\Controllers\Controller;
 
 /**
  * Class SliderController
@@ -12,13 +12,16 @@ use Illuminate\Http\Request;
  */
 class SliderController extends Controller
 {
+    protected $slider;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+    function __construct(SliderInterface $slider)
     {
+        $this->slider = $slider;
         $this->middleware('permission:sliders-list',  ['only' => ['index']]);
         $this->middleware('permission:sliders-view',  ['only' => ['show']]);
         $this->middleware('permission:sliders-create',['only' => ['create','store']]);
@@ -33,7 +36,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::orderBy('order')->paginate();
+        $sliders = $this->slider->list(true, true);
 
         return view('admin.slider.index', compact('sliders'))
         ->with('i', (request()->input('page', 1) - 1) * $sliders->perPage());
@@ -46,7 +49,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        $slider = new Slider();
+        $slider =  $this->slider->new();
         return view('admin.slider.create', compact('slider'));
     }
 
@@ -58,7 +61,7 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-       $slider = Slider::create($request->all());
+        $slider =  $this->slider->store($request->all());
         return redirect()->route('sliders.index')
             ->with('success', 'Slider created successfully.');
     }
@@ -71,7 +74,7 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        $slider = Slider::find($id);
+        $slider = $this->slider->find($id);
 
         return view('admin.slider.show', compact('slider'));
     }
@@ -84,7 +87,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = Slider::find($id);
+        $slider = $this->slider->find($id);
 
         return view('admin.slider.edit', compact('slider'));
     }
@@ -96,9 +99,9 @@ class SliderController extends Controller
      * @param  Slider $slider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, $slider)
     {
-        $slider->update($request->all());
+        $this->slider->update($request->all(), $slider);
 
         return redirect()->route('sliders.index')
             ->with('success', 'Slider updated successfully');
@@ -111,7 +114,7 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        $slider = Slider::find($id)->delete();
+        $this->slider->delete($id);
 
         return redirect()->route('sliders.index')
             ->with('success', 'Slider deleted successfully');
@@ -124,17 +127,7 @@ class SliderController extends Controller
      */
     public function checkParent(Request $request)
     {
-        if($request->type == 'Brand'){
-            $parent = Brand::where('name',$request->parent)->first();
-        }elseif($request->type == 'Category'){
-            $parent = Category::where('name',$request->parent)->first();
-        }elseif($request->type == 'Sub Category'){
-            $parent = SubCategory::where('name',$request->parent)->first();
-        }elseif($request->type == 'Product'){
-            $parent = Product::where('name',$request->parent)->first();
-        }else{
-            $parent = true;
-        }
-        if ($parent) { echo "true"; }else{ echo "false"; }
+        $responce = $this->slider->checkParent($request->all());
+        if ($responce) { echo "true"; }else{ echo "false"; }
     }
 }
