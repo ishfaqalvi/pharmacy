@@ -22,7 +22,7 @@ class ProductController extends BaseController
      */
     public function all(Request $request)
     {
-        $products = $this->product->list($request->all(), true);
+        $products = $this->product->list($request->all(), null, true);
 
         return $this->sendResponse($products, 'All Products list get successfully.');
     }
