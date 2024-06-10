@@ -1,10 +1,12 @@
 <?php
 
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Setting;
 use Spatie\Image\Image;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\ProductPrice;
 use Spatie\Image\Manipulations;
 
@@ -59,6 +61,46 @@ function getFilter($collection, $filterables)
 function categoriesList()
 {
     return Category::all();
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function categoryById($id)
+{
+    return Category::find($id);
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function brandsList()
+{
+    return Brand::popular()->get();
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function brandById($id)
+{
+    return Brand::find($id);
+}
+
+/**
+ * Get listing of a resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
+function subCategoryById($id)
+{
+    return SubCategory::find($id);
 }
 
 /**

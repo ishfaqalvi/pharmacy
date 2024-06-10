@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Contracts\ProductInterface;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
+    protected $product;
+
+    function __construct(ProductInterface $product)
+    {
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +21,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::filter($request->all())->paginate();
+        $filters = $request->all();
+        $products = $this->product->list($filters, null, true);
 
-        return view('web.product.index', compact('products'));
+        return view('website.product.index', compact('products','filters'));
     }
 
     /**

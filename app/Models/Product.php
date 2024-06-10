@@ -118,6 +118,12 @@ class Product extends Model implements Auditable
      */
     public function scopeFilter($query, $request)
     {
+        if (isset($request['type'])) {
+            $type = $request['type'];
+            return $query->whereHas('categorizations', function ($query) use ($type) {
+                $query->where('type', $type);
+            });
+        }
         if (isset($request['brand'])) {
             $query->whereBrandId($request['brand']);
         }

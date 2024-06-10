@@ -5,24 +5,13 @@
                 <div class="border-right py-5 pr-5">
                     <h6 class="mt-0 mb-4 f-14 text-dark font-weight-bold">TOP CATEGORIES</h6>
                     <div class="row no-gutters">
-                        <div class="col-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#">Dresses for Girls</a></li>
-                                <li><a href="#">Maxi Dresses</a></li>
-                                <li><a href="#">Tops for Girls</a></li>
-                                <li><a href="#">Women Jumpsuits</a></li>
-                                <li><a href="#">Dungarees Dress</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#">T Shirts</a></li>
-                                <li><a href="#">Shoes for Men</a></li>
-                                <li><a href="#">Ripped Jeans</a></li>
-                                <li><a href="#">Jeans for Girls</a></li>
-                                <li><a href="#">Denim shirts</a></li>
-                            </ul>
-                        </div>
+                        @foreach(categoriesList() as $category)
+                            <div class="col-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="{{ route('product.index', ['category' => $category->id]) }}">{{ $category->name }}</a></li>
+                                </ul>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -130,7 +119,7 @@
                 </p>
             </div>
             <div class="col-md-6 text-right">
-                <img class="img-fluid" src="img/payment_methods.png">
+                <img class="img-fluid" src="{{ asset('assets/website/img/payment_methods.png') }}">
             </div>
         </div>
     </div>
