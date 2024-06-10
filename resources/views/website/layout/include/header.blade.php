@@ -26,9 +26,11 @@
                         </li>
                         <li class="list-inline-item">
                             <span>Download App</span> &nbsp;
-                            <a href="#"><i class="icofont icofont-brand-windows"></i></a>
-                            <a href="#"><i class="icofont icofont-brand-apple"></i></a>
-                            <a href="#"><i class="icofont icofont-brand-android-robot"></i></a>
+                            {{-- <a href="#"><i class="icofont icofont-brand-windows"></i></a> --}}
+                            {{-- <a href="#"><i class="icofont icofont-brand-apple"></i></a> --}}
+                            <a href="https://play.google.com/store/apps/details?id=com.healthcaremartpharmacy.sakoon" target="_blank">
+                                <i class="icofont icofont-brand-android-robot"></i>
+                            </a>
                         </li>
                     </ul>
                     <p class="mb-0 py-1">FREE CASH ON DELIVERY &amp; SHIPPING AVAILABLE OVER <span class="text-danger font-weight-bold">$499</span></p>

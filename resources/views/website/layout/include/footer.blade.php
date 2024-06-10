@@ -46,21 +46,25 @@
                 <div class="py-5 pl-5">
                     <h6 class="mt-0 mb-4 f-14 text-dark font-weight-bold">DOWNLOAD APP</h6>
                     <div class="app">
-                        <a href="#">
+                        <a href="https://play.google.com/store/apps/details?id=com.healthcaremartpharmacy.sakoon" target="_blank">
                             <img class="img-fluid" src="{{ asset('assets/website/img/google.png') }}">
                         </a>
-                        <a href="#">
+                        {{-- <a href="#">
                             <img class="img-fluid" src="{{ asset('assets/website/img/apple.png') }}">
-                        </a>
+                        </a> --}}
                     </div>
                     <h6 class="mt-4 mb-4 f-14 text-dark font-weight-bold">KEEP IN TOUCH</h6>
                     <div class="footer-social">
-                        <a class="btn-facebook" href="#"><i class="icofont-facebook"></i></a>
-                        <a class="btn-twitter" href="#"><i class="icofont-twitter"></i></a>
-                        <a class="btn-instagram" href="#"><i class="icofont-instagram"></i></a>
-                        <a class="btn-whatsapp" href="#"><i class="icofont-whatsapp"></i></a>
-                        <a class="btn-messenger" href="#"><i class="icofont-facebook-messenger"></i></a>
-                        <a class="btn-google" href="#"><i class="icofont-google-plus"></i></a>
+                        <a class="btn-facebook" href="https://www.facebook.com/sakoonofficial.pk" target="_blank">
+                            <i class="icofont-facebook"></i>
+                        </a>
+                        {{-- <a class="btn-twitter" href="#"><i class="icofont-twitter"></i></a> --}}
+                        <a class="btn-instagram" href="https://www.instagram.com/sakoonofficial" target="_blank">
+                            <i class="icofont-instagram"></i>
+                        </a>
+                        {{-- <a class="btn-whatsapp" href="#"><i class="icofont-whatsapp"></i></a> --}}
+                        {{-- <a class="btn-messenger" href="#"><i class="icofont-facebook-messenger"></i></a> --}}
+                        {{-- <a class="btn-google" href="#"><i class="icofont-google-plus"></i></a> --}}
                     </div>
                 </div>
             </div>
