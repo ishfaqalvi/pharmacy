@@ -19,6 +19,16 @@
                 </span>
                 Filter
             </button>
+            <form action="{{ route('products.delete.all') }}" method="POST">
+                @csrf
+                <input type="hidden" name="ids">
+                <button class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill me-2 sa-confirm" name="delete_all" id="deleteAllButton">
+                    <span class="btn-labeled-icon bg-primary text-white rounded-pill">
+                        <i class="ph-trash"></i>
+                    </span>
+                    Delete All
+                </button>
+            </form>
             @can('products-create')
             <a href="{{ route('products.all.create') }}" class="btn btn-outline-primary btn-labeled btn-labeled-start rounded-pill">
                 <span class="btn-labeled-icon bg-primary text-white rounded-pill">
@@ -50,10 +60,14 @@
             <table class="table text-nowrap">
                 <thead>
                     <tr>
-                        <th colspan="2">Product name</th>
+                        <th colspan="2">
+                            <input type="checkbox" class="form-check-input" name="checkAll">
+                            Product name
+                        </th>
                         <th>Category</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Stock</th>
                         <th class="text-center" style="width: 20px;"><i class="ph-dots-three"></i></th>
                     </tr>
                 </thead>
@@ -61,13 +75,14 @@
                     @foreach ($products as $key => $product)
                     <tr>
                         <td class="pe-0" style="width: 45px;">
+                            <input type="checkbox" class="form-check-input" name="product_id" value="{{$product->id}}">
                             <a href="#">
                                 <img src="{{ $product->thumbnail }}" height="60" alt="">
                             </a>
                         </td>
                         <td>
                             <a href="#" class="d-block fw-semibold">
-                                {{ Str::limit($product->name, 30) }} 
+                                {{ Str::limit($product->name, 30) }}
                             </a>
                             <div class="d-inline-flex align-items-center text-muted fs-sm">
                                 <span class="bg-secondary rounded-pill p-1 me-1"></span>
@@ -97,6 +112,13 @@
                                 <a href="#">&#8360; {{ $price->new_price }}</a>
                             </div>
                             @endforeach
+                        </td>
+                        <td>
+                            @if($product->in_stock == 'true')
+                                <span class="badge bg-success bg-opacity-10 text-success">IN</span>
+                            @else
+                                <span class="badge bg-danger bg-opacity-10 text-danger">OUT</span>
+                            @endif
                         </td>
                         <td class="text-center">
                             @include('admin.product.actions')
@@ -143,6 +165,16 @@
             }).then((result) => {
                 if (result.value === true)  $(this).closest("form").submit();
             });
+        });
+        $('input[name=checkAll]').click(function () {
+            $('input[name=product_id]').not(this).prop('checked', this.checked);
+        });
+        $('button[name=delete_all]').on('click', function() {
+            var ids = [];
+            $("input:checkbox[name=product_id]:checked").each(function() {
+                ids.push($(this).val());
+            });
+            $('input[name=ids]').val(ids);
         });
     });
 </script>

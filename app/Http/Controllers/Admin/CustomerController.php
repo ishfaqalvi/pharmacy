@@ -17,6 +17,7 @@ class CustomerController extends Controller
      */
     function __construct(CustomerInterface $customer)
     {
+        $this->customer = $customer;
         $this->middleware('permission:customers-list',  ['only' => ['index']]);
         $this->middleware('permission:customers-view',  ['only' => ['show']]);
         $this->middleware('permission:customers-create',['only' => ['create','store']]);
@@ -31,7 +32,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = $this->customer->list('pagination');
+        $customers = $this->customer->list();
 
         return view('admin.customer.index', compact('customers'));
     }

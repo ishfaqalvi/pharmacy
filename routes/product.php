@@ -17,6 +17,7 @@ Route::controller(ProductController::class)->as('products.')->group(function (){
 	Route::get('search',				 'search'			 )->name('search'		    	   );
 	Route::patch('update/{product}',	 'update'			 )->name('update'	    		   );
 	Route::delete('delete/{id}',		 'destroy'			 )->name('destroy'	    		   );
+	Route::post('delete-all',		     'deleteAll'	     )->name('delete.all'	    	   );
 	Route::post('prices/store',			 'priceStore'		 )->name('prices.store'			   );
 	Route::post('prices/update',		 'priceUpdate'		 )->name('prices.update'		   );
 	Route::delete('prices/delete/{id}',	 'priceDestroy'		 )->name('prices.destroy'		   );

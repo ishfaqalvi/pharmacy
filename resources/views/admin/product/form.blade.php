@@ -1,40 +1,45 @@
 <div class="row">
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('brand') }}
         {{ Form::select('brand_id', brands(), $product->brand_id, ['class' => 'form-control select' . ($errors->has('brand_id') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
         {!! $errors->first('brand_id', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('category') }}
         {{ Form::select('category_id', categories(), $product->category_id, ['class' => 'form-control select' . ($errors->has('category_id') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
         {!! $errors->first('category_id', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('sub_category') }}
         {{ Form::select('sub_category_id', [], $product->sub_category_id, ['class' => 'form-control select' . ($errors->has('sub_category_id') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required','default' => $product->sub_category_id]) }}
         {!! $errors->first('sub_category_id', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('name') }}
         {{ Form::text('name', $product->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name','required']) }}
         {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('composition') }}
         {{ Form::select('composition_id', compositions(), $product->composition_id, ['class' => 'form-control select' . ($errors->has('composition_id') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
         {!! $errors->first('composition_id', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-     <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('quantity') }}
         {{ Form::number('quantity', $product->quantity, ['class' => 'form-control' . ($errors->has('quantity') ? ' is-invalid' : ''), 'placeholder' => 'Quantity','min'=>'0','required']) }}
         {!! $errors->first('quantity', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
+        {{ Form::label('max_order_qty','Maximum Order Quantity') }}
+        {{ Form::number('max_order_qty', $product->max_order_qty, ['class' => 'form-control' . ($errors->has('max_order_qty') ? ' is-invalid' : ''), 'placeholder' => 'Quantity','min'=>'0','required']) }}
+        {!! $errors->first('max_order_qty', '<div class="invalid-feedback">:message</div>') !!}
+    </div>
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('rating') }}
         {{ Form::number('rating', $product->rating, ['class' => 'form-control' . ($errors->has('rating') ? ' is-invalid' : ''), 'placeholder' => 'Rating','required']) }}
         {!! $errors->first('rating', '<div class="invalid-feedback">:message</div>') !!}
     </div>
-    <div class="form-group col-lg-6 mb-3">
+    <div class="form-group col-lg-4 mb-3">
         {{ Form::label('in_stock') }}
         {{ Form::select('in_stock', ['true' => 'Yes', 'false' => 'No'], $product->in_stock, ['class' => 'form-control form-select' . ($errors->has('in_stock') ? ' is-invalid' : ''), 'placeholder' => '--Select--','required']) }}
         {!! $errors->first('in_stock', '<div class="invalid-feedback">:message</div>') !!}

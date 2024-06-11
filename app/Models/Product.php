@@ -57,7 +57,8 @@ class Product extends Model implements Auditable
         'thumbnail',
         'quantity',
         'rating',
-        'in_stock'
+        'in_stock',
+        'max_order_qty'
     ];
 
     /**

@@ -13,4 +13,12 @@ interface CustomerInterface
     public function logout($guard);
 
 	public function delete($guard, $id);
+
+	public function list();
+
+    public function new();
+
+    public function store($data);
+
+    public function find($id);
 }

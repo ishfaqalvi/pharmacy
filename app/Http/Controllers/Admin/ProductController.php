@@ -48,7 +48,7 @@ class ProductController extends Controller
     {
         $products = Product::filter($request->all())->paginate();
         $request->method() == 'POST' ? $userRequest = $request : $userRequest = null;
- 
+
         return view('admin.product.index', compact('products','userRequest'))
         ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
@@ -147,6 +147,25 @@ class ProductController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function deleteAll(Request $request)
+    {
+        $ids = explode(',', $request->ids);
+        if(count($ids) > 0)
+        {
+            foreach($ids as $id){
+                Product::find($id)->delete();
+            }
+            return redirect()->back()->with('success', 'Selected Products deleted successfully.');
+        }
+        return redirect()->route('products.all.index')
+            ->with('warning', 'No Product is selected.');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -173,7 +192,7 @@ class ProductController extends Controller
      */
     public function priceUpdate(Request $request)
     {
-        $price = ProductPrice::find($request->id); 
+        $price = ProductPrice::find($request->id);
         if ($request->default =='Yes' && $price->default == 'No') {
             $check = ProductPrice::
                 where('product_id',$price->product_id)->
@@ -198,7 +217,7 @@ class ProductController extends Controller
     {
         $price = ProductPrice::find($id);
         if ($price->default == 'Yes') {
-            return redirect()->back()->with('warning', 'Opps! You cannot delete default price.');    
+            return redirect()->back()->with('warning', 'Opps! You cannot delete default price.');
         }
         $price->delete();
         return redirect()->back()->with('success', 'Product Price deleted successfully.');

@@ -35,7 +35,7 @@
 <div class="col-md-12 filter-wrapper d-none">
     <div class="card">
         <div class="card-body">
-        
+
         </div>
     </div>
 </div>
@@ -61,7 +61,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $key => $user)
+                @foreach ($customers as $key => $user)
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">

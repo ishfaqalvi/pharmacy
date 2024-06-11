@@ -51,4 +51,24 @@ class CustomerRepository implements CustomerInterface
 
         $customer->delete();
     }
+
+    public function list()
+    {
+        return Customer::paginate();
+    }
+
+    public function new()
+    {
+        return new Customer();
+    }
+
+    public function store($data)
+    {
+        return Customer::create($data);
+    }
+
+    public function find($id)
+    {
+        return Customer::find($id);
+    }
 }
